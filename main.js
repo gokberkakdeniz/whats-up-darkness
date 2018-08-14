@@ -3,25 +3,29 @@ const path = require('path')
 const fs = require('fs')
 const appIcon = path.join(__dirname, 'icon_normal.png')
 
-function createWindow() {
+let win = null
+app.on('second-instance', (commandLine, workingDirectory) => {
+  if (win) {
+    if (win.isMinimized()) win.restore()
+    win.focus()
+  }
+})
+
+if (!app.requestSingleInstanceLock()) {
+  return app.quit()
+}
+
+app.on('ready', () => {
   win = new BrowserWindow({
     height: 600,
     width: 800,
     title: "What's up darkness? | tncga",
-	//frame: false,
     icon: appIcon,
     webPreferences: {
       preload: path.resolve(__dirname, 'notification.js')
     }
   })
   win.setMenu(null)
-
-  ipcMain.on('notification-shim', (e, msg) => {
-    if (win.isMinimized()) {
-      win.flashFrame(true)
-      win.setIcon(path.join(__dirname, 'icon_focused.png'))
-    }
-  })
 
   win.loadURL("https://web.whatsapp.com/")
 
@@ -35,34 +39,41 @@ function createWindow() {
   })
 
   win.on('close', (e) => {
-	  win.hide()
-	  e.preventDefault()
+    win.hide()
+    e.preventDefault()
   })
-}
 
-app.on('ready', () => {
-  createWindow()
-
-  let tray  = new Tray(appIcon)
+  let tray = new Tray(appIcon)
   const contextMenu = Menu.buildFromTemplate([
-  {
-	  label: 'Show',
-	  click: () => {
-		  win.show()
-	  }
-  },
-  {
-	  label: 'Quit',
-	  click: () => {
-		  win.destroy()
-	  }
-  }
+    {
+      label: 'Show',
+      click: () => win.show()
+    },
+    {
+      label: 'Toggle developer tools',
+      type: 'checkbox',
+      checked: false,
+      click: () => {
+        win.toggleDevTools()
+      }
+    },
+    {
+      label: 'Quit',
+      click: () => win.destroy()
+    }
   ])
   tray.setToolTip("What's up darkness? | tncga")
   tray.setContextMenu(contextMenu)
 
-  tray.on('click', () => {
+  tray.on('double-click', (e, b, m) => {
     win.isVisible() ? win.hide() : win.show()
+  })
+
+  ipcMain.on('notification-shim', (e, msg) => {
+    if (win.isMinimized()) {
+      win.flashFrame(true)
+      win.setIcon(path.join(__dirname, 'icon_focused.png'))
+    }
   })
 
   const page = win.webContents;

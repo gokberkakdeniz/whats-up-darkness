@@ -1,16 +1,17 @@
 {
   "name": "whats-up-darkness",
   "productName": "What's up darkness?",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "dark themed whatsapp web client",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "build": "electron-packager . whats-up-darkness --overwrite --platform=win32 --arch=ia32 --icon=icon.ico --asar --app-version=1.1 --app-copyright=MIT --out=release-builds --win32metadata.CompanyName=tncga --win32metadata.FileDescription=\"Black themed (Onyx) WhatsApp\" --win32metadata.ProductName=\"What's up darkness?\" --executable-name=wupd"
   },
   "author": "tncga",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^2.0.7"
+    "electron": "^3.0.0-beta.5"
   },
   "dependencies": {
     "electron-notification-shim": "^1.1.0"
