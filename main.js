@@ -4,6 +4,7 @@ const fs = require('fs')
 const appIcon = path.join(__dirname, 'icon_normal.png')
 
 let win = null
+let tray = null
 app.on('second-instance', (commandLine, workingDirectory) => {
   if (win) {
     if (win.isMinimized()) win.restore()
@@ -43,7 +44,7 @@ app.on('ready', () => {
     e.preventDefault()
   })
 
-  let tray = new Tray(appIcon)
+  tray = new Tray(appIcon)
   const contextMenu = Menu.buildFromTemplate([
     {
       label: 'Show',
