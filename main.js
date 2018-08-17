@@ -3,6 +3,7 @@ const path = require('path')
 const fs = require('fs')
 const appIcon = path.join(__dirname, 'icon_normal.png')
 
+console.log("Electron " + process.versions.electron + " | Chromium " + process.versions.chrome)
 let win = null
 let tray = null
 app.on('second-instance', (commandLine, workingDirectory) => {
@@ -80,9 +81,16 @@ app.on('ready', () => {
   const page = win.webContents;
 
   page.on('dom-ready', () => {
-    page.insertCSS(fs.readFileSync(path.join(__dirname, 'dark.css'), 'utf8'));
+    // insertCSS not working
+    // it fails on background styling
+    // page.insertCSS(fs.readFileSync(path.join(__dirname, 'dark.pure.css'), 'utf8'));
+    fs.readFile("./onyx.pure.css", "utf-8", (err, data) => {
+      page.executeJavaScript(`var sheet = document.createElement('style'); sheet.innerHTML = \`${data}\`; document.body.appendChild(sheet);`)
+    })
     win.show();
   })
+
+
 
   page.on('new-window', (e, url) => {
     e.preventDefault();
