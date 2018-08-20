@@ -9,16 +9,18 @@ let tray = null
 console.log("Electron " + process.versions.electron + " | Chromium " + process.versions.chrome)
 
 // not working on windows unless start script is "electron main.js"
-// app.on('second-instance', (commandLine, workingDirectory) => {
-//   if (win) {
-//     if (win.isMinimized()) win.restore()
-//     win.focus()
-//   }
-// })
-// it always returns false
-// if (!app.requestSingleInstanceLock()) {
-//   return app.quit()
-// }
+if(process.platform !== 'win32') {
+  app.on('second-instance', (commandLine, workingDirectory) => {
+    if (win) {
+      if (win.isMinimized()) win.restore()
+      win.focus()
+    }
+  })
+  // it always returns false on windows
+  if (!app.requestSingleInstanceLock()) {
+    return app.quit()
+  }
+}
 
 app.on('ready', () => {
   win = new BrowserWindow({
@@ -90,7 +92,7 @@ app.on('ready', () => {
     // insertCSS not working
     // it fails on background styling
     // page.insertCSS(fs.readFileSync(path.join(__dirname, 'assets', 'css', 'onyx.pure.css'), 'utf8'));
-    fs.readFile(path.join(__dirname, 'assets', 'css', 'onyx.pure.cssx'), "utf-8", (err, data) => {
+    fs.readFile(path.join(__dirname, 'assets', 'css', 'onyx.pure.css'), "utf-8", (err, data) => {
       if (err) {
         throw err
       } else {
