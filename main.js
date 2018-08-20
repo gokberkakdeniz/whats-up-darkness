@@ -1,21 +1,24 @@
 const {app, BrowserWindow, shell, ipcMain, Tray, Menu} = require('electron')
 const path = require('path')
 const fs = require('fs')
-const appIcon = path.join(__dirname, 'icon_normal.png')
-
-console.log("Electron " + process.versions.electron + " | Chromium " + process.versions.chrome)
+const appIcon = path.join(__dirname, 'assets', 'img', 'png', 'icon_normal.png')
+const appIconFocused = path.join(__dirname, 'assets', 'img', 'png', 'icon_focused.png')
 let win = null
 let tray = null
-app.on('second-instance', (commandLine, workingDirectory) => {
-  if (win) {
-    if (win.isMinimized()) win.restore()
-    win.focus()
-  }
-})
 
-if (!app.requestSingleInstanceLock()) {
-  return app.quit()
-}
+console.log("Electron " + process.versions.electron + " | Chromium " + process.versions.chrome)
+
+// not working on windows unless start script is "electron main.js"
+// app.on('second-instance', (commandLine, workingDirectory) => {
+//   if (win) {
+//     if (win.isMinimized()) win.restore()
+//     win.focus()
+//   }
+// })
+// it always returns false
+// if (!app.requestSingleInstanceLock()) {
+//   return app.quit()
+// }
 
 app.on('ready', () => {
   win = new BrowserWindow({
@@ -23,8 +26,10 @@ app.on('ready', () => {
     width: 800,
     title: "What's up darkness? | tncga",
     icon: appIcon,
+    // temporary fix for unthemed window while the CSS is injecting
+    show: false,
     webPreferences: {
-      preload: path.resolve(__dirname, 'notification.js')
+      preload: path.resolve(__dirname, 'assets', 'libs', 'notification.js')
     }
   })
   win.setMenu(null)
@@ -46,8 +51,7 @@ app.on('ready', () => {
   })
 
   tray = new Tray(appIcon)
-  const contextMenu = Menu.buildFromTemplate([
-    {
+  const contextMenu = Menu.buildFromTemplate([{
       label: 'Show',
       click: () => win.show()
     },
@@ -56,7 +60,9 @@ app.on('ready', () => {
       type: 'checkbox',
       checked: false,
       click: () => {
-        win.toggleDevTools()
+        win.isDevToolsOpened() ? win.closeDevTools() : win.openDevTools({
+          mode: 'bottom'
+        })
       }
     },
     {
@@ -71,26 +77,30 @@ app.on('ready', () => {
     win.isVisible() ? win.hide() : win.show()
   })
 
-  ipcMain.on('notification-shim', (e, msg) => {
+  ipcMain.on('notification-triggered', (e, msg) => {
     if (win.isMinimized()) {
       win.flashFrame(true)
-      win.setIcon(path.join(__dirname, 'icon_focused.png'))
+      win.setIcon(appIconFocused)
     }
   })
 
   const page = win.webContents;
 
-  page.on('dom-ready', () => {
+  page.on('did-finish-load', () => {
     // insertCSS not working
     // it fails on background styling
-    // page.insertCSS(fs.readFileSync(path.join(__dirname, 'dark.pure.css'), 'utf8'));
-    fs.readFile("./onyx.pure.css", "utf-8", (err, data) => {
-      page.executeJavaScript(`var sheet = document.createElement('style'); sheet.innerHTML = \`${data}\`; document.body.appendChild(sheet);`)
+    // page.insertCSS(fs.readFileSync(path.join(__dirname, 'assets', 'css', 'onyx.pure.css'), 'utf8'));
+    fs.readFile(path.join(__dirname, 'assets', 'css', 'onyx.pure.cssx'), "utf-8", (err, data) => {
+      if (err) {
+        throw err
+      } else {
+        page.executeJavaScript(`var sheet = document.createElement('style'); sheet.innerHTML = \`${data}\`; document.body.appendChild(sheet);`, false, () => {
+          console.log("CSS has been injected via 'BrowserWindow.webContents.executeJavaScript'.")
+        })
+      }
     })
-    win.show();
+    win.show()
   })
-
-
 
   page.on('new-window', (e, url) => {
     e.preventDefault();

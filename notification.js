@@ -1,1 +1,0 @@
-require('electron-notification-shim')();

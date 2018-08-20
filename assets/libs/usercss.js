@@ -1,7 +1,14 @@
 const {parse, stringify} = require('usercss-meta')
+
+// string convert_to_css
+// string style
+// object vars (if it is blank, function will use default values)
 const convert_to_css = (style, vars = false) => {
+  //get css style part
   const RX_DOCUMENT = /@-moz-document.*{([\S\s]{0,})}/
   let css_part = RX_DOCUMENT.exec(style)[1]
+
+  //get default values
   if (vars == false) {
     var vars = {}
     const meta_vars = parse(style).vars
@@ -16,13 +23,15 @@ const convert_to_css = (style, vars = false) => {
       }
     }
   }
-  let pure_css = css_part;
 
+  //change placeholders recursively
+  let pure_css = css_part;
   while (pure_css.match(/\/\*\[\[([\w-]+)\]\]\*\//g) != null) {
     pure_css = pure_css.replace(/\/\*\[\[([\w-]+)\]\]\*\//g, (match, group) => {
       return vars[group]
     })
   }
+  
   return pure_css
 }
 
