@@ -3,8 +3,9 @@ const path = require('path')
 const fs = require('fs')
 const appIcon = path.join(__dirname, 'assets', 'img', 'png', 'icon_normal.png')
 const appIconFocused = path.join(__dirname, 'assets', 'img', 'png', 'icon_focused.png')
-let win = null
-let tray = null
+let win
+let tray
+let page
 
 console.log("Electron " + process.versions.electron + " | Chromium " + process.versions.chrome)
 
@@ -22,7 +23,7 @@ if(process.platform !== 'win32') {
   }
 }
 
-app.on('ready', () => {
+function createWindow() {
   win = new BrowserWindow({
     height: 600,
     width: 800,
@@ -38,30 +39,32 @@ app.on('ready', () => {
 
   win.loadURL("https://web.whatsapp.com/")
 
-  win.on('closed', () => {
+  win.on('closed', function () {
     win = null
   })
 
-  win.on('focus', () => {
+  win.on('focus', function () {
     win.setIcon(appIcon)
     win.flashFrame(false)
   })
 
-  win.on('close', (e) => {
-    win.hide()
+  win.on('close', function (e) {
     e.preventDefault()
+    win.hide()
   })
 
   tray = new Tray(appIcon)
   const contextMenu = Menu.buildFromTemplate([{
       label: 'Show',
-      click: () => win.show()
+      click: function() {
+        win.show()
+      }
     },
     {
       label: 'Toggle developer tools',
       type: 'checkbox',
       checked: false,
-      click: () => {
+      click: function() {
         win.isDevToolsOpened() ? win.closeDevTools() : win.openDevTools({
           mode: 'bottom'
         })
@@ -69,29 +72,31 @@ app.on('ready', () => {
     },
     {
       label: 'Quit',
-      click: () => win.destroy()
+      click: function() {
+        win.destroy()
+      }
     }
   ])
   tray.setToolTip("What's up darkness? | tncga")
   tray.setContextMenu(contextMenu)
 
-  tray.on('double-click', (e, b, m) => {
+  tray.on('double-click', function() {
     win.isVisible() ? win.hide() : win.show()
   })
 
-  ipcMain.on('notification-triggered', (e, msg) => {
+  ipcMain.on('notification-triggered', function(e, msg) {
     if (win.isMinimized()) {
       win.flashFrame(true)
       win.setIcon(appIconFocused)
     }
   })
 
-  const page = win.webContents;
+  page = win.webContents;
 
-  page.on('did-finish-load', () => {
+  page.on('did-finish-load', function() {
     // insertCSS not working
     // it fails on background styling
-    // page.insertCSS(fs.readFileSync(path.join(__dirname, 'assets', 'css', 'onyx.pure.css'), 'utf8'));
+    page.insertCSS(fs.readFileSync(path.join(__dirname, 'assets', 'css', 'onyx.pure.css'), 'utf8'));
     fs.readFile(path.join(__dirname, 'assets', 'css', 'onyx.pure.css'), "utf-8", (err, data) => {
       if (err) {
         throw err
@@ -104,20 +109,22 @@ app.on('ready', () => {
     win.show()
   })
 
-  page.on('new-window', (e, url) => {
+  page.on('new-window', function(e, url) {
     e.preventDefault();
     shell.openExternal(url);
   })
-})
+}
 
-app.on('window-all-closed', () => {
+app.on('ready', createWindow)
+
+app.on('window-all-closed', function() {
   if (process.platform !== 'darwin') {
     app.quit()
   }
 })
 
-app.on('activate', () => {
-  if (win == null) {
+app.on('activate', function() {
+  if (win === null) {
     createWindow()
   }
 })
