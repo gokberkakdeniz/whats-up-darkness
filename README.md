@@ -14,7 +14,7 @@
 
 Incompleted:
 
- - usercss.js: an implementation of Stylus's usercss format. 
+ - usercss.js: an implementation of Stylus's usercss format.
 	  - [x] convert usercss format to normal css format
 	  - [x] use default values
 	  - [x] use custom values from object
@@ -22,8 +22,6 @@ Incompleted:
 
 ### Notes
 > The window will not be shown in order to hide an uninjected page until the web site is loaded.
-
-> On windows, electron's single instance function does not work because of some reason. It will not be added until it is fixed.
 
 ## Build
     git clone https://github.com/tncga/whats-up-darkness.git
@@ -70,5 +68,3 @@ Build scripts:
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 	SOFTWARE.
-    
-
