@@ -9,18 +9,15 @@ let page
 
 console.log("Electron " + process.versions.electron + " | Chromium " + process.versions.chrome)
 
-// not working on windows unless start script is "electron main.js"
-if(process.platform !== 'win32') {
-  app.on('second-instance', (commandLine, workingDirectory) => {
-    if (win) {
-      if (win.isMinimized()) win.restore()
-      win.focus()
-    }
-  })
-  // it always returns false on windows
-  if (!app.requestSingleInstanceLock()) {
-    return app.quit()
+app.on('second-instance', (commandLine, workingDirectory) => {
+  if (win) {
+    if (win.isMinimized()) win.restore()
+    win.focus()
   }
+})
+
+if (!app.requestSingleInstanceLock()) {
+  return app.quit()
 }
 
 function createWindow() {
