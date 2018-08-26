@@ -6,7 +6,7 @@
     --lighter: #e9e9e9;
     --accent: #7289da;
     --icon: #e1e1e1;
-    --shadow: rgba(0,0,0,0.12);
+    --shadow: rgba(255, 255, 255, 0.18);
     --mred: #A3525B;
     --mgreen: #70A352;
     --mblue: #527AA3;
@@ -922,7 +922,18 @@
       box-shadow: 0 0 0 1px var(--darker), 0 0 8px 0px var(--shadow); }
 
     /* Fullscreen. */
-    /* Disabled. */
+    /* Fullscreen. */
+  .app-wrapper-web ._3dqpi {
+    height: calc(100% - 0px);
+    top: 0px;
+    width: 100%; }
+  /* Outline and round edges. */
+  #app .app {
+    box-shadow: none !important;
+    border-radius: 0px; }
+  /* Disable background image. */
+  body > div > div::after {
+    display: none !important; }
 
     /* App background. */
     ._1FKgS::after {
@@ -938,7 +949,17 @@
 
   /* "Privacy mode." */
   /* Disabled. */
-  /* Disabled. */
+  /* Blurry mode for images. */
+  #main ._1JVSX,
+  ._2Ry6_ ._1iCCh {
+    transition: 500ms ease-in-out;
+    transition-delay: 0ms;
+    filter: blur(10px) grayscale(100%); }
+  /* On event. */
+  #main ._1JVSX:hover,
+  ._2Ry6_ ._1iCCh:hover {
+    transition-delay: 500ms;
+    filter: blur(0px) grayscale(0%); }
 
   /* Compact mode. */
   @media screen and (max-height: 500px) {
