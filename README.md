@@ -2,7 +2,7 @@
 > Unofficial basic WhatsApp client with dark [Onyx](https://github.com/vednoc/onyx) theme
 
 ## Preview
-![preview](https://preview.ibb.co/m7c4TK/preview.png)
+![preview](https://image.ibb.co/b6xo09/app.jpg)
 ## Features
  - Tray Icon:
 -- Show
