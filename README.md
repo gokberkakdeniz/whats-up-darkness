@@ -5,20 +5,14 @@
 ![preview](https://image.ibb.co/b6xo09/app.jpg)
 ## Features
  - Tray Icon:
--- Show
--- Toggle dev tools
--- Quit
+   - Show
+   - Toggle dev tools
+   - Configure themes
+   - Quit
  - Close button hides the window
  - Flash frame when there is a notification
  - Notification support (except Windows)
 
-Incompleted:
-
- - usercss.js: an implementation of Stylus's usercss format.
-	  - [x] convert usercss format to normal css format
-	  - [x] use default values
-	  - [x] use custom values from object
-	  - [x] selection screen
 
 ### Notes
 > The window will not be shown in order to hide an uninjected page until the web site is loaded.
