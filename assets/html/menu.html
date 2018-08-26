@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Theme Settings | tncga</title>
+    <link rel="stylesheet" href="../css/menu.css">
+    <link rel="stylesheet" href="../css/jsColor.css">
+    <script src="../libs/menu.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <header>
+      <p><img src="../img/png/stylus.png" alt="stylus logo"></p>
+      <p id="meta-name"><a href="#">@name</a></p>
+      <p id="meta-show-others" onclick="toggle('meta-others')">&#160;...&#160;</p>
+      <p id="toogle-menu" onclick="toggle_window_menu()">M</p>
+      <div id="meta-others">
+        <p id="meta-version">@version</p>
+        <p id="meta-author">@author</p>
+      </div>
+    </header>
+    <main>
+    </main>
+    <footer>
+      <div>
+        <p id="save-settings" onclick="settings_save()">Save</p>
+        <p id="reset-settings" onclick="settings_reset()">Reset</p>
+        <p id="live-reload" onclick="">
+          <input type="checkbox" name="live_reload" value="1">Live reload
+        </p>
+      </div>
+    </footer>
+    <script src="../libs/colors.js" charset="utf-8"></script>
+    <script src="../libs/colorPicker.data.js" charset="utf-8"></script>
+    <script src="../libs/colorPicker.js" charset="utf-8"></script>
+    <script src="../libs/jsColor.js" charset="utf-8"></script>
+  </body>
+</html>

@@ -15,7 +15,7 @@
   "author": "tncga",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^3.0.0-beta.6"
+    "electron": "beta"
   },
   "dependencies": {
     "usercss-meta": "^0.6.1"

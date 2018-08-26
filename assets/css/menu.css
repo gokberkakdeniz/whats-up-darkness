@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css?family=Comfortaa:300,400,700&subset=latin-ext');
+
+* {
+  margin: 0;
+}
+body {
+  background-color: #576376;
+  font-family: 'Comfortaa', cursive;
+}
+img {
+  padding: 0;
+  margin: 0;
+}
+a {
+  text-decoration: none;
+  color: #1f232a;
+}
+input {
+  background-color: #1f232a;
+  border: 1px solid #e9e9e9;
+  color: #e9e9e9;
+  height: 20px;
+  border-radius: 2.5px;
+  font-family: 'Comfortaa', cursive;
+}
+input[type="checkbox"] {
+  width: auto;
+  float: right;
+  margin: 15px 0;
+  margin-left: 5px;
+}
+input .color {
+  width: 75px;
+  margin: 15px 0;
+  padding: 0;
+  border: 0;
+}
+option {
+  background-color: #1f232a;
+  border: 1px solid #e9e9e9;
+  color: #e9e9e9;
+  height: 20px;
+  border-radius: 2.5px;
+  font-family: 'Comfortaa', cursive;
+}
+header {
+  top: 0;
+  -webkit-app-region: drag;
+}
+footer {
+  bottom: 0;
+  -webkit-app-region: drag;
+}
+header, footer {
+  position: fixed;
+  width: 100%;
+  background-color: #1f232a;
+  color: #e9e9e9;
+  padding: 12px 12px;
+}
+header p, footer p {
+  background-color: #e9e9e9;
+  color: #1f232a;
+  display: inline-block;
+  padding: 5px 5px;
+  -webkit-app-region: no-drag;
+}
+footer p {
+  float: right;
+  cursor: pointer;
+  text-align: center;
+  font-weight: 600;
+  margin-left: 10px;
+  -webkit-app-region: no-drag;
+}
+footer div {
+  margin-right: 24px;
+}
+header p img, footer p img {
+  background-color: #e9e9e9;
+  display: inline-block;
+  padding: 0;
+  vertical-align: bottom;
+}
+#meta-others {
+  margin-top: 5px;
+  margin-left: 33px;
+  display: none;
+}
+#meta-show-others {
+  cursor: pointer;
+}
+#toogle-menu {
+  margin: 0;
+  float: right;
+  margin-right: 24px;
+  cursor: pointer;
+}
+main {
+  padding: 52px 0;
+}
+.setting-container {
+  color: #e9e9e9;
+  padding: 0 10px;
+  min-height: 50px;
+  margin: 10px 8px;
+}
+.setting-container:nth-child(2n+1) {
+  background-color: #2D333D;
+}
+.setting-container:nth-child(2n) {
+  background-color: #181C21;
+}
+.setting-name {
+  display: inline-block;
+  width: 175px;
+  padding: 17px 0;
+  font-size: 14px;
+}
+.setting-input {
+  float: right;
+  display: inline-block;
+  line-height: 50px;
+}
+#live-reload {
+  height: 18px;
+  cursor: auto;
+}
+#live-reload input {
+  margin: 0;
+  margin-left: 15px;
+}

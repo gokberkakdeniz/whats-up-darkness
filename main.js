@@ -3,9 +3,7 @@ const path = require('path')
 const fs = require('fs')
 const appIcon = path.join(__dirname, 'assets', 'img', 'png', 'icon_normal.png')
 const appIconFocused = path.join(__dirname, 'assets', 'img', 'png', 'icon_focused.png')
-let win
-let tray
-let page
+let win, tray, page, child
 
 console.log("Electron " + process.versions.electron + " | Chromium " + process.versions.chrome)
 
@@ -59,11 +57,35 @@ function createWindow() {
     },
     {
       label: 'Toggle developer tools',
-      type: 'checkbox',
-      checked: false,
       click: function() {
         win.isDevToolsOpened() ? win.closeDevTools() : win.openDevTools({
           mode: 'bottom'
+        })
+      }
+    },
+    {
+      label: 'Configure theme',
+      click: function() {
+        for (w of BrowserWindow.getAllWindows()) {
+          if (w.getTitle() == "Theme Settings | tncga") {
+            w.focus()
+            return;
+          }
+        }
+        child = new BrowserWindow({
+          parent: win,
+          width: 400,
+          height: 800,
+          maximizable: false,
+          resizable: false,
+          icon: appIcon,
+          title: "Theme Settings | tncga"
+        })
+        child.setMenuBarVisibility(false)
+        child.loadFile(path.join(__dirname, 'assets', 'html', 'menu.html'))
+        child.webContents.on('will-navigate', function(e, url) {
+          e.preventDefault();
+          shell.openExternal(url);
         })
       }
     },
@@ -88,17 +110,31 @@ function createWindow() {
     }
   })
 
+  ipcMain.on('update-theme', function(e, style) {
+    page.executeJavaScript(`var sheet = document.getElementById('onyx');
+    sheet.innerHTML = \`${style}\`;`, false, () => {
+      console.log("Theme has been updated via 'BrowserWindow.webContents.executeJavaScript'.")
+    })
+  })
+
+  ipcMain.on('toggle-menu', (e) => {
+    child.setMenuBarVisibility(!child.isMenuBarVisible())
+  })
+
   page = win.webContents;
 
   page.on('did-finish-load', function() {
     // insertCSS not working
     // it fails on background styling
-    page.insertCSS(fs.readFileSync(path.join(__dirname, 'assets', 'css', 'onyx.pure.css'), 'utf8'));
+    // page.insertCSS(fs.readFileSync(path.join(__dirname, 'assets', 'css', 'onyx.pure.css'), 'utf8'));
     fs.readFile(path.join(__dirname, 'assets', 'css', 'onyx.pure.css'), "utf-8", (err, data) => {
       if (err) {
         throw err
       } else {
-        page.executeJavaScript(`var sheet = document.createElement('style'); sheet.innerHTML = \`${data}\`; document.body.appendChild(sheet);`, false, () => {
+        page.executeJavaScript(`var sheet = document.createElement('style');
+        sheet.id="onyx"
+        sheet.innerHTML = \`${data}\`;
+        document.body.appendChild(sheet);`, false, () => {
           console.log("CSS has been injected via 'BrowserWindow.webContents.executeJavaScript'.")
         })
       }

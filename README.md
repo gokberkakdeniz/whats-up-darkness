@@ -44,6 +44,7 @@ Build scripts:
 
 [seriema for electron-notification-shim](https://github.com/seriema/electron-notification-shim)
 
+[PitPik for colorPicker](https://github.com/PitPik/colorPicker)
 
 ## License
 
