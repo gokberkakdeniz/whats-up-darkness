@@ -18,7 +18,7 @@ Incompleted:
 	  - [x] convert usercss format to normal css format
 	  - [x] use default values
 	  - [x] use custom values from object
-	  - [ ] selection screen
+	  - [x] selection screen
 
 ### Notes
 > The window will not be shown in order to hide an uninjected page until the web site is loaded.
