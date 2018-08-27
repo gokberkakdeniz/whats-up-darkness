@@ -104,13 +104,12 @@ function createWindow() {
   tray.setToolTip("What's up darkness? | tncga")
   tray.setContextMenu(contextMenu)
 
-  tray.on('double-click', function() {
-    win.isVisible() ? win.hide() : win.show()
-  })
-
-  //
   if (process.platform == "linux" /*&& process.env.XDG_SESSION_DESKTOP == "KDE"*/) {
     tray.on('click', function() {
+      win.isVisible() ? win.hide() : win.show()
+    })
+  } else {
+    tray.on('double-click', function() {
       win.isVisible() ? win.hide() : win.show()
     })
   }
