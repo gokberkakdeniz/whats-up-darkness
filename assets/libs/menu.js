@@ -180,3 +180,15 @@ function toggle(id) {
     document.querySelector('main').style["padding-top"]="52px";
   }
 }
+
+function toggle_live_save() {
+  const reload = document.getElementById("live_save").checked
+  // input_listener = (j) => {
+    // j.srcElement.value, j.srcElement.id
+  // }
+  if (reload) {
+    document.querySelectorAll(".setting-input > *").forEach(i => i.addEventListener("change", settings_save)
+  } else {
+    document.querySelectorAll(".setting-input > *").forEach(i => i.removeEventListener("change", settings_save))
+  }
+}
