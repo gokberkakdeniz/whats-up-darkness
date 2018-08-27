@@ -187,7 +187,7 @@ function toggle_live_save() {
     // j.srcElement.value, j.srcElement.id
   // }
   if (reload) {
-    document.querySelectorAll(".setting-input > *").forEach(i => i.addEventListener("change", settings_save)
+    document.querySelectorAll(".setting-input > *").forEach(i => i.addEventListener("change", settings_save))
   } else {
     document.querySelectorAll(".setting-input > *").forEach(i => i.removeEventListener("change", settings_save))
   }
