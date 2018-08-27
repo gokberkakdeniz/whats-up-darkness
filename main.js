@@ -108,6 +108,13 @@ function createWindow() {
     win.isVisible() ? win.hide() : win.show()
   })
 
+  //
+  if (process.platform == "linux" /*&& process.env.XDG_SESSION_DESKTOP == "KDE"*/) {
+    tray.on('click', function() {
+      win.isVisible() ? win.hide() : win.show()
+    })
+  }
+
   ipcMain.on('notification-triggered', function(e, msg) {
     if (win.isMinimized()) {
       win.flashFrame(true)
