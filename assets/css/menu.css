@@ -21,6 +21,7 @@ input {
   color: #e9e9e9;
   height: 20px;
   border-radius: 2.5px;
+  max-width: 150px;
   font-family: 'Comfortaa', cursive;
 }
 input[type="checkbox"] {
@@ -90,7 +91,7 @@ header p img, footer p img {
 #meta-show-others {
   cursor: pointer;
 }
-#toogle-menu {
+#toogle-devtool {
   margin: 0;
   float: right;
   margin-right: 24px;

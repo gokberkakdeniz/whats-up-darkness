@@ -1,8 +1,9 @@
 const {app, BrowserWindow, shell, ipcMain, Tray, Menu} = require('electron')
-const path = require('path')
-const fs = require('fs')
-const appIcon = path.join(__dirname, 'assets', 'img', 'png', 'icon_normal.png')
-const appIconFocused = path.join(__dirname, 'assets', 'img', 'png', 'icon_focused.png')
+const {join} = require('path')
+const {readFile} = require('fs')
+const appIcon = join(__dirname, 'assets', 'img', 'png', 'icon_normal.png')
+const appIconFocused = join(__dirname, 'assets', 'img', 'png', 'icon_focused.png')
+
 let win, tray, page, child
 
 console.log("Electron " + process.versions.electron + " | Chromium " + process.versions.chrome)
@@ -27,7 +28,7 @@ function createWindow() {
     // temporary fix for unthemed window while the CSS is injecting
     show: false,
     webPreferences: {
-      preload: path.resolve(__dirname, 'assets', 'libs', 'notification.js')
+      preload: join(__dirname, 'assets', 'libs', 'notification.js')
     }
   })
   win.setMenu(null)
@@ -81,8 +82,8 @@ function createWindow() {
           icon: appIcon,
           title: "Theme Settings | tncga"
         })
-        child.setMenuBarVisibility(false)
-        child.loadFile(path.join(__dirname, 'assets', 'html', 'menu.html'))
+        child.setMenu(null)
+        child.loadFile(join(__dirname, 'assets', 'html', 'menu.html'))
         child.webContents.on('will-navigate', function(e, url) {
           e.preventDefault();
           shell.openExternal(url);
@@ -92,7 +93,11 @@ function createWindow() {
     {
       label: 'Quit',
       click: function() {
-        win.destroy()
+        try {
+          win.destroy()
+          child.destroy()
+        } catch(e) {
+        }
       }
     }
   ])
@@ -117,8 +122,10 @@ function createWindow() {
     })
   })
 
-  ipcMain.on('toggle-menu', (e) => {
-    child.setMenuBarVisibility(!child.isMenuBarVisible())
+  ipcMain.on('toggle-devtool', (e) => {
+    child.isDevToolsOpened() ? child.closeDevTools() : child.openDevTools({
+      mode: 'bottom'
+    })
   })
 
   page = win.webContents;
@@ -126,8 +133,8 @@ function createWindow() {
   page.on('did-finish-load', function() {
     // insertCSS not working
     // it fails on background styling
-    // page.insertCSS(fs.readFileSync(path.join(__dirname, 'assets', 'css', 'onyx.pure.css'), 'utf8'));
-    fs.readFile(path.join(__dirname, 'assets', 'css', 'onyx.pure.css'), "utf-8", (err, data) => {
+    // page.insertCSS(fs.readFileSync(join(__dirname, 'assets', 'css', 'onyx.pure.css'), 'utf8'));
+    readFile(join(__dirname, 'assets', 'css', 'onyx.pure.css'), "utf-8", (err, data) => {
       if (err) {
         throw err
       } else {

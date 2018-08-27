@@ -1,14 +1,14 @@
-const fs = require('fs')
-const usercss = require('../libs/usercss.js')
-const path = require('path');
+const {writeFile, readFileSync} = require('fs')
+const {join, basename} = require('path');
 const {ipcRenderer} = require('electron')
+const usercss = require('../libs/usercss.js')
 
 class usercss_theme {
   //string style_file = "theme_name.user.css"
   constructor(style_file) {
     try {
-      this.style = fs.readFileSync(style_file, "utf8")
-      this.file_name = path.basename(style_file, ".user.css")
+      this.style = readFileSync(style_file, "utf8")
+      this.file_name = basename(style_file, ".user.css")
       this.style_meta = usercss.meta.parse(this.style)
     } catch(e) {
       throw e
@@ -88,7 +88,7 @@ class usercss_theme {
     const vars = this.style_meta.vars
     let saved_values = undefined
     try {
-      const saved_values_json = fs.readFileSync("./assets/json/" + this.file_name + ".settings.json", "utf8")
+      const saved_values_json = readFileSync(join(__dirname, "..", "json", this.file_name + ".settings.json"), "utf8")
       saved_values = JSON.parse(saved_values_json)
     } catch(e) {
       console.log(e)
@@ -137,7 +137,7 @@ class usercss_theme {
   }
 }
 
-const onyx = new usercss_theme("./assets/css/onyx.user.css")
+const onyx = new usercss_theme(join(__dirname, "..", "css", "onyx.user.css"))
 
 window.onload = function() {
   document.getElementById("meta-name").innerHTML = `<a href="${onyx.meta_homepageURL}">${onyx.meta_name.substring(0,21)}</a>`
@@ -148,12 +148,12 @@ window.onload = function() {
 
 function settings_save() {
   const usercss_values = onyx.gather_values()
-  fs.writeFile("./assets/json/" + onyx.file_name + ".settings.json", JSON.stringify(usercss_values.settings), "utf8", (err) => {
+  writeFile(join(__dirname, "..", "json", onyx.file_name + ".settings.json"), JSON.stringify(usercss_values.settings), "utf8", (err) => {
     if (err) throw err
   })
 
   const pure_css = onyx.pure_css(usercss_values.style)
-  fs.writeFile("./assets/css/" + onyx.file_name + ".pure.css", pure_css, "utf8", (err) => {
+  writeFile(join(__dirname, "..", "css", onyx.file_name + ".pure.css"), pure_css, "utf8", (err) => {
     if (err) throw err
   })
 
@@ -166,8 +166,8 @@ function settings_reset() {
   settings_save()
 }
 
-function toggle_window_menu() {
-  ipcRenderer.send('toggle-menu')
+function toggle_devtool() {
+  ipcRenderer.send('toggle-devtool')
 }
 
 function toggle(id) {
