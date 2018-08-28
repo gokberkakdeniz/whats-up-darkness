@@ -1,6 +1,6 @@
 const {app, BrowserWindow, shell, ipcMain, Tray, Menu} = require('electron')
 const {join} = require('path')
-const {readFile} = require('fs')
+const {readFile, readFileSync} = require('fs')
 const appIcon = join(__dirname, 'assets', 'img', 'png', 'icon_normal.png')
 const appIconFocused = join(__dirname, 'assets', 'img', 'png', 'icon_focused.png')
 
@@ -144,6 +144,7 @@ function createWindow() {
       if (err) {
         throw err
       } else {
+        // console.log(data);
         page.executeJavaScript(`var sheet = document.createElement('style');
         sheet.id="onyx"
         sheet.innerHTML = \`${data}\`;
