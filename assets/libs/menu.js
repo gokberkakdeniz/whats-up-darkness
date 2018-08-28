@@ -91,7 +91,7 @@ class usercss_theme {
       const saved_values_json = readFileSync(join(__dirname, "..", "json", this.file_name + ".settings.json"), "utf8")
       saved_values = JSON.parse(saved_values_json)
     } catch(e) {
-      if (e.code !== "ENOENT") console.log(e)
+      console.log(e)
     } finally {
       for (var v in vars) {
         if (vars.hasOwnProperty(v)) {

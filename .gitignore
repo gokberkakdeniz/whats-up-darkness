@@ -2,4 +2,3 @@ node_modules/
 release-builds/
 package-lock.json
 test.js
-assets/json/onyx.settings.json
