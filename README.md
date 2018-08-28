@@ -3,14 +3,16 @@
 
 ## Preview
 ![preview](https://image.ibb.co/b6xo09/app.jpg)
+
 ## Features
  - Tray Icon:
    - Show
    - Toggle dev tools
    - Configure themes
    - Quit
+ - Double/single (Windows/Linux) clicking the tray icon toggles the main window
  - Close button hides the window
- - Flash frame when there is a notification
+ - Flash frame when there is a notification (the main window shouldn't be hidden)
  - Notification support (except Windows)
 
 
