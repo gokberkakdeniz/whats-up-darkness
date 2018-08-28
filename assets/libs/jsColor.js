@@ -26,6 +26,10 @@
 						(isAlpha ? ', ' + colors.alpha : '') + ')')
 				);
 
+				// fix live save problem on color inputs
+				// trigger input change event
+				input.dispatchEvent(new Event("change"))
+
 				if (options.displayCallback) {
 					options.displayCallback(colors, mode, options);
 				}
@@ -90,7 +94,7 @@
 					};
 
 				for (var n in config) {
-					initConfig[n] = config[n]; 
+					initConfig[n] = config[n];
 				}
 				return new initConfig.klass(initConfig);
 			},
@@ -110,7 +114,7 @@
 							waitTimer = 0;
 
 						options.color = extractValue(elm); // brings color to default on reset
-						colorPickerUI.style.cssText = 
+						colorPickerUI.style.cssText =
 							'position: absolute;' + (!colorPickers[index].cssIsReady ? 'display: none;' : '') +
 							'left:' + (position.left + options.margin.left - atrect.left) + 'px;' +
 							'top:' + (position.top + +input.offsetHeight + options.margin.top - atrect.top) + 'px;';
