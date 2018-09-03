@@ -1,3 +1,4 @@
+
 # What's up darkness?
 > Unofficial basic WhatsApp client with dark [Onyx](https://github.com/vednoc/onyx) theme
 
@@ -14,6 +15,12 @@
  - Close button hides the window
  - Flash frame when there is a notification (the main window shouldn't be hidden)
  - Notification support (except Windows)
+ - <kbd>Control</kbd>+<kbd>F</kbd>: Search on contacts
+ - <kbd>Control</kbd>+<kbd>←</kbd>: Focus contact area
+	 - <kbd>↑</kbd> and <kbd>↓</kbd>: Select contact
+ - <kbd>Control</kbd>+<kbd>→</kbd>: Focus chat area
+ - <kbd>Control</kbd>+<kbd>Shift</kbd>+<kbd>K</kbd>: Toggle developer tool
+ - Check app and theme version
 
 
 ### Notes
@@ -34,6 +41,7 @@ Build scripts:
 >    npm run build:win-ia32
 
 >    npm run build:win-x64
+
 
 ## Thanks
 [vednoc for Onyx](https://github.com/vednoc/onyx)
