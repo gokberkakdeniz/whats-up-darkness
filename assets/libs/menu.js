@@ -1,6 +1,8 @@
 const {writeFile, readFileSync} = require('fs')
 const {join, basename} = require('path');
 const {ipcRenderer} = require('electron')
+const {get} = require('https')
+const compareVersions = require('compare-versions');
 const usercss = require('../libs/usercss.js')
 
 class usercss_theme {
@@ -135,13 +137,92 @@ class usercss_theme {
   }
 }
 
-const onyx = new usercss_theme(join(__dirname, "..", "css", "onyx.user.css"))
+function update_theme(theme, callback_yes, callback_no) {
+  get({
+    hostname: "api.github.com",
+    path: "/repos/vednoc/onyx/releases",
+    headers: {
+      "user-agent": "Whats-Up-Darkness"
+    }
+  }, (res) => {
+    let err, data = ""
+
+    if (res.statusCode !== 200) {
+      err = new Error(`Cannot retrieve theme version data (Status Code: ${res.statusCode}).`)
+    } else if (!/^application\/json/.test(res.headers['content-type'])) {
+      err = new Error(`Expected application/json but received ${res.headers['content-type']}.`)
+    }
+
+    if (err) {
+      alert(err.message);
+      res.resume()
+      callback_no()
+      return
+    }
+
+    res.setEncoding("utf8")
+    res.on("data", c => data += c)
+    res.on("end", () => {
+      try {
+        const last_version = JSON.parse(data)[0]
+        if (compareVersions(last_version.tag_name, theme.meta_version) === 1 && confirm(`Do you want to update?\n\n   Current version: ${theme.meta_version}\n   Latest version: ${last_version.tag_name}\n\n${last_version.body}`)) {
+          get("https://raw.githubusercontent.com/vednoc/onyx/" + last_version.tag_name +  "/WhatsApp.user.css", (r) => {
+            let css = ""
+
+            if (r.statusCode !== 200) {
+              alert(`Cannot retrieve theme version data (Status Code: ${res.statusCode}).`)
+              r.resume()
+              callback_no()
+              return
+            }
+
+            r.setEncoding("utf8")
+            r.on("data", c => css += c)
+            r.on("end", () => {
+              try {
+                writeFile(join(__dirname, "..", "css", "onyx.user.css"), css, "utf8", (err) => {
+                  if (err) throw err
+                  onyx = new usercss_theme(join(__dirname, "..", "css", "onyx.user.css"))
+                  callback_yes()
+                })
+              } catch (e) {
+                alert(e.message)
+                callback_no()
+              }
+            }).on("error", e => {
+              alert(e.message)
+              callback_no()
+            })
+          })
+        } else {
+          callback_no()
+        }
+      } catch (e) {
+        alert(e.message)
+        callback_no()
+      }
+    }).on("error", e => {
+      alert(e.message)
+      callback_no()
+    })
+  })
+}
+
+var onyx = new usercss_theme(join(__dirname, "..", "css", "onyx.user.css"))
 
 window.onload = function() {
-  document.getElementById("meta-name").innerHTML = `<a href="${onyx.meta_homepageURL}">${onyx.meta_name.substring(0,21)}</a>`
-  document.getElementById("meta-version").innerHTML = onyx.meta_version
-  document.getElementById("meta-author").innerHTML = onyx.meta_author
-  onyx.generate_html()
+  update_theme(onyx, () => {
+    document.getElementById("meta-name").innerHTML = `<a href="${onyx.meta_homepageURL}">${onyx.meta_name.substring(0,21)}</a>`
+    document.getElementById("meta-version").innerHTML = onyx.meta_version
+    document.getElementById("meta-author").innerHTML = onyx.meta_author
+    onyx.generate_html()
+    settings_save()
+  }, () => {
+    document.getElementById("meta-name").innerHTML = `<a href="${onyx.meta_homepageURL}">${onyx.meta_name.substring(0,21)}</a>`
+    document.getElementById("meta-version").innerHTML = onyx.meta_version
+    document.getElementById("meta-author").innerHTML = onyx.meta_author
+    onyx.generate_html()
+  })
 }
 
 function settings_save() {
