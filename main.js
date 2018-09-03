@@ -1,10 +1,48 @@
-const {app, BrowserWindow, shell, ipcMain, Tray, Menu} = require('electron')
+const {app, BrowserWindow, dialog, shell, ipcMain, Tray, Menu} = require('electron')
 const {join} = require('path')
 const {readFile} = require('fs')
+const {get} = require('https');
+const compareVersions = require('compare-versions');
 const appIcon = join(__dirname, 'assets', 'img', 'png', 'icon_normal.png')
 const appIconFocused = join(__dirname, 'assets', 'img', 'png', 'icon_focused.png')
-
 let win, tray, page, child
+
+get({
+  hostname: "api.github.com",
+  path: "/repos/tncga/whats-up-darkness/releases",
+  headers: {
+    "user-agent": "Whats-Up-Darkness"
+  }
+}, (res) => {
+  let err, data = ""
+
+  if (res.statusCode !== 200) {
+    error = new Error(`Cannot retrieve version data (Status Code: ${res.statusCode}).`)
+  } else if (!/^application\/json/.test(res.headers['content-type'])) {
+    error = new Error(`Expected application/json but received ${res.headers['content-type']}.`)
+  }
+
+  if (err) {
+    console.log(err.message);
+    res.resume()
+    return
+  }
+
+  res.setEncoding("utf8")
+  res.on("data", c => data += c)
+  res.on("end", () => {
+    const latest_version = JSON.parse(data)[0]
+    if (compareVersions(latest_version.tag_name, app.getVersion()) === 1) {
+      dialog.showMessageBox(win, {type: 'question', buttons: ['OK', 'Cancel'], message: `Do you want to download it?\n\n   Current version: ${app.getVersion()}\n   Latest version: ${latest_version.tag_name}\n\n${latest_version.body}`}, (r) => {
+        if (!r) {
+          shell.openExternal(latest_version.html_url)
+        }
+      })
+    }
+  }).on("error", e => {
+    console.log(e.message)
+  })
+})
 
 console.log("Electron " + process.versions.electron + " | Chromium " + process.versions.chrome)
 
@@ -124,7 +162,7 @@ function createWindow() {
   ipcMain.on('update-theme', function(e, style) {
     page.executeJavaScript(`var sheet = document.getElementById('onyx');
     sheet.innerHTML = \`${style}\`;`, false, () => {
-      console.log("Theme has been updated via 'BrowserWindow.webContents.executeJavaScript'.")
+      console.log("Theme has been updated via BrowserWindow.webContents.executeJavaScript!")
     })
   })
 
@@ -148,7 +186,16 @@ function createWindow() {
         sheet.id="onyx"
         sheet.innerHTML = \`${data}\`;
         document.body.appendChild(sheet);`, false, () => {
-          console.log("CSS has been injected via 'BrowserWindow.webContents.executeJavaScript'.")
+          console.log("CSS has been injected via BrowserWindow.webContents.executeJavaScript!")
+        })
+      }
+    })
+    readFile(join(__dirname, 'assets', 'libs', 'keyboardShortcuts.js'), "utf-8", (err, data) => {
+      if (err) {
+        throw err
+      } else {
+        page.executeJavaScript(data, false, () => {
+          console.log("Keyboard shortcuts have been injected via BrowserWindow.webContents.executeJavaScript!")
         })
       }
     })
