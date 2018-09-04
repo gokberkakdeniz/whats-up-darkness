@@ -19,7 +19,7 @@ install:
 script:
   - npm run build:win-x64
 before_deploy:
-  - zip -r "release-builds/whats-up-darkness-win32-x64" release-builds/whats-up-darkness-win32-x64.zip
+  - zip -r release-builds/whats-up-darkness-win32-x64 . -i release-builds/whats-up-darkness-win32-x64.zip
 deploy:
   provider: releases
   api_key: $GH_TOKEN
