@@ -153,9 +153,9 @@ function createWindow() {
   }
 
   ipcMain.on('notification-triggered', function(e, msg) {
-    if (win.isMinimized()) {
+    if (win.isMinimized() || (!win.isFocused() && win.isVisible())) {
       win.flashFrame(true)
-      win.setIcon(appIconFocused)
+      win.setIcon(appIconFocused)      
     }
   })
 
