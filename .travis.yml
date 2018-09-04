@@ -2,11 +2,14 @@ language: node_js
 node_js:
 - node
 dist: trusty
-sudo: false
-before_install:
-  - npm install electron-packager --save-dev
+sudo: true
+cache:
+   directories:
+     - node_modules
 install:
+  - npm install electron-packager --save-dev
   - npm install
+  - sudo apt-get install --install-recommends winehq-stable
 script:
   - npm run build:win-x64
 before_deploy:
