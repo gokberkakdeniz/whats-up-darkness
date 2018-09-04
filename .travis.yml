@@ -1,0 +1,22 @@
+language: node_js
+node_js:
+- node
+dist: trusty
+sudo: false
+before_install:
+  - npm install electron-packager --save-dev
+install:
+  - npm install
+script:
+  - npm run build:win-x64
+before_deploy:
+  - zip -r "release-builds/whats-up-darkness-win32-x64" release-builds/whats-up-darkness-win32-x64.zip
+deploy:
+  provider: releases
+  api_key: $GH_TOKEN
+  file: "release-builds/release-builds/whats-up-darkness-win32-x64.zip"
+  skip_cleanup: true
+  overwrite: true
+  on:
+    repo: tncga/whats-up-darkness
+    tags: true
