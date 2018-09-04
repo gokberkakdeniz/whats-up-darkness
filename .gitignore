@@ -1,5 +1,4 @@
 node_modules/
 release-builds/
 package-lock.json
-assets\css\onyx.user.css
 test.js
