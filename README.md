@@ -3,12 +3,11 @@
 
 Unofficial basic WhatsApp client with dark [Onyx](https://github.com/vednoc/onyx) theme
 
-## Preview
+## Download
+<center> [Windows and  Linux x64](https://github.com/tncga/whats-up-darkness/releases/latest) </center>
+
 ![preview](https://image.ibb.co/b6xo09/app.jpg)
 
-### Download
-
-[Windows and  Linux x64](https://github.com/tncga/whats-up-darkness/releases/latest)
 
 ## Features
  - Tray Icon:
