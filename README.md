@@ -37,13 +37,11 @@ Unofficial basic WhatsApp client with dark [Onyx](https://github.com/vednoc/onyx
     npm run build:linux-x64
 
 Build scripts:
->    npm run build:linux-ia32
 
->    npm run build:linux-x64
-
->    npm run build:win-ia32
-
->    npm run build:win-x64
+	npm run build:linux-ia32
+	npm run build:linux-x64
+	npm run build:win-ia32
+	npm run build:win-x64
 
 
 ## Thanks
