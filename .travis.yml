@@ -24,15 +24,15 @@ before_deploy:
   - git config --local user.name "tncga"
   - git config --local user.email "qokberk_akdeniz@hotmail.com"
   - cd release-builds/
-  - zip -9 -r whats-up-darkness-win32-x64.zip whats-up-darkness-win32-x64/*
-  - env GZIP=-9 tar cvzf whats-up-darkness-linux-x64.tar.gz whats-up-darkness-linux-x64
+  - zip -9 -r whats-up-darkness-$TRAVIS_TAG-win32-x64.zip whats-up-darkness-win32-x64/*
+  - env GZIP=-9 tar cvzf whats-up-darkness-$TRAVIS_TAG-linux-x64.tar.gz whats-up-darkness-linux-x64
   - ls
 deploy:
   provider: releases
   api_key: $GH_TOKEN
   file:
-    - "release-builds/whats-up-darkness-win32-x64.zip"
-    - "release-builds/whats-up-darkness-linux-x64.tar.gz"
+    - "whats-up-darkness-$TRAVIS_TAG-win32-x64.zip"
+    - "whats-up-darkness-$TRAVIS_TAG-linux-x64.tar.gz"
   skip_cleanup: true
   overwrite: true
   on:
