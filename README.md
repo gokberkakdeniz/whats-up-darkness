@@ -1,9 +1,14 @@
 
-# What's up darkness?
-> Unofficial basic WhatsApp client with dark [Onyx](https://github.com/vednoc/onyx) theme
+# <center>What's up darkness? [![Build Status](https://travis-ci.com/tncga/whats-up-darkness.svg?branch=master)](https://travis-ci.com/tncga/whats-up-darkness)<center> 
 
-## Preview
-![preview](https://image.ibb.co/b6xo09/app.jpg)
+<center>Unofficial basic WhatsApp client with dark [Onyx](https://github.com/vednoc/onyx) theme</center>
+
+## <center>Preview</center>
+<center>![preview](https://image.ibb.co/b6xo09/app.jpg)</center>
+
+### <center>Download<center>
+
+<center>[Windows and  Linux x64](https://github.com/tncga/whats-up-darkness/releases/latest)</center></center>
 
 ## Features
  - Tray Icon:
