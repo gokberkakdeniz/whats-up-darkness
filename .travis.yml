@@ -22,7 +22,7 @@ script:
 before_deploy:
   - git config --local user.name "tncga"
   - git config --local user.email "qokberk_akdeniz@hotmail.com"
-  - zip -9 -r release-builds/whats-up-darkness-win32-x64 release-builds/whats-up-darkness-win32-x64.zip
+  - zip -9 -r release-builds/whats-up-darkness-win32-x64 . -i release-builds/whats-up-darkness-win32-x64.zip
   - env GZIP=-9 tar cvzf release-builds/whats-up-darkness-linux-x64.tar.gz release-builds/whats-up-darkness-linux-x64
   - ls -l release-builds/
 deploy:
