@@ -412,13 +412,21 @@
   /* Media/docs/links section. */
   ._2yeJ5 ._3b2Cf {
     background-color: var(--darker) !important; }
-    /* Active indicator. */
-    ._2yeJ5 ._3b2Cf:before {
-      background-color: var(--accent) !important; }
-    /* Selected links. */
-    .D6ZWG {
-      background-color: var(--accent) !important; }
-
+  /* Active indicator. */
+  ._2yeJ5 ._3b2Cf:before {
+    background-color: var(--accent) !important; }
+  /* Selected image. */
+  ._2Ry6_ ._2mlDB {
+    border-color: var(--accent) !important;
+  }
+  /* Selected links. */
+  .D6ZWG {
+    background-color: var(--darker) !important; }
+  /* Text color. */
+  .D6ZWG ._1S4i5,
+  ._2Mvo8.fyJXn {
+    color: var(--lighter);
+  }
 
   /* Media viewer. */
   #app ._1zcz2, ._3_R6X {
@@ -438,7 +446,8 @@
         background-color: transparent !important; }
         /* Text color. */
         #app ._1zcz2 ._2EXPL ._3j7s9 *,
-        ._3_R6X ._12oAB {
+        ._3_R6X ._12oAB,
+        ._1XwnX * {
           color: var(--light); }
 
     /* Footer. */
@@ -528,12 +537,12 @@
     /* Document embeds. */
     ._1vKRe {
       border-color: var(--darker) !important; }
-      /* Embed background. */
-      ._2CORf ._12xX7 {
-        background-color: var(--dark) !important; }
-        /* Embed text color. */
-        ._2CORf ._12xX7 * {
-          color: var(--light); }
+    /* Embed background. */
+    ._12xX7 {
+      background-color: var(--dark) !important; }
+    /* Embed text color. */
+    ._12xX7 * {
+      color: var(--light); }
 
     /* Link embeds. */
     ._1sGGp._2nFG1, ._2lwig._2nFG1 {
@@ -715,7 +724,7 @@
         border-right: 2px solid var(--accent) !important; }
       /* Emoji menu triangle. */
       ._1v2rQ {
-        background-color: var(--darker) !important; }
+        background-color: var(--dark) !important; }
 
 
 
@@ -854,6 +863,11 @@
       /* fill: var(--accent) !important; */
       opacity: 0.3 !important; }
 
+  /* Upload files. */
+  .GK4Lv::after {
+    box-shadow: 0 1px 2px var(--shadow), 0 4px 8px var(--shadow) !important;
+  }
+
   /* Default profile picture background. */
   span[data-icon="default-user"] svg > path:first-child,
   span[data-icon="default-group"] svg > path:first-child {
@@ -931,6 +945,11 @@
     input[type=range]::-webkit-slider-thumb {
       cursor: pointer;
       background: var(--accent) !important; }
+
+  /* Rounded buttons. */
+  span svg > path[fill="#00BFA5"] {
+    fill: var(--accent) !important;
+  }
 
   /* Disable background image on small resolutions. */
   @media screen and (max-width: 1441px) {
@@ -1029,12 +1048,12 @@
       flex: 0 0 calc(100% - 75px) !important; }
 
     /* Search contacts. */
-    .two .k1feT:not(:hover) ._2MSJr { 
+    .two .k1feT:not(:hover) ._2MSJr {
       padding: 0;
       margin-left: 14px; }
 
     /* On hover. */
-    .two .k1feT:hover ._2MSJr { 
+    .two .k1feT:hover ._2MSJr {
       transition-delay: 1s !important; }
 
     /* Attach icons to avatars. */
