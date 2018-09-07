@@ -1,5 +1,6 @@
 //original: https://github.com/seriema/electron-notification-shim
 const {ipcRenderer} = require('electron')
+const electron = require("electron").remote
 global.notifications= {}
 
 // setTimeout: fix for async APIs
@@ -12,16 +13,12 @@ setTimeout(() => {
       title,
       options
     })
-    console.log(title, options);
     if (global.notifications[options.tag]) {
       global.notifications[options.tag].close.bind(global.notifications[options.tag])
     }
-    global.notifications[options.tag](new OldNotification(title, options))
+    global.notifications[options.tag] = new OldNotification(title, options)
     global.notifications[options.tag].onclick = function(title, options) {
-      console.log(title, options)
-    }
-    global.notifications[options.tag].onclose = function(title, options) {
-
+      electron.getCurrentWindow().show()
     }
   }
   global.Notification.prototype = OldNotification.prototype
