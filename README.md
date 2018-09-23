@@ -7,7 +7,7 @@ Unofficial basic WhatsApp client with dark [Onyx](https://github.com/vednoc/onyx
 [Windows and  Linux x64](https://github.com/tncga/whats-up-darkness/releases/latest)
 
 
-![preview](https://image.ibb.co/b6xo09/app.jpg)
+![preview](https://image.ibb.co/nhjj49/app.jpg)
 
 
 ## Features
