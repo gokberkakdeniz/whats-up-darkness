@@ -1,5 +1,7 @@
 node_modules/
 release-builds/
 package-lock.json
+dist/
 test.js
 wupd.desktop
+yarn.lock
