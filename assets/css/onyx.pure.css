@@ -24,8 +24,17 @@
     background-color: var(--shadow); }
   /* Scrollbar thumb. */
   *::-webkit-scrollbar-thumb {
-    border-radius: 3px;
-    background-color: var(--shadow); }
+    background-color: rgba(0,0,0,0.2); }
+  /* Highlight selection. */
+  ::selection {
+    color: var(--light) !important;
+    background-color: var(--accent) !important; }
+  ::-moz-selection {
+    color: var(--light) !important;
+    background-color: var(--accent) !important; }
+  /* Input placeholders. */
+  ::-webkit-input-placeholder {
+    color: var(--lighter) !important; }
 
   /* Progress. */
   progress[value]::-webkit-progress-bar {
@@ -37,7 +46,7 @@
   /* App wrapper. */
   #app .app {
     background: none;
-    background-color: var(--darker); }
+    background-color: var(--dark); }
 
     /* Accent background. */
     .app-wrapper::after {
@@ -210,6 +219,9 @@
       /* Text color. */
       ._2fq0t * {
         color: var(--light); }
+      /* Zoom in/out. */
+      ._2LALH {
+        background-color: var(--dark) !important; }
 
     /* Option/select elements. */
     .uyEaY select {
@@ -243,8 +255,9 @@
       background-color: transparent !important; }
       /* Header. */
       ._2fq0t ._1AKfk {
-        background-color: var(--dark) !important; }
+        background-color: var(--darker) !important; }
         /* On event. */
+        .k1feT ._2fq0t ._2EXPL._1f1zm,
         .k1feT ._2fq0t ._2EXPL:hover {
           background-color: var(--dark) !important; }
       /* Search element */
@@ -276,7 +289,11 @@
 
     /* Jump to present button. */
     ._298R6 {
+      box-shadow: 0 4px 8px 2px var(--shadow) !important;
       background-color: var(--darker) !important; }
+    /* Number of messages. */
+    ._298R6 .OUeyt {
+      background-color: var(--accent) !important; }
 
     /* Header. */
     ._1Iexl #main header {
@@ -303,6 +320,26 @@
     /* Voice message duration. */
     ._30ie- {
       color: var(--light) !important; }
+
+  /* Unknown contact. */
+  .TYhk9 {
+    border-color: var(--darker) !important;
+    background-color: var(--dark) !important;
+    box-shadow: 0 0px 8px 2px var(--shadow) !important; }
+  /* Buttons. */
+  .TYhk9 ._1sB6s {
+    color: var(--light) !important;
+    background-color: var(--darker) !important; }
+
+    /* Shared contact button colors. */
+    .b332w {
+      color: var(--accent) !important; }
+    /* Shared contact text. */
+    .AVd_p {
+      color: var(--lighter) !important; }
+    /* View contact. */
+    ._36ApL {
+      background-color: transparent !important; }
 
   /* Hide 'Type a message' once focused. */
   ._3F6QL._2WovP.focused ._39LWd {
@@ -383,13 +420,14 @@
     ._2yeJ5 .matched-text {
       color: var(--accent) !important; }
     /* On event. */
+    .YAPQk ._1f1zm > ._3j7s9,
     .YAPQk ._3j7s9:hover {
       background-color: var(--dark) !important; }
 
 
   /* Starred messages. */
   ._2yeJ5 .ZwkQK, .ZwkQK {
-    background-color: var(--darker) !important; }
+    background-color: var(--dark) !important; }
     /* On event. */
     .starred-msg-wrapper, .MS-DH {
       transition: 200ms ease-in-out !important; }
@@ -417,16 +455,14 @@
     background-color: var(--accent) !important; }
   /* Selected image. */
   ._2Ry6_ ._2mlDB {
-    border-color: var(--accent) !important;
-  }
+    border-color: var(--accent) !important; }
   /* Selected links. */
   .D6ZWG {
     background-color: var(--darker) !important; }
   /* Text color. */
   .D6ZWG ._1S4i5,
   ._2Mvo8.fyJXn {
-    color: var(--lighter);
-  }
+    color: var(--lighter); }
 
   /* Media viewer. */
   #app ._1zcz2, ._3_R6X {
@@ -557,36 +593,39 @@
 
   /* Reply section. (= */
   footer .rstyJ {
-    box-shadow: 0 0px 4px 0 var(--darker) !important;
+    box-shadow: 0 0px 8px 0 var(--darker) !important;
     background-color: var(--darker) !important; }
-  /* Reply wrapper. */
-  footer .rstyJ:last-child > div:first-child {
-    margin: 0 0 5px 2rem !important;
+  /* Fix margins. */
+  footer .rstyJ > div:first-child {
+    margin: 0 0 5px 10px !important;
     background-color: transparent !important; }
   /* Reply content. */
-  footer .rstyJ:last-child > div:first-child > div {
+  footer .rstyJ > div:first-child > div {
     background-color: var(--dark) !important; }
   /* Close button. */
-  footer .rstyJ:last-child > div:last-child {
+  footer .rstyJ > div:last-child {
     position: relative;
-    margin: 0 2rem 0 1rem !important;
+    margin: 0 8px 5px 8px !important;
     background-color: transparent !important; }
+  /* Make the button larger. */
+  footer .rstyJ > div:last-child > div svg {
+    padding: 18px;
+    border-radius: 6px;
+    background-color: var(--dark); }
 
   /* Mention group members. */
   .Uukb4 {
     color: var(--light);
     border-left: none !important;
-    background-color: var(--dark) !important;
-  }
+    background-color: var(--dark) !important; }
   /* Wrapper. */
   .Uukb4 ._3v_lq {
     transition: 300ms ease-in-out !important;
-    background-color: transparent !important;
-  }
+    background-color: transparent !important; }
+  /* Active. */
   .Uukb4 .j5Hcb._3v_lq,
   .Uukb4 ._3v_lq:hover {
-    background-color: var(--darker) !important;
-  }
+    background-color: var(--darker) !important; }
 
 
   /* Select messages. */
@@ -620,18 +659,18 @@
   /* Bubble tails -- experimental. */
   .tail .tail-container {
     width: 0px !important;
-    height: 12px !important;
+    height: 10px !important;
     z-index: 0 !important;
     border-top: 12px solid var(--darker);
     background: none !important; }
     .tail.message-in .tail-container {
-      left: -12px; top: 0px;
-      border-left: 12px solid transparent;
-      border-radius: 6px 0 0 0; }
+      left: -10px !important; top: 0px;
+      border-left: 10px solid transparent;
+      border-radius: 5px 0 0 0; }
     .tail.message-out .tail-container {
-      right: -12px; top: 0px;
-      border-right: 12px solid transparent;
-      border-radius: 0 6px 0 0; }
+      right: -10px !important; top: 0px;
+      border-right: 10px solid transparent;
+      border-radius: 0 5px 0 0; }
 
     /* Disable tails everywhere. */
     /* Enabled. */
@@ -646,12 +685,28 @@
       .MS-DH .tail-override-left {
         border-radius: 7.5px !important; }
 
+  /** Stickers. */
+  ._1rK-b {
+    background: none !important; }
+  /* Sender. */
+  ._3JaNE ._2R8MP {
+    background-color: var(--darker) !important; }
+  /* Time/status. */
+  ._3JaNE ._2Ll5c {
+    background-color: var(--darker) !important; }
+  /* Reset message menu. */
+  ._1qhoQ {
+    top: 0 !important;
+    right: 0 !important;
+    background: none !important; }
+  /* Icon background. */
+  .YiYMT { background-color: transparent !important; }
 
   /* Temporary fix for emoji container. */
   #main footer > div:nth-child(2) > div {
     border: 0; }
-  /* Emoji/gif background. */
-  ._1UbeR, ._2HBs4 {
+  /* Emoji/gif/stickers background. */
+  ._1UbeR, ._2HBs4, ._3Jgri, ._3Jgri > ._2z7kg {
     background-color: var(--dark) !important; }
 
   /* Emoji menu. */
@@ -661,20 +716,28 @@
     background-color: var(--dark) !important; }
     /* Emoji tabs. */
     ._3ZkhL ._2ByZq,
-    ._3ZkhL ._1qUma {
+    ._3ZkhL ._1qUma,
+    ._1qUma {
       background: var(--darker) !important; }
     /* Tab indicator. */
     ._2NQtS,
     .YbzIC .YGHyX,
     ._1Wbpa {
-        background-color: var(--accent) !important; }
+      background-color: var(--accent) !important; }
+    /* Active button. */
+    ._1x_c3.bRYFY path {
+      fill: var(--accent) !important; }
 
     /* Search emojis. */
     ._3ZkhL label,
-    ._2rR_l {
+    ._2rR_l,
+    ._2vjPO {
       background-color: var(--dark) !important; }
       /* Text color. */
-      ._3ZkhL label input {
+      ._3ZkhL label input,
+      ._2vjPO input,
+      .GclUX,
+      ._3Ztfl {
         color: var(--light) !important; }
 
     /* Gif preloader background. */
@@ -865,16 +928,17 @@
 
   /* Upload files. */
   .GK4Lv::after {
-    box-shadow: 0 1px 2px var(--shadow), 0 4px 8px var(--shadow) !important;
-  }
+    box-shadow: 0 1px 2px var(--shadow), 0 4px 8px var(--shadow) !important; }
 
   /* Default profile picture background. */
   span[data-icon="default-user"] svg > path:first-child,
-  span[data-icon="default-group"] svg > path:first-child {
+  span[data-icon="default-group"] svg > path:first-child,
+  span[data-icon="default-broadcast"] svg > path:first-child {
     fill: var(--dark) !important; }
 
   span[data-icon="default-user"] svg > g > path:last-child,
-  span[data-icon="default-group"] svg > path:last-child {
+  span[data-icon="default-group"] svg > path:last-child,
+  span[data-icon="default-broadcast"] svg > path:last-child {
     opacity: 0.7;
     fill: var(--icon) !important; }
 
@@ -933,7 +997,7 @@
   span[data-icon="exit"] svg path,
   span[data-icon="thumbs-down"] svg path,
   span[data-icon="delete-danger"] svg path {
-    fill: crimson !important; }
+    fill: var(--mred) !important; }
 
   /* Audio message. */
   span[data-icon="audio-file"] svg path {
@@ -948,8 +1012,7 @@
 
   /* Rounded buttons. */
   span svg > path[fill="#00BFA5"] {
-    fill: var(--accent) !important;
-  }
+    fill: var(--accent) !important; }
 
   /* Disable background image on small resolutions. */
   @media screen and (max-width: 1441px) {
@@ -966,11 +1029,12 @@
 
     /* App wrapper. */
     #app .app {
-      box-shadow: 0 0 0 1px var(--darker), 0 0 8px 0px var(--shadow); }
+      border-radius: 5px;
+      box-shadow: 0 4px 24px -2px var(--shadow); }
 
     /* Fullscreen. */
     /* Fullscreen. */
-  .app-wrapper-web ._3dqpi {
+  .app-wrapper-web ._3dqpi, body ._1abwg {
     height: calc(100% - 0px);
     top: 0px;
     width: 100%; }

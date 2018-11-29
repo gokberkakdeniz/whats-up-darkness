@@ -7,6 +7,19 @@ const appIcon = join(__dirname, 'assets', 'img', 'png', 'icon_normal.png')
 const appIconFocused = join(__dirname, 'assets', 'img', 'png', 'icon_focused.png')
 let win, tray, page, child
 
+console.log("Electron " + process.versions.electron + " | Chromium " + process.versions.chrome)
+
+app.on('second-instance', (commandLine, workingDirectory) => {
+  if (win) {
+    if (win.isMinimized()) win.restore()
+    win.focus()
+  }
+})
+
+if (!app.requestSingleInstanceLock()) {
+  return app.quit()
+}
+
 get({
   hostname: "api.github.com",
   path: "/repos/tncga/whats-up-darkness/releases",
@@ -43,19 +56,6 @@ get({
     console.log(e.message)
   })
 })
-
-console.log("Electron " + process.versions.electron + " | Chromium " + process.versions.chrome)
-
-app.on('second-instance', (commandLine, workingDirectory) => {
-  if (win) {
-    if (win.isMinimized()) win.restore()
-    win.focus()
-  }
-})
-
-if (!app.requestSingleInstanceLock()) {
-  return app.quit()
-}
 
 function createWindow() {
   win = new BrowserWindow({
@@ -155,7 +155,7 @@ function createWindow() {
   ipcMain.on('notification-triggered', function(e, msg) {
     if (win.isMinimized() || (!win.isFocused() && win.isVisible())) {
       win.flashFrame(true)
-      win.setIcon(appIconFocused)      
+      win.setIcon(appIconFocused)
     }
   })
 
