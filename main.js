@@ -71,7 +71,9 @@ function createWindow() {
   })
   win.setMenu(null)
 
-  win.loadURL("https://web.whatsapp.com/")
+  win.loadURL("https://web.whatsapp.com/", {
+    userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"
+  })
 
   win.on('closed', function () {
     win = null
@@ -126,6 +128,13 @@ function createWindow() {
           e.preventDefault();
           shell.openExternal(url);
         })
+      }
+    },
+    {
+      label: 'Clean cache',
+      click: function() {
+        win.webContents.session.clearStorageData()
+        win.reload()
       }
     },
     {
