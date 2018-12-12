@@ -16,6 +16,7 @@
   "license": "MIT",
   "dependencies": {
     "compare-versions": "^3.3.1",
+    "node-fetch": "^2.3.0",
     "usercss-meta": "^0.6.1"
   },
   "devDependencies": {
