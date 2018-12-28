@@ -1,6 +1,6 @@
 {
   "name": "whats-up-darkness",
-  "productName": "What's up darkness",
+  "productName": "what's up darkness",
   "version": "2.0.2",
   "description": "dark themed whatsapp web client",
   "main": "main.js",
@@ -14,11 +14,12 @@
   "repository": "https://github.com/tncga/whats-up-darkness",
   "author": "tncga",
   "license": "MIT",
-  "devDependencies": {
-    "electron": "latest"
-  },
   "dependencies": {
     "compare-versions": "^3.3.1",
+    "node-fetch": "^2.3.0",
     "usercss-meta": "^0.6.1"
+  },
+  "devDependencies": {
+    "electron": "^4.0.0-beta.9"
   }
 }

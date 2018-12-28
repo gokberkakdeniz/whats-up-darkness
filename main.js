@@ -1,10 +1,10 @@
 const {app, BrowserWindow, dialog, shell, ipcMain, Tray, Menu} = require('electron')
 const {join} = require('path')
 const {readFile} = require('fs')
-const {get} = require('https');
 const compareVersions = require('compare-versions');
 const appIcon = join(__dirname, 'assets', 'img', 'png', 'icon_normal.png')
 const appIconFocused = join(__dirname, 'assets', 'img', 'png', 'icon_focused.png')
+const fetch = require('node-fetch')
 let win, tray, page, child
 
 console.log("Electron " + process.versions.electron + " | Chromium " + process.versions.chrome)
@@ -20,42 +20,23 @@ if (!app.requestSingleInstanceLock()) {
   return app.quit()
 }
 
-get({
-  hostname: "api.github.com",
-  path: "/repos/tncga/whats-up-darkness/releases",
-  headers: {
-    "user-agent": "Whats-Up-Darkness"
-  }
-}, (res) => {
-  let err, data = ""
-
-  if (res.statusCode !== 200) {
-    error = new Error(`Cannot retrieve version data (Status Code: ${res.statusCode}).`)
-  } else if (!/^application\/json/.test(res.headers['content-type'])) {
-    error = new Error(`Expected application/json but received ${res.headers['content-type']}.`)
-  }
-
-  if (err) {
-    console.log(err.message);
-    res.resume()
-    return
-  }
-
-  res.setEncoding("utf8")
-  res.on("data", c => data += c)
-  res.on("end", () => {
-    const latest_version = JSON.parse(data)[0]
-    if (compareVersions(latest_version.tag_name, app.getVersion()) === 1) {
-      dialog.showMessageBox(win, {type: 'question', buttons: ['OK', 'Cancel'], message: `Do you want to download it?\n\n   Current version: ${app.getVersion()}\n   Latest version: ${latest_version.tag_name}\n\n${latest_version.body}`}, (r) => {
-        if (!r) {
-          shell.openExternal(latest_version.html_url)
-        }
-      })
+fetch("https://api.github.com/repos/tncga/whats-up-darkness/releases", {
+    headers: {
+      "user-agent": "Whats-Up-Darkness"
     }
-  }).on("error", e => {
-    console.log(e.message)
-  })
 })
+.then(res => res.json())
+.then(json => json["0"])
+.then((latest_version) => {
+  if (compareVersions(latest_version.tag_name, app.getVersion()) === 1) {
+    dialog.showMessageBox(win, {type: 'question', buttons: ['OK', 'Cancel'], message: `Do you want to download it?\n\n   Current version: ${app.getVersion()}\n   Latest version: ${latest_version.tag_name}\n\n${latest_version.body}`}, (r) => {
+      if (!r) {
+        shell.openExternal(latest_version.html_url)
+      }
+    })
+  }
+})
+.catch(err => console.error(err))
 
 function createWindow() {
   win = new BrowserWindow({
@@ -128,6 +109,13 @@ function createWindow() {
           e.preventDefault();
           shell.openExternal(url);
         })
+      }
+    },
+    {
+      label: 'Clean cache',
+      click: function() {
+        win.webContents.session.clearStorageData()
+        win.reload()
       }
     },
     {
