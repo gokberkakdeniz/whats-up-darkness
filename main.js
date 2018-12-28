@@ -66,12 +66,14 @@ function createWindow() {
     // temporary fix for unthemed window while the CSS is injecting
     show: false,
     webPreferences: {
-      preload: join(__dirname, 'assets', 'libs', 'notification.js')
+      preload: join(__dirname, 'assets', 'libs', 'preload.js')
     }
   })
   win.setMenu(null)
 
-  win.loadURL("https://web.whatsapp.com/")
+  win.loadURL("https://web.whatsapp.com/", {
+    userAgent: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36"
+  })
 
   win.on('closed', function () {
     win = null
