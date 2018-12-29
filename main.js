@@ -28,7 +28,7 @@ fetch("https://api.github.com/repos/tncga/whats-up-darkness/releases", {
 .then(res => res.json())
 .then(json => json["0"])
 .then((latest_version) => {
-  if (compareVersions(latest_version.tag_name, app.getVersion()) === 1) {
+  if (latest_version.tag_name && compareVersions(latest_version.tag_name, app.getVersion()) === 1) {
     dialog.showMessageBox(win, {type: 'question', buttons: ['OK', 'Cancel'], message: `Do you want to download it?\n\n   Current version: ${app.getVersion()}\n   Latest version: ${latest_version.tag_name}\n\n${latest_version.body}`}, (r) => {
       if (!r) {
         shell.openExternal(latest_version.html_url)
