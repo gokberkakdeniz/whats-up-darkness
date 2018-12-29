@@ -15,6 +15,7 @@
   "author": "tncga",
   "license": "MIT",
   "dependencies": {
+    "compare-versions": "^3.4.0",
     "node-fetch": "^2.3.0",
     "tar": "^4.4.8",
     "usercss-meta": "^0.6.1"
