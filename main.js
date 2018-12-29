@@ -4,10 +4,11 @@ const {readFile} = require('fs')
 const compareVersions = require('compare-versions');
 const appIcon = join(__dirname, 'assets', 'img', 'png', 'icon_normal.png')
 const appIconFocused = join(__dirname, 'assets', 'img', 'png', 'icon_focused.png')
-const fetch = require('node-fetch')
+const {version} = require('./package.json')
+const {Update} = require("./assets/libs/updater.js")
 let win, tray, page, child
 
-console.log("Electron " + process.versions.electron + " | Chromium " + process.versions.chrome)
+console.log("Electron " + process.versions.electron + " | Chromium " + process.versions.chrome + " | WUPD " + version)
 
 app.on('second-instance', (commandLine, workingDirectory) => {
   if (win) {
@@ -20,23 +21,35 @@ if (!app.requestSingleInstanceLock()) {
   return app.quit()
 }
 
-fetch("https://api.github.com/repos/tncga/whats-up-darkness/releases", {
-    headers: {
-      "user-agent": "Whats-Up-Darkness"
-    }
-})
-.then(res => res.json())
-.then(json => json["0"])
-.then((latest_version) => {
-  if (compareVersions(latest_version.tag_name, app.getVersion()) === 1) {
-    dialog.showMessageBox(win, {type: 'question', buttons: ['OK', 'Cancel'], message: `Do you want to download it?\n\n   Current version: ${app.getVersion()}\n   Latest version: ${latest_version.tag_name}\n\n${latest_version.body}`}, (r) => {
-      if (!r) {
-        shell.openExternal(latest_version.html_url)
-      }
+main()
+
+async function main() {
+  app.on('ready', createWindow)
+  const result = await Update((current, last, info, url) => {
+    dialog.showMessageBox(win, {type: 'question', buttons: ['OK', 'Cancel'], message: `Do you want to download it?\n\n   Current version: ${current}\n   Latest version: ${last}\n\n${info}`}, (r) => {
+        if (!r) {
+        shell.openExternal(url)
+        }
     })
+  })
+
+  if (result === 2) {
+    app.relaunch()
+    app.exit(0)
   }
-})
-.catch(err => console.error(err))
+  
+  app.on('window-all-closed', function() {
+    if (process.platform !== 'darwin') {
+      app.quit()
+    }
+  })
+
+  app.on('activate', function() {
+    if (win === null) {
+      createWindow()
+    }
+  })
+}
 
 function createWindow() {
   win = new BrowserWindow({
@@ -197,17 +210,3 @@ function createWindow() {
     shell.openExternal(url);
   })
 }
-
-app.on('ready', createWindow)
-
-app.on('window-all-closed', function() {
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
-})
-
-app.on('activate', function() {
-  if (win === null) {
-    createWindow()
-  }
-})
