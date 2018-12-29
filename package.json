@@ -1,6 +1,6 @@
 {
   "name": "whats-up-darkness",
-  "productName": "what's up darkness",
+  "productName": "Whats Up Darkness",
   "version": "2.0.2",
   "description": "dark themed whatsapp web client",
   "main": "main.js",
@@ -20,6 +20,6 @@
     "usercss-meta": "^0.6.1"
   },
   "devDependencies": {
-    "electron": "^4.0.0-beta.9"
+    "electron": "latest"
   }
 }

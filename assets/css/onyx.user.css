@@ -5,7 +5,7 @@
 @homepageURL  https://github.com/vednoc/onyx
 @supportURL   https://github.com/vednoc/onyx/issues
 @updateURL    https://rawgit.com/vednoc/onyx/master/WhatsApp.user.css
-@version      1.2.3
+@version      1.2.4
 @author       vednoc
 @license      MIT
 @preprocessor uso
@@ -414,6 +414,10 @@
       ._2fq0t header > div:first-child {
         padding: 12px 0 !important;
         height: auto; }
+      /* Reset header title in left/right drawers. */
+      ._2fq0t ._1xGbt {
+        margin-top: 2px !important;
+        font-size: 16px; }
     /* Transparent sections. */
     ._2fq0t ._1CRb5 {
       box-shadow: none !important;
@@ -722,6 +726,10 @@
 
     /* Forwarded message. */
     ._15aTv {
+      color: var(--lighter) !important; }
+
+    /* Phone numbers of users that aren't your contacts. */
+    ._3Ye_R._1wjpf._1OmDL {
       color: var(--lighter) !important; }
 
     /* Mentions. */

@@ -25,7 +25,6 @@
   /* Scrollbar thumb. */
   *::-webkit-scrollbar-thumb {
     background-color: rgba(0,0,0,0.2); }
-<<<<<<< HEAD
   /* Highlight selection. */
   ::selection {
     color: var(--light) !important;
@@ -36,8 +35,6 @@
   /* Input placeholders. */
   ::-webkit-input-placeholder {
     color: var(--lighter) !important; }
-=======
->>>>>>> 61e838a3058a3a45be712dee7dc1528173dda7b8
 
   /* Progress. */
   progress[value]::-webkit-progress-bar {
@@ -207,6 +204,10 @@
       ._2fq0t header > div:first-child {
         padding: 12px 0 !important;
         height: auto; }
+      /* Reset header title in left/right drawers. */
+      ._2fq0t ._1xGbt {
+        margin-top: 2px !important;
+        font-size: 16px; }
     /* Transparent sections. */
     ._2fq0t ._1CRb5 {
       box-shadow: none !important;
@@ -518,6 +519,10 @@
     ._15aTv {
       color: var(--lighter) !important; }
 
+    /* Phone numbers of users that aren't your contacts. */
+    ._3Ye_R._1wjpf._1OmDL {
+      color: var(--lighter) !important; }
+
     /* Mentions. */
     .message-in .matched-mention,
     .message-out .matched-mention,
@@ -608,7 +613,6 @@
   /* Close button. */
   footer .rstyJ > div:last-child {
     position: relative;
-<<<<<<< HEAD
     margin: 0 8px 5px 8px !important;
     background-color: transparent !important; }
   /* Make the button larger. */
@@ -616,16 +620,6 @@
     padding: 18px;
     border-radius: 6px;
     background-color: var(--dark); }
-=======
-    margin: 0 18px 5px 18px !important;
-    background-color: transparent !important; }
-  /* Make the button larger. */
-  footer .rstyJ > div:last-child > div svg {
-    padding: 28px;
-    border-radius: 6px;
-    background-color: var(--dark);
-  }
->>>>>>> 61e838a3058a3a45be712dee7dc1528173dda7b8
 
   /* Mention group members. */
   .Uukb4 {
