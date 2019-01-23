@@ -1,4 +1,4 @@
-class URLTool {
+class URL {
     constructor() {
         this.rules = {
             "^(?:https|http):\/\/open\\.spotify\.com\/track\/(?<track>\\w+)": [["track"], track => "spotify:track:" + track],
@@ -9,7 +9,7 @@ class URLTool {
           }
     }
 
-    testUrl(url) {
+    convert(url) {
         for (const pattern in this.rules) {
             const converter = this.rules[pattern][1];
             const parameter_names = this.rules[pattern][0];
@@ -25,4 +25,4 @@ class URLTool {
     }
 }
 
-module.exports = { URLTool }
+module.exports = { URL }
