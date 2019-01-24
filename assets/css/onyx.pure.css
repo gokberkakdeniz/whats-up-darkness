@@ -5,8 +5,8 @@
     --light: #d1d1d1;
     --lighter: #e9e9e9;
     --accent: #7289da;
-    --icon: #E1E1E1;
-    --shadow: rgba(114, 137, 218, 0.13);
+    --icon: #e1e1e1;
+    --shadow: rgba(0,0,0,0.12);
     --mred: #A3525B;
     --mgreen: #70A352;
     --mblue: #527AA3;
@@ -1068,17 +1068,7 @@
 
   /* "Privacy mode." */
   /* Disabled. */
-  /* Blurry mode for images. */
-  #main ._1JVSX,
-  ._2Ry6_ ._1iCCh {
-    transition: 500ms ease-in-out;
-    transition-delay: 0ms;
-    filter: blur(10px) grayscale(100%); }
-  /* On event. */
-  #main ._1JVSX:hover,
-  ._2Ry6_ ._1iCCh:hover {
-    transition-delay: 500ms;
-    filter: blur(0px) grayscale(0%); }
+  /* Disabled. */
 
   /* Compact mode. */
   @media screen and (max-height: 500px) {
@@ -1154,3 +1144,8 @@
 
   /* Custom CSS rules. */
   #test::after { content: "paste all your custom css here!" !important; }
+
+  
+  html[dir] ._2EXPL {
+	background-color: transparent;
+  }
