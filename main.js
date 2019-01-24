@@ -1,12 +1,17 @@
 const {app, BrowserWindow, dialog, shell, ipcMain, Tray, Menu} = require('electron')
 const {join} = require('path')
 const {readFile} = require('fs')
-const compareVersions = require('compare-versions');
+const {URL} = require(join(__dirname, 'assets', 'libs', 'urlTool.js'))
+const compareVersions = require('compare-versions')
+const fetch = require('node-fetch')
+
 const Icon = join(__dirname, 'assets', 'img', 'png', 'icon.png')
 const IconTray = join(__dirname, 'assets', 'img', 'png', 'icon_normal.png')
 const IconFocused = join(__dirname, 'assets', 'img', 'png', 'icon_focused.png')
-const fetch = require('node-fetch')
+const Style = join(__dirname, 'assets', 'css', 'onyx.pure.css')
+const Shortcut = join(__dirname, 'assets', 'libs', 'keyboardShortcuts.js')
 
+const Url = new URL()
 let win, tray, page, child
 
 console.log("Electron " + process.versions.electron + " | Chromium " + process.versions.chrome)
@@ -168,11 +173,11 @@ function createWindow() {
 
   page = win.webContents;
 
-  page.on('did-finish-load', function() {
+  page.on('dom-ready', function() {
     // insertCSS not working
     // it fails on background styling
     // page.insertCSS(fs.readFileSync(join(__dirname, 'assets', 'css', 'onyx.pure.css'), 'utf8'));
-    readFile(join(__dirname, 'assets', 'css', 'onyx.pure.css'), "utf-8", (err, data) => {
+    readFile(Style, "utf-8", (err, data) => {
       if (err) {
         throw err
       } else {
@@ -184,20 +189,21 @@ function createWindow() {
         })
       }
     })
-    readFile(join(__dirname, 'assets', 'libs', 'keyboardShortcuts.js'), "utf-8", (err, data) => {
+    readFile(Shortcut, "utf-8", (err, data) => {
       if (err) {
         throw err
       } else {
         page.executeJavaScript(data, false, () => {
           console.log("Keyboard shortcuts have been injected via BrowserWindow.webContents.executeJavaScript!")
+          win.show()
         })
       }
     })
-    win.show()
   })
 
   page.on('new-window', function(e, url) {
     e.preventDefault();
+    url = Url.convert(url)
     shell.openExternal(url);
   })
 }
