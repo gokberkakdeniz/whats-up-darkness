@@ -2,9 +2,11 @@ const {app, BrowserWindow, dialog, shell, ipcMain, Tray, Menu} = require('electr
 const {join} = require('path')
 const {readFile} = require('fs')
 const compareVersions = require('compare-versions');
-const appIcon = join(__dirname, 'assets', 'img', 'png', 'icon_normal.png')
-const appIconFocused = join(__dirname, 'assets', 'img', 'png', 'icon_focused.png')
+const Icon = join(__dirname, 'assets', 'img', 'png', 'icon.png')
+const IconTray = join(__dirname, 'assets', 'img', 'png', 'icon_normal.png')
+const IconFocused = join(__dirname, 'assets', 'img', 'png', 'icon_focused.png')
 const fetch = require('node-fetch')
+
 let win, tray, page, child
 
 console.log("Electron " + process.versions.electron + " | Chromium " + process.versions.chrome)
@@ -43,7 +45,7 @@ function createWindow() {
     height: 600,
     width: 800,
     title: "What's up darkness? | tncga",
-    icon: appIcon,
+    icon: Icon,
     // temporary fix for unthemed window while the CSS is injecting
     show: false,
     webPreferences: {
@@ -61,8 +63,9 @@ function createWindow() {
   })
 
   win.on('focus', function () {
-    win.setIcon(appIcon)
+    win.setIcon(Icon)
     win.flashFrame(false)
+    tray.setImage(IconTray)
   })
 
   win.on('close', function (e) {
@@ -70,7 +73,7 @@ function createWindow() {
     win.hide()
   })
 
-  tray = new Tray(appIcon)
+  tray = new Tray(IconTray)
   const contextMenu = Menu.buildFromTemplate([{
       label: 'Show',
       click: function() {
@@ -100,7 +103,7 @@ function createWindow() {
           height: 800,
           maximizable: false,
           resizable: false,
-          icon: appIcon,
+          icon: Icon,
           title: "Theme Settings | tncga"
         })
         child.setMenu(null)
@@ -129,7 +132,7 @@ function createWindow() {
       }
     }
   ])
-  tray.setToolTip("What's up darkness? | tncga")
+  tray.setToolTip("WhatsApp")
   tray.setContextMenu(contextMenu)
 
   if (process.platform == "linux" /*&& process.env.XDG_SESSION_DESKTOP == "KDE"*/) {
@@ -143,9 +146,10 @@ function createWindow() {
   }
 
   ipcMain.on('notification-triggered', function(e, msg) {
-    if (win.isMinimized() || (!win.isFocused() && win.isVisible())) {
+    if (win.isMinimized() || (!win.isFocused() && win.isVisible()) || !win.isVisible()) {
+      tray.setImage(IconFocused)
       win.flashFrame(true)
-      win.setIcon(appIconFocused)
+      win.setIcon(IconFocused)
     }
   })
 
