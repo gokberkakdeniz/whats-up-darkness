@@ -12,11 +12,11 @@ before_install:
   - wget -nc https://dl.winehq.org/wine-builds/winehq.key
   - sudo apt-key add winehq.key
   - sudo apt-add-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ trusty main'
-  - sudo apt update
+  - sudo apt-get update
 install:
   - npm install electron-packager --save-dev
   - npm install electron-builder --save-dev
-  - sudo apt install --install-recommends winehq-stable
+  - sudo apt-get install --install-recommends winehq-stable
   - npm install
 script:
   - npm run build:win-x64
