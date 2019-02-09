@@ -29,7 +29,7 @@
       "description": "Unofficial WhatsApp client with dark Onyx theme",
       "category": "Network",
       "desktop": {
-        "Icon": "/opt/WhatsApp/resources/app/assets/img/png/icon.png"
+        "Icon": "/opt/WhatsApp/resources/app/assets/img/png/icon-128x128.png"
       }
     }
   },
