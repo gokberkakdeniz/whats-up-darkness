@@ -25,7 +25,7 @@ script:
 before_deploy:
   - git config --local user.name $NAME
   - git config --local user.email $EMAIL
-  - mv ./dist/*.deb ./
+  - mv ./dist/*.deb ./release-builds/
   - cd release-builds/
   - zip -9 -r whats-up-darkness-$TRAVIS_TAG-win32-x64.zip whats-up-darkness-win32-x64/*
   - env GZIP=-9 tar cvzf whats-up-darkness-$TRAVIS_TAG-linux-x64.tar.gz whats-up-darkness-linux-x64
