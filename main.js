@@ -212,7 +212,7 @@ function createWindow() {
     e.preventDefault();
     url_new = Url.convert(url)
     if (url != url_new && (url_new.indexOf("spotify") > -1 ^ process.platform == "linux")) {
-      dialog.showMessageBox(win, {type: 'question', buttons: ['OK', 'Cancel'], message: 'Do you want to open it Spotify app?'}, (r) => {
+      dialog.showMessageBox(win, {type: 'question', buttons: ['OK', 'No'], message: 'Do you want to open it Spotify app?'}, (r) => {
         if (!r) {
           shell.openExternal(url_new);
         } else {
