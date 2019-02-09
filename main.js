@@ -5,7 +5,7 @@ const {URL} = require(join(__dirname, 'assets', 'libs', 'urlTool.js'))
 const compareVersions = require('compare-versions')
 const fetch = require('node-fetch')
 
-const Icon = join(__dirname, 'assets', 'img', 'png', 'icon.png')
+const Icon = join(__dirname, 'assets', 'img', 'png', 'icon-32x32.png')
 const IconTray = join(__dirname, 'assets', 'img', 'png', 'icon_normal.png')
 const IconFocused = join(__dirname, 'assets', 'img', 'png', 'icon_focused.png')
 const Style = join(__dirname, 'assets', 'css', 'onyx.pure.css')

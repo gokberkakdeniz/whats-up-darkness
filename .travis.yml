@@ -15,11 +15,12 @@ before_install:
   - sudo apt update
 install:
   - npm install electron-packager --save-dev
-  - npm install
+  - npm install electron-builder --save-dev
   - sudo apt install --install-recommends winehq-stable
 script:
   - npm run build:win-x64
   - npm run build:linux-x64
+  - npm run build:deb
 before_deploy:
   - git config --local user.name $NAME
   - git config --local user.email $EMAIL

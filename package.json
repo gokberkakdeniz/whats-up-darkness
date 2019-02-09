@@ -1,7 +1,7 @@
 {
   "name": "whats-up-darkness",
-  "productName": "Whats Up Darkness",
-  "version": "2.0.3",
+  "productName": "WhatsApp",
+  "version": "2.0.4",
   "description": "dark themed whatsapp web client",
   "main": "main.js",
   "scripts": {
@@ -9,11 +9,9 @@
     "build:win-ia32": "electron-packager . whats-up-darkness --overwrite --platform=win32 --arch=ia32 --icon=./assets/img/ico/icon.ico --prune --app-copyright=MIT --out=release-builds --win32metadata.CompanyName=tncga --win32metadata.ProductName=\"What's up darkness?\" --executable-name=wupd",
     "build:win-x64": "electron-packager . whats-up-darkness --overwrite --platform=win32 --arch=x64 --icon=./assets/img/ico/icon.ico --prune --app-copyright=MIT --out=release-builds --win32metadata.CompanyName=tncga --win32metadata.ProductName=\"What's up darkness?\" --executable-name=wupd",
     "build:linux-ia32": "electron-packager ./ whats-up-darkness --overwrite --prune -platform=linux --arch=ia32 --icon=./assets/img/png/icon_normal.png --out=release-builds --executable-name=wupd; sudo chmod +x ./release-builds/whats-up-darkness-linux-ia32/wupd",
-    "build:linux-x64": "electron-packager ./ whats-up-darkness --overwrite --prune -platform=linux --arch=x64 --icon=./assets/img/png/icon_normal.png --out=release-builds --executable-name=wupd; sudo chmod +x ./release-builds/whats-up-darkness-linux-x64/wupd"
+    "build:linux-x64": "electron-packager ./ whats-up-darkness --overwrite --prune -platform=linux --arch=x64 --icon=./assets/img/png/icon_normal.png --out=release-builds --executable-name=wupd; sudo chmod +x ./release-builds/whats-up-darkness-linux-x64/wupd",
+    "build:deb": "build --linux deb --x64"
   },
-  "repository": "https://github.com/tncga/whats-up-darkness",
-  "author": "tncga",
-  "license": "MIT",
   "dependencies": {
     "compare-versions": "^3.4.0",
     "node-fetch": "^2.3.0",
@@ -21,5 +19,24 @@
   },
   "devDependencies": {
     "electron": "latest"
-  }
+  },
+  "build": {
+    "asar": false, 
+    "linux": {
+      "icon": "assets/img/png/icon.png",
+      "executableName": "wupd",
+      "synopsis": "Unofficial dark-themed WhatsApp client",
+      "description": "Unofficial WhatsApp client with dark Onyx theme",
+      "category": "Network",
+      "desktop": {
+        "Icon": "/opt/WhatsApp/resources/app/assets/img/png/icon.png"
+      }
+    }
+  },
+  "author": {
+    "name": "tncga",
+    "email": "qokberk_akdeniz@hotmail.com"
+  },
+  "repository": "https://github.com/tncga/whats-up-darkness",
+  "license": "MIT"
 }
