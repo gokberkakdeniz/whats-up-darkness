@@ -17,6 +17,7 @@ install:
   - npm install electron-packager --save-dev
   - npm install electron-builder --save-dev
   - sudo apt install --install-recommends winehq-stable
+  - npm install
 script:
   - npm run build:win-x64
   - npm run build:linux-x64
@@ -24,6 +25,7 @@ script:
 before_deploy:
   - git config --local user.name $NAME
   - git config --local user.email $EMAIL
+  - mv dist/whats-up-darkness_$TRAVIS_TAG_amd64.deb release-builds/whats-up-darkness_$TRAVIS_TAG_amd64.deb
   - cd release-builds/
   - zip -9 -r whats-up-darkness-$TRAVIS_TAG-win32-x64.zip whats-up-darkness-win32-x64/*
   - env GZIP=-9 tar cvzf whats-up-darkness-$TRAVIS_TAG-linux-x64.tar.gz whats-up-darkness-linux-x64
@@ -34,7 +36,7 @@ deploy:
   file:
     - "whats-up-darkness-$TRAVIS_TAG-win32-x64.zip"
     - "whats-up-darkness-$TRAVIS_TAG-linux-x64.tar.gz"
-    - "dist/whats-up-darkness-$TRAVIS_TAG-x64.deb"
+    - "whats-up-darkness_$TRAVIS_TAG_amd64.deb"
   skip_cleanup: true
   overwrite: true
   on:

@@ -23,7 +23,7 @@
   "build": {
     "asar": false, 
     "linux": {
-      "icon": "assets/img/png/icon.png",
+      "icon": "assets/img/png/icon-256x256.png",
       "executableName": "wupd",
       "synopsis": "Unofficial dark-themed WhatsApp client",
       "description": "Unofficial WhatsApp client with dark Onyx theme",
