@@ -1,5 +1,9 @@
 class URL {
     constructor() {
+        // Unfortunely, Spotify for Linux client has some bugs. Any URI redirected from web browser will spawn new Spotify window with home page.
+        // Despite that, it can be achieved, except spawning new window, by executing command: 
+        // spotify --option=argument.spotify --uri=spotify:album:3syPhP5MaecyRbU08xVMbE
+
         this.rules = {
             "^(?:https|http):\/\/open\\.spotify\.com\/track\/(?<track>\\w+)": [["track"], track => "spotify:track:" + track],
             "^(?:https|http):\/\/open\\.spotify\.com\/artist\/(?<artist>\\w+)": [["artist"], artist => "spotify:artist:" + artist],

@@ -18,12 +18,15 @@ console.log("Electron " + process.versions.electron + " | Chromium " + process.v
 
 app.on('second-instance', (commandLine, workingDirectory) => {
   if (win) {
-    if (win.isMinimized()) win.restore()
-    win.focus()
+    if (win.isMinimized()) {
+      win.hide()
+    }
+    win.show()
   }
 })
 
 if (!app.requestSingleInstanceLock()) {
+  console.log("Showing first instance...")
   return app.quit()
 }
 
@@ -82,6 +85,7 @@ function createWindow() {
   const contextMenu = Menu.buildFromTemplate([{
       label: 'Show',
       click: function() {
+        win.hide()
         win.show()
       }
     },
@@ -109,7 +113,10 @@ function createWindow() {
           maximizable: false,
           resizable: false,
           icon: Icon,
-          title: "Theme Settings | tncga"
+          title: "Theme Settings | tncga",
+          webPreferences: {
+            nodeIntegration: true,
+          }
         })
         child.setMenu(null)
         child.loadFile(join(__dirname, 'assets', 'html', 'menu.html'))
@@ -203,8 +210,18 @@ function createWindow() {
 
   page.on('new-window', function(e, url) {
     e.preventDefault();
-    url = Url.convert(url)
-    shell.openExternal(url);
+    url_new = Url.convert(url)
+    if (url != url_new && (url_new.indexOf("spotify") > -1 ^ process.platform == "linux")) {
+      dialog.showMessageBox(win, {type: 'question', buttons: ['OK', 'Cancel'], message: 'Do you want to open it Spotify app?'}, (r) => {
+        if (!r) {
+          shell.openExternal(url_new);
+        } else {
+          shell.openExternal(url);
+        }
+      })
+    } else {
+      shell.openExternal(url);
+    }
   })
 }
 

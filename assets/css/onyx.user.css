@@ -5,7 +5,7 @@
 @homepageURL  https://github.com/vednoc/onyx
 @supportURL   https://github.com/vednoc/onyx/issues
 @updateURL    https://rawgit.com/vednoc/onyx/master/WhatsApp.user.css
-@version      1.2.4
+@version      1.2.5
 @author       vednoc
 @license      MIT
 @preprocessor uso
@@ -280,6 +280,9 @@
     /* Tutorial. */
     ._2NbD3 > div:last-child {
       background-color: var(--darker); }
+    /* Loader. */
+    #startup svg > circle {
+      stroke: var(--lighter) !important; }
 
   /* Disable background. */
   ._2U_Zc:before {
@@ -324,8 +327,14 @@
     /* Accent bar. */
     .app ._1Iexl ._3qlW9:after {
       border-top-color: var(--accent); }
-
-
+    /* Version. */
+    .app ._1Iexl ._1ClcF::after {
+      display: block;
+      margin-top: 10px;
+      padding-top: 10px;
+      content: "WhatsApp by Mew v1.2.5" !important;
+      border-top: 1px solid var(--darker);
+    }
 
   /* Left drawer. */
   #app .app #side {
@@ -557,6 +566,9 @@
   /* Hide 'Type a message' once focused. */
   ._3F6QL._2WovP.focused ._39LWd {
     color: transparent; }
+    /* Placeholder text color. */
+    ._39LWd {
+      color: var(--lighter) !important; }
     /* On event smoothness. */
     .pluggable-input.pluggable-input-compose > div:first-child {
       transition: 150ms ease-in-out !important; }
@@ -637,6 +649,9 @@
     .YAPQk ._3j7s9:hover {
       background-color: var(--dark) !important; }
 
+  /* Search messages. */
+  #pane-side ._2EXPL {
+    background-color: transparent !important; }
 
   /* Starred messages. */
   ._2yeJ5 .ZwkQK, .ZwkQK {

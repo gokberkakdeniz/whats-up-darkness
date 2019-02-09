@@ -5,8 +5,8 @@
     --light: #d1d1d1;
     --lighter: #e9e9e9;
     --accent: #7289da;
-    --icon: #e1e1e1;
-    --shadow: rgba(0,0,0,0.12);
+    --icon: #E1E1E1;
+    --shadow: rgba(114, 137, 218, 0.13);
     --mred: #A3525B;
     --mgreen: #70A352;
     --mblue: #527AA3;
@@ -70,6 +70,9 @@
     /* Tutorial. */
     ._2NbD3 > div:last-child {
       background-color: var(--darker); }
+    /* Loader. */
+    #startup svg > circle {
+      stroke: var(--lighter) !important; }
 
   /* Disable background. */
   ._2U_Zc:before {
@@ -114,8 +117,14 @@
     /* Accent bar. */
     .app ._1Iexl ._3qlW9:after {
       border-top-color: var(--accent); }
-
-
+    /* Version. */
+    .app ._1Iexl ._1ClcF::after {
+      display: block;
+      margin-top: 10px;
+      padding-top: 10px;
+      content: "WhatsApp by Mew v1.2.5" !important;
+      border-top: 1px solid var(--darker);
+    }
 
   /* Left drawer. */
   #app .app #side {
@@ -348,6 +357,9 @@
   /* Hide 'Type a message' once focused. */
   ._3F6QL._2WovP.focused ._39LWd {
     color: transparent; }
+    /* Placeholder text color. */
+    ._39LWd {
+      color: var(--lighter) !important; }
     /* On event smoothness. */
     .pluggable-input.pluggable-input-compose > div:first-child {
       transition: 150ms ease-in-out !important; }
@@ -428,6 +440,9 @@
     .YAPQk ._3j7s9:hover {
       background-color: var(--dark) !important; }
 
+  /* Search messages. */
+  #pane-side ._2EXPL {
+    background-color: transparent !important; }
 
   /* Starred messages. */
   ._2yeJ5 .ZwkQK, .ZwkQK {
@@ -1068,7 +1083,17 @@
 
   /* "Privacy mode." */
   /* Disabled. */
-  /* Disabled. */
+  /* Blurry mode for images. */
+  #main ._1JVSX,
+  ._2Ry6_ ._1iCCh {
+    transition: 500ms ease-in-out;
+    transition-delay: 0ms;
+    filter: blur(10px) grayscale(100%); }
+  /* On event. */
+  #main ._1JVSX:hover,
+  ._2Ry6_ ._1iCCh:hover {
+    transition-delay: 500ms;
+    filter: blur(0px) grayscale(0%); }
 
   /* Compact mode. */
   @media screen and (max-height: 500px) {
@@ -1144,8 +1169,3 @@
 
   /* Custom CSS rules. */
   #test::after { content: "paste all your custom css here!" !important; }
-
-  
-  html[dir] ._2EXPL {
-	background-color: transparent;
-  }
