@@ -5,9 +5,9 @@ class URL {
         // spotify --option=argument.spotify --uri=spotify:album:3syPhP5MaecyRbU08xVMbE
 
         this.rules = {
-            "^(?:https|http):\/\/open\\.spotify\.com\/track\/(?<track>\\w+)": [["track"], track => "spotify:track:" + track],
-            "^(?:https|http):\/\/open\\.spotify\.com\/artist\/(?<artist>\\w+)": [["artist"], artist => "spotify:artist:" + artist],
-            "^(?:https|http):\/\/open\\.spotify\.com\/album\/(?<album>\\w+)": [["album"], album => "spotify:album:" + album],
+            "^(?:https|http):\/\/open\\.spotify\\.com\/track\/(?<track>\\w+)": [["track"], track => "spotify:track:" + track],
+            "^(?:https|http):\/\/open\\.spotify\\.com\/artist\/(?<artist>\\w+)": [["artist"], artist => "spotify:artist:" + artist],
+            "^(?:https|http):\/\/open\\.spotify\\.com\/album\/(?<album>\\w+)": [["album"], album => "spotify:album:" + album],
             "^(?:https|http):\/\/open\\.spotify\\.com\/user\/(?<user>\\w+)(?:\\?|$)": [["user"], user => "spotify:user:" + user],
             "^(?:https|http):\/\/open\\.spotify\\.com\/user\/(?<user>\\w+)\/playlist\/(?<playlist>\\w+)(?:\\?|$)": [["user", "playlist"], (user, playlist) => "spotify:user:" + user + ":playlist:" + playlist]
           }
