@@ -13,6 +13,7 @@ const Shortcut = join(__dirname, 'assets', 'libs', 'keyboardShortcuts.js')
 
 const Url = new URL()
 let win, tray, page, child
+var THERE_IS_NEW_MESSAGE = false
 
 console.log("Electron " + process.versions.electron + " | Chromium " + process.versions.chrome)
 
@@ -63,7 +64,7 @@ function createWindow() {
   win.setMenu(null)
 
   win.loadURL("https://web.whatsapp.com/", {
-    userAgent: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36"
+    userAgent: "Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:66.0) Gecko/20100101 Firefox/66.0"
   })
 
   win.on('closed', function () {
@@ -71,9 +72,12 @@ function createWindow() {
   })
 
   win.on('focus', function () {
-    win.setIcon(Icon)
-    win.flashFrame(false)
-    tray.setImage(IconTray)
+    if (THERE_IS_NEW_MESSAGE) {
+      win.setIcon(Icon)
+      win.flashFrame(false)
+      tray.setImage(IconTray)
+      THERE_IS_NEW_MESSAGE = false;
+    }
   })
 
   win.on('close', function (e) {
@@ -147,7 +151,7 @@ function createWindow() {
   tray.setToolTip("WhatsApp")
   tray.setContextMenu(contextMenu)
 
-  if (process.platform == "linux" /*&& process.env.XDG_SESSION_DESKTOP == "KDE"*/) {
+  if (process.platform == "linux") {
     tray.on('click', function() {
       win.isVisible() ? win.hide() : win.show()
     })
@@ -159,6 +163,7 @@ function createWindow() {
 
   ipcMain.on('notification-triggered', function(e, msg) {
     if (win.isMinimized() || (!win.isFocused() && win.isVisible()) || !win.isVisible()) {
+      THERE_IS_NEW_MESSAGE = true;
       tray.setImage(IconFocused)
       win.flashFrame(true)
       win.setIcon(IconFocused)

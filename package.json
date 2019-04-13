@@ -21,7 +21,7 @@
     "electron": "latest"
   },
   "build": {
-    "asar": false, 
+    "asar": false,
     "linux": {
       "icon": "assets/img/png/icon-256x256.png",
       "executableName": "wupd",
