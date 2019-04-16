@@ -5,3 +5,4 @@ dist/
 test.js
 wupd.desktop
 .vscode/
+launch.json

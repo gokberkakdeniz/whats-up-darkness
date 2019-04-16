@@ -45,7 +45,7 @@ window.navigator.serviceWorker.getRegistrations().then(registrations => {
 
 document.onreadystatechange = function () {
   if (document.readyState === "interactive" || document.readyState === "complete") {
-    const titleEl = document.querySelector('.window-title');
+    const titleEl = document.querySelector('.version-title');
     if (titleEl && titleEl.innerHTML.includes('Google Chrome 36+')) {
       window.location.reload(); //Reloads the page if the page shows the error
     }

@@ -58,6 +58,7 @@ function createWindow() {
     // temporary fix for unthemed window while the CSS is injecting
     show: false,
     webPreferences: {
+      nodeIntegration: true,
       preload: join(__dirname, 'assets', 'libs', 'preload.js')
     }
   })
