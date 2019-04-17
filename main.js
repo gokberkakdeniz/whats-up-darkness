@@ -132,6 +132,12 @@ function createWindow() {
       }
     },
     {
+      label: 'Reload page',
+      click: function() {
+        win.reload()
+      }
+    },
+    {
       label: 'Clean cache',
       click: function() {
         win.webContents.session.clearStorageData()
