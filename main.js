@@ -5,12 +5,12 @@ const {URL} = require(join(__dirname, 'assets', 'libs', 'urlTool.js'))
 const compareVersions = require('compare-versions')
 const fetch = require('node-fetch')
 
-const Icon = join(__dirname, 'assets', 'img', 'png', 'icon-32x32.png')
-const IconTray = join(__dirname, 'assets', 'img', 'png', 'icon_normal.png')
-const IconFocused = join(__dirname, 'assets', 'img', 'png', 'icon_focused.png')
+const Icon = join(__dirname, 'assets', 'img', 'png', 'icon-128x128.png')
+const IconTray = join(__dirname, 'assets', 'img', 'png', 'tray_normal_linux.png')
+const IconFocused = join(__dirname, 'assets', 'img', 'png', 'tray_focused_linux.png')
 const Style = join(__dirname, 'assets', 'css', 'onyx.pure.css')
 const Shortcut = join(__dirname, 'assets', 'libs', 'keyboardShortcuts.js')
-
+const Platform = process.platform;
 const Url = new URL()
 let win, tray, page, child
 var THERE_IS_NEW_MESSAGE = false
@@ -63,9 +63,23 @@ function createWindow() {
     }
   })
   win.setMenu(null)
+  let userAgent = "Mozilla/5.0 (Linux x86_64; rv:66.0) Gecko/20100101 Firefox/66.0"
+  switch (Platform) {
+    case "win32":
+      userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0"
+      break;
+    case "linux":  
+      userAgent = "Mozilla/5.0 (Linux x86_64; rv:66.0) Gecko/20100101 Firefox/66.0"
+      break;
+    case "darwin":
+      userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:66.0) Gecko/20100101 Firefox/66.0"
+      break;
+    default:
+      break;
+  }
 
   win.loadURL("https://web.whatsapp.com/", {
-    userAgent: "Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:66.0) Gecko/20100101 Firefox/66.0"
+    userAgent: userAgent
   })
 
   win.on('closed', function () {
@@ -240,7 +254,7 @@ function createWindow() {
 app.on('ready', createWindow)
 
 app.on('window-all-closed', function() {
-  if (process.platform !== 'darwin') {
+  if (Platform !== 'darwin') {
     app.quit()
   }
 })
