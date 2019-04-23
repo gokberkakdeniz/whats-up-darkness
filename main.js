@@ -5,9 +5,9 @@ const {URL} = require(join(__dirname, 'assets', 'libs', 'urlTool.js'))
 const compareVersions = require('compare-versions')
 const fetch = require('node-fetch')
 
-const Icon = join(__dirname, 'assets', 'img', 'png', 'icon-128x128.png')
-const IconTray = join(__dirname, 'assets', 'img', 'png', 'tray_normal_linux.png')
-const IconFocused = join(__dirname, 'assets', 'img', 'png', 'tray_focused_linux.png')
+const Icon = join(__dirname, 'assets', 'img', 'png', 'icon-linux.png')
+const IconTray = join(__dirname, 'assets', 'img', 'png', 'tray-normal-linux.png')
+const IconFocused = join(__dirname, 'assets', 'img', 'png', 'tray-focused-linux.png')
 const Style = join(__dirname, 'assets', 'css', 'onyx.pure.css')
 const Shortcut = join(__dirname, 'assets', 'libs', 'keyboardShortcuts.js')
 const Platform = process.platform;
