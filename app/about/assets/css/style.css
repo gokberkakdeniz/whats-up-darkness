@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css?family=Comfortaa:300,400,700&subset=latin-ext');
+
+body {
+    font-family: 'Comfortaa', cursive;
+    background-color: #272C35;
+    text-align: center;
+    color: #E1E1E1E1;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    color: #bbbbbb;
+}
+
+a:hover {
+    color: #ffffff;
+}
+
+#container {
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    padding: 0;
+}

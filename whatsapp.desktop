@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=WhatsApp
+Comment=A WhatsApp client
+Exec=/opt/whatsapp/wupd
+Icon=/opt/whatsapp/resources/assets/img/icon-linux.png
+Terminal=false

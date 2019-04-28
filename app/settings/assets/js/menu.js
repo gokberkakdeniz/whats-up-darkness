@@ -1,9 +1,11 @@
-const {writeFile, readFileSync} = require('fs')
-const {join, basename} = require('path');
-const {ipcRenderer} = require('electron')
-const {get} = require('https')
-const compareVersions = require('compare-versions');
-const usercss = require('../libs/usercss.js')
+require('module-alias/register')
+const { writeFile, readFileSync } = require('fs')
+const { join, basename } = require('path');
+const { ipcRenderer } = require('electron')
+const { get } = require('https')
+const { is_less } = require('@app_updater')
+const usercss = require('@app_settings/libs/usercss.js')
+const CONSTANTS = require("@constants")
 
 class usercss_theme {
   //string style_file = "theme_name.user.css"
@@ -11,8 +13,8 @@ class usercss_theme {
     try {
       this.style = readFileSync(style_file, "utf8")
       this.file_name = basename(style_file, ".user.css")
-      this.style_meta = usercss.meta.parse(this.style)
-    } catch(e) {
+	  this.style_meta = usercss.meta.parse(this.style).metadata
+    } catch (e) {
       throw e
     }
   }
@@ -28,6 +30,7 @@ class usercss_theme {
   get meta_author() {
     return this.style_meta.author
   }
+
   generate_html(use_default_values = false) {
     function generate_element(options) {
       let setContainer = document.createElement("div")
@@ -54,7 +57,8 @@ class usercss_theme {
           setInput_input.id = options.id
           setInput_input.value = options.defaults ? options.defaults[options.id] : options.value
           setInput_input.className = "color"
-          break;
+		  break;
+		case "select":
         case "dropdown":
           setInput_input = document.createElement("select")
           setInput_input.id = options.id
@@ -90,9 +94,9 @@ class usercss_theme {
     const vars = this.style_meta.vars
     let saved_values = undefined
     try {
-      const saved_values_json = readFileSync(join(__dirname, "..", "json", this.file_name + ".settings.json"), "utf8")
+      const saved_values_json = readFileSync(CONSTANTS.USER_DATA.THEME_SETTINGS, "utf8")
       saved_values = JSON.parse(saved_values_json)
-    } catch(e) {
+    } catch (e) {
       console.log(e)
     } finally {
       for (var v in vars) {
@@ -108,15 +112,16 @@ class usercss_theme {
         }
       }
       var colors = jsColorPicker('main input.color', {
-          customBG: '#222',
-          readOnly: false,
-          init: function(elm, colors) { // colors is a different instance (not connected to colorPicker)
-            elm.style.backgroundColor = elm.value;
-            elm.style.color = colors.rgbaMixCustom.luminance > 0.22 ? '#222' : '#ddd';
-          }
+        customBG: '#222',
+        readOnly: false,
+        init: function (elm, colors) { // colors is a different instance (not connected to colorPicker)
+          elm.style.backgroundColor = elm.value;
+          elm.style.color = colors.rgbaMixCustom.luminance > 0.22 ? '#222' : '#ddd';
+        }
       })
     }
   }
+
   gather_values() {
     const inputs = document.getElementsByClassName("setting-input")
     let vars_style = {}
@@ -130,8 +135,12 @@ class usercss_theme {
         vars_style[i.firstElementChild.id] = i.firstElementChild.value
       }
     }
-    return {style: vars_style, settings: vars_setting}
+    return {
+      style: vars_style,
+      settings: vars_setting
+    }
   }
+
   pure_css(vars) {
     return usercss.convert_to_css(this.style, vars)
   }
@@ -165,8 +174,8 @@ function update_theme(theme, callback_yes, callback_no) {
     res.on("end", () => {
       try {
         const last_version = JSON.parse(data)[0]
-        if (compareVersions(last_version.tag_name, theme.meta_version) === 1 && confirm(`Do you want to update?\n\n   Current version: ${theme.meta_version}\n   Latest version: ${last_version.tag_name}\n\n${last_version.body}`)) {
-          get("https://raw.githubusercontent.com/vednoc/onyx/" + last_version.tag_name +  "/WhatsApp.user.css", (r) => {
+        if (is_less(theme.meta_version).than(last_version.tag_name) && confirm(`Do you want to update?\n\n   Current version: ${theme.meta_version}\n   Latest version: ${last_version.tag_name}\n\n${last_version.body}`)) {
+          get("https://raw.githubusercontent.com/vednoc/onyx/" + last_version.tag_name + "/WhatsApp.user.css", (r) => {
             let css = ""
 
             if (r.statusCode !== 200) {
@@ -208,31 +217,31 @@ function update_theme(theme, callback_yes, callback_no) {
   })
 }
 
-var onyx = new usercss_theme(join(__dirname, "..", "css", "onyx.user.css"))
+var onyx = new usercss_theme(CONSTANTS.USER_DATA.USER_CSS)
 
-window.onload = function() {
-  update_theme(onyx, () => {
-    document.getElementById("meta-name").innerHTML = `<a href="${onyx.meta_homepageURL}">${onyx.meta_name.substring(0,21)}</a>`
-    document.getElementById("meta-version").innerHTML = onyx.meta_version
-    document.getElementById("meta-author").innerHTML = onyx.meta_author
-    onyx.generate_html()
-    settings_save()
-  }, () => {
-    document.getElementById("meta-name").innerHTML = `<a href="${onyx.meta_homepageURL}">${onyx.meta_name.substring(0,21)}</a>`
-    document.getElementById("meta-version").innerHTML = onyx.meta_version
-    document.getElementById("meta-author").innerHTML = onyx.meta_author
-    onyx.generate_html()
-  })
+window.onload = function () {
+	update_theme(onyx, () => {
+		document.getElementById("meta-name").innerHTML = `<a href="${onyx.meta_homepageURL}">${onyx.meta_name.substring(0,21)}</a>`
+		document.getElementById("meta-version").innerHTML = onyx.meta_version
+		document.getElementById("meta-author").innerHTML = onyx.meta_author
+		onyx.generate_html()
+		settings_save()
+	}, () => {
+		document.getElementById("meta-name").innerHTML = `<a href="${onyx.meta_homepageURL}">${onyx.meta_name.substring(0,21)}</a>`
+		document.getElementById("meta-version").innerHTML = onyx.meta_version
+		document.getElementById("meta-author").innerHTML = onyx.meta_author
+		onyx.generate_html()
+	})
 }
 
 function settings_save() {
   const usercss_values = onyx.gather_values()
-  writeFile(join(__dirname, "..", "json", onyx.file_name + ".settings.json"), JSON.stringify(usercss_values.settings), "utf8", (err) => {
+  writeFile(CONSTANTS.USER_DATA.THEME_SETTINGS, JSON.stringify(usercss_values.settings), "utf8", (err) => {
     if (err) throw err
   })
 
   const pure_css = onyx.pure_css(usercss_values.style)
-  writeFile(join(__dirname, "..", "css", onyx.file_name + ".pure.css"), pure_css, "utf8", (err) => {
+  writeFile(CONSTANTS.USER_DATA.PURE_CSS, pure_css, "utf8", (err) => {
     if (err) throw err
   })
 
@@ -253,17 +262,17 @@ function toggle(id) {
   var e = document.getElementById(id)
   if (e.style.display == '' || e.style.display == 'none') {
     e.style.display = 'block';
-    document.querySelector('main').style["padding-top"]="85px";
+    document.querySelector('main').style["padding-top"] = "85px";
   } else {
     e.style.display = 'none';
-    document.querySelector('main').style["padding-top"]="52px";
+    document.querySelector('main').style["padding-top"] = "52px";
   }
 }
 
 function toggle_live_save() {
   const reload = document.getElementById("live_save").checked
   // input_listener = (j) => {
-    // j.srcElement.value, j.srcElement.id
+  // j.srcElement.value, j.srcElement.id
   // }
   if (reload) {
     document.querySelectorAll(".setting-input > *").forEach(i => i.addEventListener("change", settings_save))

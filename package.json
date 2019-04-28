@@ -1,42 +1,40 @@
 {
-  "name": "whats-up-darkness",
-  "productName": "WhatsApp",
-  "version": "2.0.5",
-  "description": "dark themed whatsapp web client",
-  "main": "main.js",
-  "scripts": {
-    "start": "electron .",
-    "build:win-ia32": "electron-packager . whats-up-darkness --overwrite --platform=win32 --arch=ia32 --icon=./assets/img/ico/icon.ico --prune --app-copyright=MIT --out=release-builds --win32metadata.CompanyName=tncga --win32metadata.ProductName=\"What's up darkness?\" --executable-name=wupd",
-    "build:win-x64": "electron-packager . whats-up-darkness --overwrite --platform=win32 --arch=x64 --icon=./assets/img/ico/icon.ico --prune --app-copyright=MIT --out=release-builds --win32metadata.CompanyName=tncga --win32metadata.ProductName=\"What's up darkness?\" --executable-name=wupd",
-    "build:linux-ia32": "electron-packager ./ whats-up-darkness --overwrite --prune -platform=linux --arch=ia32 --icon=./assets/img/png/icon_normal.png --out=release-builds --executable-name=wupd; sudo chmod +x ./release-builds/whats-up-darkness-linux-ia32/wupd",
-    "build:linux-x64": "electron-packager ./ whats-up-darkness --overwrite --prune -platform=linux --arch=x64 --icon=./assets/img/png/icon_normal.png --out=release-builds --executable-name=wupd; sudo chmod +x ./release-builds/whats-up-darkness-linux-x64/wupd",
-    "build:deb": "build --linux deb --x64"
-  },
-  "dependencies": {
-    "compare-versions": "^3.4.0",
-    "node-fetch": "^2.3.0",
-    "usercss-meta": "^0.6.1"
-  },
-  "devDependencies": {
-    "electron": "^4.1.4"
-  },
-  "build": {
-    "asar": false,
-    "linux": {
-      "icon": "assets/img/png/icon-256x256.png",
-      "executableName": "wupd",
-      "synopsis": "Unofficial dark-themed WhatsApp client",
-      "description": "Unofficial WhatsApp client with dark Onyx theme",
-      "category": "Network",
-      "desktop": {
-        "Icon": "/opt/WhatsApp/resources/app/assets/img/png/icon-128x128.png"
-      }
-    }
-  },
-  "author": {
-    "name": "tncga",
-    "email": "qokberk_akdeniz@hotmail.com"
-  },
-  "repository": "https://github.com/tncga/whats-up-darkness",
-  "license": "MIT"
+	"name": "whats-up-darkness",
+	"productName": "WhatsApp",
+	"version": "2.0.5",
+	"description": "An Electron based unofficial dark-themed WhatsApp client",
+	"main": "main.js",
+	"scripts": {
+		"start": "electron .",
+		"build:linux-x64": "electron-packager ./ whats-up-darkness --overwrite -platform=linux --arch=x64 --asar --ignore=^/assets --extra-resource=assets/ --out=release-builds --executable-name=wupd; chmod +x ./release-builds/whats-up-darkness-linux-x64/wupd",
+		"build:linux-ia32": "electron-packager ./ whats-up-darkness --overwrite -platform=linux --arch=ia32 --asar --ignore=^/assets --extra-resource=assets/ --out=release-builds --executable-name=wupd; chmod +x ./release-builds/whats-up-darkness-linux-ia32/wupd",
+		"build:win-ia32": "electron-packager . whats-up-darkness --overwrite --platform=win32 --arch=ia32 --icon=./assets/img/icon.ico --app-copyright=MIT --out=release-builds --win32metadata.CompanyName=tncga --win32metadata.ProductName=\"What's up darkness?\" --executable-name=wupd",
+		"build:win-x64": "electron-packager . whats-up-darkness --overwrite --platform=win32 --arch=x64 --icon=./assets/img/icon.ico --app-copyright=MIT --out=release-builds --win32metadata.CompanyName=tncga --win32metadata.ProductName=\"What's up darkness?\" --executable-name=wupd"		
+	},
+	"author": {
+		"name": "tncga",
+		"email": "qokberk_akdeniz@hotmail.com"
+	},
+	"repository": "https://github.com/tncga/whats-up-darkness",
+	"license": "MIT",
+	"dependencies": {
+		"electron-is-dev": "^1.1.0",
+		"fs-extra": "^7.0.1",
+		"module-alias": "^2.2.0",
+		"usercss-meta": "^0.9.0"
+	},
+	"_moduleAliases": {
+		"@root": ".",
+		"@constants": "./constants.js",
+		"@app_main": "app/main",
+		"@app_updater": "app/updater/main.js",
+		"@app_about": "app/about/window.js",
+		"@app_settings": "app/settings"
+	},
+	"devDependencies": {
+		"electron": "^4.1.4"
+	},
+	"constants": {
+		"userAgentFirefoxVersion": "66.0"
+	}
 }

@@ -1,266 +1,81 @@
+require('module-alias/register')
+
 const {app, BrowserWindow, dialog, shell, ipcMain, Tray, Menu} = require('electron')
-const {join} = require('path')
-const {readFile} = require('fs')
-const {URL} = require(join(__dirname, 'assets', 'libs', 'urlTool.js'))
-const compareVersions = require('compare-versions')
-const fetch = require('node-fetch')
+const { copy, access, constants } = require('fs-extra')
+const { resolve } = require("path")
+const CONSTANTS = require("@constants")
 
-const Icon = join(__dirname, 'assets', 'img', 'png', 'icon-linux.png')
-const IconTray = join(__dirname, 'assets', 'img', 'png', 'tray-normal-linux.png')
-const IconFocused = join(__dirname, 'assets', 'img', 'png', 'tray-focused-linux.png')
-const Style = join(__dirname, 'assets', 'css', 'onyx.pure.css')
-const Shortcut = join(__dirname, 'assets', 'libs', 'keyboardShortcuts.js')
-const Platform = process.platform;
-const Url = new URL()
-let win, tray, page, child
-var THERE_IS_NEW_MESSAGE = false
+let { check_new_version } = require("@app_updater")
+let { create_main_window } = require("@app_main/window.js")
 
-console.log("Electron " + process.versions.electron + " | Chromium " + process.versions.chrome)
+if(CONSTANTS.ELECTRON_IS_DEV) console.log("[WARNING] DEVELOPER PROCESS")
+console.log("[INFO] wupd: v" + CONSTANTS.APP_VERSION)
+console.log("[INFO] electron: " + CONSTANTS.ELECTRON_VERSION)
+console.log("[INFO] chromium: " + CONSTANTS.CHROMIUM_VERSION)
+console.log("[INFO] os: " + CONSTANTS.PLATFORM)
+if(process.platform === "linux") console.log("[INFO] de: " + CONSTANTS.LINUX_DESKTOP_ENVIRONMENT)
+console.log("[INFO] arch: " + CONSTANTS.ARCH)
 
-app.on('second-instance', (commandLine, workingDirectory) => {
-  if (win) {
-    if (win.isMinimized()) {
-      win.hide()
+let win = null
+create_main_window = create_main_window.bind(this, {BrowserWindow, Tray, Menu, ipcMain, dialog, shell, app})
+check_new_version = check_new_version.bind(this, {dialog, shell})
+
+const callback_uptodate = ((app) => win = create_main_window()).bind(this, app)
+const callback_no = () => callback_uptodate
+const callback_yes = ((app) => app.quit()).bind(this, app)
+
+app.on('second-instance', () => {
+    console.log("[LOG] another instance of app is detected.")
+    if (win) {
+        console.log("[LOG] main window is being shown.")
+        if (win.isMinimized()) win.hide()
+        win.show()
     }
-    win.show()
-  }
 })
 
 if (!app.requestSingleInstanceLock()) {
-  console.log("Showing first instance...")
-  return app.quit()
+    console.error("[ERROR] multiple instance of app is not allowed.")
+    return app.quit()
 }
 
-fetch("https://api.github.com/repos/tncga/whats-up-darkness/releases", {
-    headers: {
-      "user-agent": "Whats-Up-Darkness"
-    }
-})
-.then(res => res.json())
-.then(json => json["0"])
-.then((latest_version) => {
-  if (latest_version.tag_name && compareVersions(latest_version.tag_name, app.getVersion()) === 1) {
-    dialog.showMessageBox(win, {type: 'question', buttons: ['OK', 'Cancel'], message: `Do you want to download it?\n\n   Current version: ${app.getVersion()}\n   Latest version: ${latest_version.tag_name}\n\n${latest_version.body}`}, (r) => {
-      if (!r) {
-        shell.openExternal(latest_version.html_url)
-      }
-    })
-  }
-})
-.catch(err => console.error(err))
+app.on('ready', () => {
+    console.log("[LOG] app is ready.")
+    access(CONSTANTS.DIR.USER_DATA, constants.F_OK, (err) => {
+        let USER_DATA_IS_UNSYNCED = false
+        if(!err) USER_DATA_IS_UNSYNCED = require(CONSTANTS.USER_DATA.INFO).version != CONSTANTS.APP_VERSION
 
-function createWindow() {
-  win = new BrowserWindow({
-    height: 600,
-    width: 800,
-    title: "What's up darkness? | tncga",
-    icon: Icon,
-    // temporary fix for unthemed window while the CSS is injecting
-    show: false,
-    webPreferences: {
-      nodeIntegration: true,
-      preload: join(__dirname, 'assets', 'libs', 'preload.js')
-    }
-  })
-  win.setMenu(null)
-  let userAgent = "Mozilla/5.0 (Linux x86_64; rv:66.0) Gecko/20100101 Firefox/66.0"
-  switch (Platform) {
-    case "win32":
-      userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0"
-      break;
-    case "linux":  
-      userAgent = "Mozilla/5.0 (Linux x86_64; rv:66.0) Gecko/20100101 Firefox/66.0"
-      break;
-    case "darwin":
-      userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:66.0) Gecko/20100101 Firefox/66.0"
-      break;
-    default:
-      break;
-  }
-
-  win.loadURL("https://web.whatsapp.com/", {
-    userAgent: userAgent
-  })
-
-  win.on('closed', function () {
-    win = null
-  })
-
-  win.on('focus', function () {
-    if (THERE_IS_NEW_MESSAGE) {
-      win.setIcon(Icon)
-      win.flashFrame(false)
-      tray.setImage(IconTray)
-      THERE_IS_NEW_MESSAGE = false;
-    }
-  })
-
-  win.on('close', function (e) {
-    e.preventDefault()
-    win.hide()
-  })
-
-  tray = new Tray(IconTray)
-  const contextMenu = Menu.buildFromTemplate([{
-      label: 'Show',
-      click: function() {
-        win.hide()
-        win.show()
-      }
-    },
-    {
-      label: 'Toggle developer tools',
-      click: function() {
-        win.isDevToolsOpened() ? win.closeDevTools() : win.openDevTools({
-          mode: 'bottom'
-        })
-      }
-    },
-    {
-      label: 'Configure theme',
-      click: function() {
-        for (w of BrowserWindow.getAllWindows()) {
-          if (w.getTitle() == "Theme Settings | tncga") {
-            w.focus()
-            return;
-          }
-        }
-        child = new BrowserWindow({
-          parent: win,
-          width: 400,
-          height: 800,
-          maximizable: false,
-          resizable: false,
-          icon: Icon,
-          title: "Theme Settings | tncga",
-          webPreferences: {
-            nodeIntegration: true,
-          }
-        })
-        child.setMenu(null)
-        child.loadFile(join(__dirname, 'assets', 'html', 'menu.html'))
-        child.webContents.on('will-navigate', function(e, url) {
-          e.preventDefault();
-          shell.openExternal(url);
-        })
-      }
-    },
-    {
-      label: 'Reload page',
-      click: function() {
-        win.reload()
-      }
-    },
-    {
-      label: 'Clean cache',
-      click: function() {
-        win.webContents.session.clearStorageData()
-        win.reload()
-      }
-    },
-    {
-      label: 'Quit',
-      click: function() {
-        try {
-          win.destroy()
-          child.destroy()
-        } catch(e) {
-        }
-      }
-    }
-  ])
-  tray.setToolTip("WhatsApp")
-  tray.setContextMenu(contextMenu)
-
-  if (process.platform == "linux") {
-    tray.on('click', function() {
-      win.isVisible() ? win.hide() : win.show()
-    })
-  } else {
-    tray.on('double-click', function() {
-      win.isVisible() ? win.hide() : win.show()
-    })
-  }
-
-  ipcMain.on('notification-triggered', function(e, msg) {
-    if (win.isMinimized() || (!win.isFocused() && win.isVisible()) || !win.isVisible()) {
-      THERE_IS_NEW_MESSAGE = true;
-      tray.setImage(IconFocused)
-      win.flashFrame(true)
-      win.setIcon(IconFocused)
-    }
-  })
-
-  ipcMain.on('update-theme', function(e, style) {
-    page.executeJavaScript(`var sheet = document.getElementById('onyx');
-    sheet.innerHTML = \`${style}\`;`, false, () => {
-      console.log("Theme has been updated via BrowserWindow.webContents.executeJavaScript!")
-    })
-  })
-
-  ipcMain.on('toggle-devtool', (e) => {
-    child.isDevToolsOpened() ? child.closeDevTools() : child.openDevTools({
-      mode: 'bottom'
-    })
-  })
-
-  page = win.webContents;
-
-  page.on('dom-ready', function() {
-    // insertCSS not working
-    // it fails on background styling
-    // page.insertCSS(fs.readFileSync(join(__dirname, 'assets', 'css', 'onyx.pure.css'), 'utf8'));
-    readFile(Style, "utf-8", (err, data) => {
-      if (err) {
-        throw err
-      } else {
-        page.executeJavaScript(`var sheet = document.createElement('style');
-        sheet.id="onyx"
-        sheet.innerHTML = \`${data}\`;
-        document.body.appendChild(sheet);`, false, () => {
-          console.log("CSS has been injected via BrowserWindow.webContents.executeJavaScript!")
-        })
-      }
-    })
-    readFile(Shortcut, "utf-8", (err, data) => {
-      if (err) {
-        throw err
-      } else {
-        page.executeJavaScript(data, false, () => {
-          console.log("Keyboard shortcuts have been injected via BrowserWindow.webContents.executeJavaScript!")
-          win.show()
-        })
-      }
-    })
-  })
-
-  page.on('new-window', function(e, url) {
-    e.preventDefault();
-    url_new = Url.convert(url)
-    if (url != url_new && (url_new.indexOf("spotify") > -1 ^ process.platform == "linux")) {
-      dialog.showMessageBox(win, {type: 'question', buttons: ['Yes', 'No'], message: 'Do you want to open it Spotify app?'}, (r) => {
-        if (!r) {
-          shell.openExternal(url_new);
+        if (!CONSTANTS.ELECTRON_IS_DEV && err) {
+            copy(resolve(__dirname, "..", "assets", "userdata"), CONSTANTS.DIR.USER_DATA)
+            .then(() => console.log("[LOG] userdata is copied."))
+            .then(() => {
+                check_new_version(callback_uptodate, callback_yes, callback_no)
+            })
+            .catch((err) => {
+                console.error("[ERROR] userdata could not be copied.\n" + err.message)
+                app.quit()
+            }) 
+        } else if (!CONSTANTS.ELECTRON_IS_DEV && USER_DATA_IS_UNSYNCED) {
+            copy(resolve(__dirname, "..", "assets", "userdata"), CONSTANTS.DIR.USER_DATA, {
+                filter: (src, dest) => src.indexOf("onyx.settings.json") == -1
+            })
+            .then(() => console.log("[LOG] userdata is synced."))
+            .then(() => {
+                check_new_version(callback_uptodate, callback_yes, callback_no)
+            })
+            .catch((err) => {
+                console.error("[ERROR] userdata could not be synced.\n" + err.message)
+                app.quit()
+            })            
         } else {
-          shell.openExternal(url);
+            check_new_version(callback_uptodate, callback_yes, callback_no)
         }
-      })
-    } else {
-      shell.openExternal(url);
-    }
-  })
-}
-
-app.on('ready', createWindow)
-
-app.on('window-all-closed', function() {
-  if (Platform !== 'darwin') {
-    app.quit()
-  }
+    })
 })
 
-app.on('activate', function() {
-  if (win === null) {
-    createWindow()
-  }
+app.on('window-all-closed', function () {
+    if (process.platform !== 'darwin') app.quit()
+})
+
+app.on('activate', function () {
+    if (win === null) win = create_main_window()
 })

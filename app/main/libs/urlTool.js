@@ -1,4 +1,4 @@
-class URL {
+class URLTool {
     constructor() {
         // Unfortunely, Spotify for Linux client has some bugs. Any URI redirected from web browser will spawn new Spotify window with home page.
         // Despite that, it can be achieved, except spawning new window, by executing command: 
@@ -28,4 +28,4 @@ class URL {
     }
 }
 
-module.exports = { URL }
+module.exports = { URLTool }
