@@ -15,10 +15,13 @@ Unofficial basic WhatsApp client with dark [Onyx](https://github.com/vednoc/onyx
    - Show
    - Toggle dev tools
    - Configure themes
+	 - Reload page
+	 - Clean cache
+	 - About
    - Quit
  - Double/single (Windows/Linux) clicking the tray icon toggles the main window
  - Close button hides the window
- - Flash frame when there is a notification (the main window shouldn't be hidden)
+ - Flash frame when there is a notification (the main window should be minimized or unhidden)
  - Notification support (except Windows)
  - <kbd>Control</kbd>+<kbd>F</kbd>: Search on contacts
  - <kbd>Control</kbd>+<kbd>←</kbd>: Focus contact area
@@ -30,6 +33,7 @@ Unofficial basic WhatsApp client with dark [Onyx](https://github.com/vednoc/onyx
 
 ### Notes
 > The window will not be shown in order to hide an uninjected page until the web site is loaded.
+
 
 ## Build
     git clone https://github.com/tncga/whats-up-darkness.git
