@@ -11,6 +11,7 @@
         const CONSTANTS = require("@constants")
         window.onload = () => {
             document.getElementById("logo").setAttribute("src", CONSTANTS.IMAGES.APP)
+            document.getElementById("version").innerHTML = CONSTANTS.APP_VERSION
         }
     </script>
 </head>
@@ -20,7 +21,7 @@
         <br>
         <br>
         <h3><b>What's Up Darkness?</b></h3>
-        <h4>2.0.4</h4>
+        <h4 id="version"></h4>
         <br>
         <h5>Copyright © 2018 tncga
         <br>
