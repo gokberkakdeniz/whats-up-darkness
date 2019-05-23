@@ -1,7 +1,5 @@
 
 # What's up darkness?
-<center><img src="https://i.ibb.co/Vghgb5J/icon-linux.png"></img>
-<br><h2>What's Up Darkness?</h2></center>
 
 ## Description
 An electron based dark themed WhatsApp Web client.
