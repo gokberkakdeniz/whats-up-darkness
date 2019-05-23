@@ -39,6 +39,7 @@ The precompiled 64bit binaries are available for Windows and Linux at [releases 
 ### From source
 #### With script (Linux only)
 `install.sh` automatically installs on /opt/whatsapp and creates desktop shortcut.
+
 	git clone https://github.com/tncga/whats-up-darkness.git
 	chmod +x ./install.sh
 	./install.sh
