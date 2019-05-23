@@ -115,7 +115,7 @@ function create_main_window(args) {
             args.dialog.showMessageBox(win, {
                 type: 'question',
                 buttons: ['Yes', 'No'],
-                message: 'Do you want to open it Spotify app?'
+                message: 'Do you want to open with Spotify app?'
             }, (r) => {
                 if (!r) {
                     args.shell.openExternal(url_new);

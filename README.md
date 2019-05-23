@@ -1,28 +1,28 @@
 
-# What's up darkness? [![Build Status](https://travis-ci.com/tncga/whats-up-darkness.svg?branch=master)](https://travis-ci.com/tncga/whats-up-darkness)
+# What's up darkness?
+<center><img src="https://i.ibb.co/Vghgb5J/icon-linux.png"></img>
+<br><h2>What's Up Darkness?</h2></center>
 
-Unofficial basic WhatsApp client with dark [Onyx](https://github.com/vednoc/onyx) theme
+## Description
+An electron based dark themed WhatsApp Web client.
 
-## Download
-[Windows and  Linux x64](https://github.com/tncga/whats-up-darkness/releases/latest)
-
-
+## Screenshot
 ![preview](https://image.ibb.co/nhjj49/app.jpg)
-
 
 ## Features
  - Tray Icon:
-   - Show
-   - Toggle dev tools
-   - Configure themes
-	 - Reload page
-	 - Clean cache
-	 - About
-   - Quit
+	- Show
+	- Toggle developer tools
+	- Configure themes
+	- Reload page
+	- Clear cache
+	- About
+	- Quit
  - Double/single (Windows/Linux) clicking the tray icon toggles the main window
  - Close button hides the window
  - Flash frame when there is a notification (the main window should be minimized or unhidden)
  - Notification support (except Windows)
+ - Open Spotify links in Spotify application (Windows only)
  - <kbd>Control</kbd>+<kbd>F</kbd>: Search on contacts
  - <kbd>Control</kbd>+<kbd>←</kbd>: Focus contact area
 	 - <kbd>↑</kbd> and <kbd>↓</kbd>: Select contact
@@ -34,13 +34,23 @@ Unofficial basic WhatsApp client with dark [Onyx](https://github.com/vednoc/onyx
 ### Notes
 > The window will not be shown in order to hide an uninjected page until the web site is loaded.
 
+## Installation
+### From binaries
+The precompiled 64bit binaries are available for Windows and Linux at [releases page](https://github.com/tncga/whats-up-darkness/releases/latest).
 
-## Build
-    git clone https://github.com/tncga/whats-up-darkness.git
-    cd whats-up-darkness
-    npm install
-    npm install electron-packager -g
-    npm run build:linux-x64
+### From source
+#### With script (Linux only)
+`install.sh` automatically installs on /opt/whatsapp and creates desktop shortcut.
+	git clone https://github.com/tncga/whats-up-darkness.git
+	chmod +x ./install.sh
+	./install.sh
+
+#### Manually
+	git clone https://github.com/tncga/whats-up-darkness.git
+	cd whats-up-darkness
+	npm install
+	npm install electron-packager -g
+	npm run build:linux-x64
 
 Build scripts:
 
@@ -48,7 +58,6 @@ Build scripts:
 	npm run build:linux-x64
 	npm run build:win-ia32
 	npm run build:win-x64
-
 
 ## Thanks
 [vednoc for Onyx](https://github.com/vednoc/onyx)

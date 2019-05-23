@@ -40,7 +40,7 @@ const create_tray_menu = (args) => {
 			}
 		},
 		{
-			label: 'Clean cache',
+			label: 'Clear cache',
 			click: function () {
 				args.win.webContents.session.clearStorageData()
 				args.win.reload()
