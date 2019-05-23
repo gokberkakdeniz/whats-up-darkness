@@ -1,4 +1,7 @@
 #!/usr/bin/sh
+set -e
+trap 'echo -e "\e[31mAn error occured. Exiting...\e[0m"' ERR
+
 
 FILE=~/.local/share/applications/whatsapp.desktop
 CONTENT="""[Desktop Entry]
