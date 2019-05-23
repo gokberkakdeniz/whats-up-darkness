@@ -6,3 +6,4 @@ test.js
 wupd.desktop
 .vscode/
 launch.json
+install.sh

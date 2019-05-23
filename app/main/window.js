@@ -4,14 +4,16 @@ const { readFile } = require('fs')
 const { URLTool } = require("./libs/urlTool")
 
 const PRELOAD_SCRIPT = join(__dirname, "assets", "js", "preload.js")
-const USER_AGENT = require("./libs/userAgentTool").get_user_agent()
 const CONSTANTS = require("@constants")
 
 let there_is_new_message = false
 
 function create_main_window(args) {
     args.CONSTANTS = CONSTANTS
-    const urltool = new URLTool();
+    const urltool = new URLTool()
+    // win.setMenu(null) not working
+    // https://github.com/electron/electron/issues/16521
+    args.Menu.setApplicationMenu(null)
 
     var win = new args.BrowserWindow({
         height: 600,
@@ -31,7 +33,7 @@ function create_main_window(args) {
     win.setMenu(null)
 
     win.loadURL("https://web.whatsapp.com/", {
-        userAgent: USER_AGENT
+        userAgent: CONSTANTS.USER_AGENT
     })
 
     var tray = create_tray_menu(args)
@@ -69,8 +71,10 @@ function create_main_window(args) {
     args.ipcMain.on('notification-triggered', function (e, msg) {
         if (win.isMinimized() || (!win.isFocused() && win.isVisible()) || !win.isVisible()) {
             there_is_new_message = true;
-            if (CONSTANTS.LINUX_DESKTOP_ENVIRONMENT != "gnome") tray.setImage(CONSTANTS.IMAGES.TRAY_ALERT)
-            win.flashFrame(true)
+            if (CONSTANTS.LINUX_DESKTOP_ENVIRONMENT.indexOf("gnome") == -1) {
+                tray.setImage(CONSTANTS.IMAGES.TRAY_ALERT)
+                win.flashFrame(true)
+            }
         }
     })
 

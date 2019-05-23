@@ -25,6 +25,7 @@ const CONSTANTS = new function() {
         APP: this.PLATFORM === "win32" ? resolve(resources, "assets", "img", "icon-win32.png") : resolve(resources, "assets", "img", "icon-linux.png"),
         STYLUS: resolve(resources, "assets", "img", "stylus.png")
     }
+    this.USER_AGENT = require("@app_main/libs/userAgentTool").get_user_agent()
 }
 
 module.exports = CONSTANTS

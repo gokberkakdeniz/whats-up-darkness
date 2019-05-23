@@ -1,15 +1,16 @@
 {
 	"name": "whats-up-darkness",
 	"productName": "WhatsApp",
-	"version": "2.0.5",
+	"version": "2.0.6",
 	"description": "An Electron based unofficial dark-themed WhatsApp client",
 	"main": "main.js",
 	"scripts": {
 		"start": "electron .",
+		"reinstall": "rm -rf node_modules/; rm  package-lock.json; npm install",
 		"build:linux-x64": "electron-packager ./ whats-up-darkness --overwrite -platform=linux --arch=x64 --asar --ignore=^/assets --extra-resource=assets/ --out=release-builds --executable-name=wupd; chmod +x ./release-builds/whats-up-darkness-linux-x64/wupd",
 		"build:linux-ia32": "electron-packager ./ whats-up-darkness --overwrite -platform=linux --arch=ia32 --asar --ignore=^/assets --extra-resource=assets/ --out=release-builds --executable-name=wupd; chmod +x ./release-builds/whats-up-darkness-linux-ia32/wupd",
 		"build:win-ia32": "electron-packager . whats-up-darkness --overwrite --platform=win32 --arch=ia32 --asar --ignore=^/assets --extra-resource=assets/ --icon=./assets/img/icon.ico --app-copyright=MIT --out=release-builds --win32metadata.CompanyName=tncga --win32metadata.ProductName=\"What's up darkness?\" --executable-name=wupd",
-		"build:win-x64": "electron-packager . whats-up-darkness --overwrite --platform=win32 --arch=x64 --asar --ignore=^/assets --extra-resource=assets/ --icon=./assets/img/icon.ico --app-copyright=MIT --out=release-builds --win32metadata.CompanyName=tncga --win32metadata.ProductName=\"What's up darkness?\" --executable-name=wupd"		
+		"build:win-x64": "electron-packager . whats-up-darkness --overwrite --platform=win32 --arch=x64 --asar --ignore=^/assets --extra-resource=assets/ --icon=./assets/img/icon.ico --app-copyright=MIT --out=release-builds --win32metadata.CompanyName=tncga --win32metadata.ProductName=\"What's up darkness?\" --executable-name=wupd"
 	},
 	"author": {
 		"name": "tncga",
@@ -32,7 +33,7 @@
 		"@app_settings": "app/settings"
 	},
 	"devDependencies": {
-		"electron": "^4.1.4"
+		"electron": "^4.2.2"
 	},
 	"constants": {
 		"userAgentFirefoxVersion": "66.0"
