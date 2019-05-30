@@ -8,6 +8,7 @@ cache:
    directories:
      - node_modules
 before_install:
+  - sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 6B05F25D762E3157
   - sudo dpkg --add-architecture i386
   - wget -nc https://dl.winehq.org/wine-builds/winehq.key
   - sudo apt-key add winehq.key
