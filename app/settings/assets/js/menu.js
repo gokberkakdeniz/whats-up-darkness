@@ -1,6 +1,6 @@
 require('module-alias/register')
 const { writeFile, readFileSync } = require('fs')
-const { join, basename } = require('path');
+const { basename } = require('path');
 const { ipcRenderer } = require('electron')
 const { get } = require('https')
 const { is_less } = require('@app_updater')
@@ -189,9 +189,9 @@ function update_theme(theme, callback_yes, callback_no) {
             r.on("data", c => css += c)
             r.on("end", () => {
               try {
-                writeFile(join(__dirname, "..", "css", "onyx.user.css"), css, "utf8", (err) => {
+                writeFile(CONSTANTS.USER_DATA.PURE_CSS, css, "utf8", (err) => {
                   if (err) throw err
-                  onyx = new usercss_theme(join(__dirname, "..", "css", "onyx.user.css"))
+                  onyx = new usercss_theme(CONSTANTS.USER_DATA.PURE_CSS)
                   callback_yes()
                 })
               } catch (e) {
