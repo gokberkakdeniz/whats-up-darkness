@@ -1,7 +1,8 @@
-const { resolve } = require("path")
 const electron = require('electron');
+const { inspect } = require('util');
+const { resolve } = require("path")
 
-const CONSTANTS = new function() {
+const CONSTANTS = new function () {
     this.APP_VERSION = require("./package.json").version
     this.ELECTRON_VERSION = process.versions.electron
     this.CHROMIUM_VERSION = process.versions.chrome
@@ -18,7 +19,7 @@ const CONSTANTS = new function() {
         THEME_SETTINGS: resolve(this.DIR.USER_DATA, "onyx.settings.json"),
         INFO: resolve(this.DIR.USER_DATA, "info.json")
     }
-    const resources = resolve(__dirname,  this.ELECTRON_IS_DEV ? "" : "..")
+    const resources = resolve(__dirname, this.ELECTRON_IS_DEV ? "" : "..")
     this.IMAGES = {
         TRAY_NORMAL: this.PLATFORM === "win32" ? resolve(resources, "assets", "img", "tray-normal-win32.png") : resolve(resources, "assets", "img", "tray-normal-linux.png"),
         TRAY_ALERT: this.PLATFORM === "win32" ? resolve(resources, "assets", "img", "tray-alert-win32.png") : resolve(resources, "assets", "img", "tray-alert-linux.png"),
@@ -26,6 +27,14 @@ const CONSTANTS = new function() {
         STYLUS: resolve(resources, "assets", "img", "stylus.png")
     }
     this.USER_AGENT = require("@app_main/libs/userAgentTool").get_user_agent()
+    this.UPDATER = {
+        URL: "https://api.github.com/repos/tncga/whats-up-darkness/releases",
+        USER_AGENT: "Whats-Up-Darkness"
+    }
+
+    let dump = inspect(this, { compact: false, depth: 5, breakLength: Infinity })
+    dump = dump.substring(2, dump.length - 2).replace(/\n/ug, "\n    ")
+    this.print = () => console.log(`[LOG] CONSTANTS:\n    ${dump}`)
 }
 
 module.exports = CONSTANTS

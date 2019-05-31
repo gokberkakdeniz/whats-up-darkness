@@ -1,12 +1,12 @@
 {
 	"name": "whats-up-darkness",
 	"productName": "WhatsApp",
-	"version": "2.0.7",
+	"version": "2.0.8",
 	"description": "An Electron based unofficial dark-themed WhatsApp client",
 	"main": "main.js",
 	"scripts": {
 		"start": "electron .",
-		"reinstall": "rm -rf node_modules/; rm  package-lock.json; npm install",
+		"reinstall": "npm install --force",
 		"bump:patch": "VERSION=$(npm version patch); VERSION=$(echo $VERSION | cut -c 2-); echo '{\"version\": \"'$VERSION'\"}' > assets/userdata/info.json;",
 		"bump:minor": "VERSION=$(npm version minor); VERSION=$(echo $VERSION | cut -c 2-); echo '{\"version\": \"'$VERSION'\"}' > assets/userdata/info.json;",
 		"bump:major": "VERSION=$(npm version major); VERSION=$(echo $VERSION | cut -c 2-); echo '{\"version\": \"'$VERSION'\"}' > assets/userdata/info.json;",
@@ -36,7 +36,7 @@
 		"@app_settings": "app/settings"
 	},
 	"devDependencies": {
-		"electron": "^4.2.2"
+		"electron": "^4.2.3"
 	},
 	"constants": {
 		"userAgentFirefoxVersion": "66.0"

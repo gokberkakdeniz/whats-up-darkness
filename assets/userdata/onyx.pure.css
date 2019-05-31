@@ -12,8 +12,8 @@
     --mblue: #527AA3;
     --image: url(https://media.discordapp.net/attachments/310799529161129984/417408747812552715/zilesanamin.jpg);
     --emojiOpacity: 0.75;
-    --version: "WhatsApp by Mew v1.4.1";
-    --message: "Updated on 30th of May. Second hotfix is here, more soon! ";
+    --version: "WhatsApp by Mew v1.4.2";
+    --message: "Updated on 31st of May. All custom features except compact mode (works but not polished!) work again; more soon! ";
     --changes: "See the changelog at: https://github.com/vednoc/onyx/releases";
   }
 
@@ -146,8 +146,12 @@
     /* Low battery. */
     #side ._2t3oV {
       background-color: var(--mred) !important; }
+    /* Phone not connected. */
+    #side ._1puWZ {
+      background-color: var(--mred) !important; }
       /* Text color. */
-      #side ._2GB6m * {
+      #side ._2GB6m *,
+      #side ._1puWZ * {
         color: var(--lighter); }
 
     /* Global -> Search. */
@@ -200,7 +204,7 @@
           color: var(--light); }
         /* Borders. */
         ._2UaNq::after, ._2WP9Q {
-          border-color: var(--darker) !important; }
+          border-color: transparent !important; }
         /* Avatar wrapper background. */
         ._3RWII {
           box-shadow: 0 0 8px -1px var(--shadow) !important;
@@ -303,7 +307,7 @@
     background-color: var(--dark); }
 
     /* Doodle background. TODO: Plans for the future. */
-    .app .fzCXy {
+    #app [data-asset-chat-background="true"] {
     filter: invert(100%) opacity(0.45) !important; }
 
     /* Main -> Group description. */
@@ -479,14 +483,14 @@
 
 
   /* Message info. */
-  ._3FAwT {
+  #app .app > div:nth-child(2) ._2rGVQ {
     background-color: var(--dark) !important; }
     /* Doodle image. */
-    ._3FAwT .pane-chat-tile {
-      filter: invert(100%) opacity(0.8); }
+    #app .app > div:nth-child(2) [data-asset-chat-background="true"] {
+      filter: invert(100%) opacity(0.8) !important; }
     /* Read by. */
-    ._3HZor ._2sNbV ._2HDl5 ._2wP_Y > div {
-      background-color: var(--dark) !important; }
+    #app .app > div:nth-child(2) ._2AJf5 {
+      background-color: transparent !important; }
 
 
   /* Media/docs/links section. */
@@ -596,6 +600,9 @@
     ._3EQsG {
       /*transition: 200ms ease-in-out;/**/
       background: linear-gradient(to right, transparent 0%, var(--darker) 40%) !important; }
+      /* Message options for images. */
+      ._3EQsG._1eJVc {
+        background: none !important; }
       /* Smooth transition. */
       .message span:last-child div {
         transition: 50ms ease-in-out !important; }
@@ -716,7 +723,7 @@
       border-radius: 0 5px 0 0; }
 
     /* Disable tails everywhere. */
-    /* Enabled. */
+    
 
     /* Disable tails everywhere except in chat. */
     .starred-msg-wrapper .tail-container,
@@ -754,6 +761,9 @@
     /* Temporary fix for emoji container. */
     #main footer > div:nth-child(2) > div {
       border: 0; }
+    /* Nib. */
+    .iqJMX {
+      background-color: var(--dark) !important; }
     /* Emoji tabs. */
     ._2avTY {
       background: var(--darker) !important; }
@@ -842,9 +852,8 @@
       ._3gUiM ._1CnF3 * {
         color: var(--light); }
       /* Header/footer. */
-      ._2dA13 header,
-      ._2dA13 .iHLo1 {
-        background-color: var(--darker) !important; }
+      .XOIaT {
+        background-color: var(--dark) !important; }
       /* Empty element below search bar. */
       ._2fq0t span._3fOoY {
         display: none !important; }
@@ -873,7 +882,7 @@
   .drag-drop, ._2n-96 {
     background-color: var(--dark) !important; }
     /* Footer. */
-    ._3nuGo {
+    .NeQRT {
       background-color: var(--darker) !important; }
     /* Border. */
     ._2n-96 ._3L-be {
@@ -881,10 +890,10 @@
       color: var(--light) !important; }
 
     /* Add file icon. */
-    .GpvML, ._1ypOz {
+    .GpvML, ._1ypOz, ._3fktq {
       background-color: var(--dark) !important; }
       /* Border. */
-      ._2gZno::after {
+      ._1gcLL::after {
         background-color: var(--accent) !important; }
 
     /* Accent border. */
@@ -1074,25 +1083,35 @@
 
   /* "Privacy mode." */
   /* Disabled. */
-  /* Disabled. */
+  
 
   /* Compact mode. */
   @media screen and (max-height: 500px) {
-    ._3dqpi {
-      min-height: auto; }
+    /* App height reset. */
+    #app > div > .app { min-height: auto; }
   }
   @media screen and (max-width:720px) {
-    /* .app > div { box-shadow: inset 0 0 0 4px var(--accent); } */
+    /*.app > div { box-shadow: 0 0 0 2px inset crimson !important; } /**/
 
-    /* Header fix. */
-    ._3auIg {
-      min-width: 220px; }
+    /* Fix header width hiding icons. */
+    #side > header { min-width: 240px; }
+    /* Hide notifications. */
+    #side > header + span { display: none }
 
-    /* Contacts flexbox. */
-    .app.two > .k1feT,
-    .three .k1feT {
-      transition: 250ms ease-in-out;
-      flex: 0 0 075px !important; }
+    /* Contacts */
+    .app > div:nth-child(3) {
+      transition: 0;
+      flex: 0 0 75px !important; }
+    .app > div:nth-child(3):hover {
+      transition-delay: 0.99s;
+      flex: 0 0 40% !important; }
+    /* Search bar width. */
+    .ZP8RM:not(._19OGD) label {
+      padding: 0px; }
+    /* Contact list reset when right is active. */
+    .app.three > div:nth-child(3) {
+      flex: 0 0 75px !important;
+      margin-left: -75px !important; }
 
     /* Chat section. */
     ._1Iexl {

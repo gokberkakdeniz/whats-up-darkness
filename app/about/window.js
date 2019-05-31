@@ -1,7 +1,7 @@
 const { join } = require("path")
 
 const create_about_window = (args) => {
-    var win = new args.BrowserWindow({
+    const win = new args.BrowserWindow({
         parent: args.win,
         width: 450,
         height: 325,
@@ -17,8 +17,8 @@ const create_about_window = (args) => {
     })
     win.setMenu(null)
     win.loadFile(join(__dirname, 'assets', 'html', 'about.html'))
-    win.webContents.on('will-navigate', function (e, url) {
-        e.preventDefault();
+    win.webContents.on('will-navigate', function (event, url) {
+        event.preventDefault();
         args.shell.openExternal(url);
     })
     return win;
