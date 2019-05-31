@@ -7,7 +7,10 @@ const PRELOAD_SCRIPT = join(__dirname, "assets", "js", "preload.js")
 
 const create_main_window = (args) => {
     let there_is_new_message = false
-        
+    
+    // ELECTRON BUG: win.setMenu(null) not working on linux (https://github.com/electron/electron/issues/16521)
+    if (args.CONSTANTS.PLATFORM === "linux") args.Menu.setApplicationMenu(null)
+    
     let win = new args.BrowserWindow({
         height: 600,
         width: 800,
@@ -23,7 +26,7 @@ const create_main_window = (args) => {
 
     const page = win.webContents;
     args.win = win
-    win.setMenu(null)
+    if (args.CONSTANTS.PLATFORM != "linux") win.setMenu(null)
 
     win.loadURL("https://web.whatsapp.com/", {
         userAgent: args.CONSTANTS.USER_AGENT
