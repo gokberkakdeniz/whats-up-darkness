@@ -12,8 +12,8 @@
     --mblue: #527AA3;
     --image: url(https://media.discordapp.net/attachments/310799529161129984/417408747812552715/zilesanamin.jpg);
     --emojiOpacity: 0.75;
-    --version: "WhatsApp by Mew v1.4.0";
-    --message: "Updated on 29th of May. Just core functionality for now, more hotfixes coming soon! ";
+    --version: "WhatsApp by Mew v1.4.1";
+    --message: "Updated on 30th of May. Second hotfix is here, more soon! ";
     --changes: "See the changelog at: https://github.com/vednoc/onyx/releases";
   }
 
@@ -140,36 +140,42 @@
     #side > header {
       background-color: var(--darker) !important; }
 
-    /* Notifications && more!! */
+    /* Enable notifications. */
     #side ._2GB6m {
       background-color: var(--accent) !important; }
+    /* Low battery. */
+    #side ._2t3oV {
+      background-color: var(--mred) !important; }
       /* Text color. */
       #side ._2GB6m * {
         color: var(--lighter); }
 
-    /* Search or start new chat. */
-    #side ._2HS9r {
+    /* Global -> Search. */
+    ._2HS9r {
       border-bottom: 0px solid var(--dark);
       background-color: var(--darker) !important;
       background-color: transparent !important; }
-    /* Label background. */
-    #side ._2HS9r label,
-    #side ._2HS9r .ZP8RM._19OGD {
-      border: 0px solid var(--dark);
-      background-color: var(--dark) !important; }
+      /* Label background. */
+      .ZP8RM label, .ZP8RM._19OGD {
+        border: 0px solid var(--dark);
+        background-color: var(--dark) !important; }
       /* Input element. */
-      #side ._2HS9r label input {
+      .ZP8RM label input {
         color: var(--light);
         background-color: transparent; }
-      #side ._2HS9r > div::after {
-        border-color: var(--darker);
-        background-color: var(--dark); }
+      .ZP8RM::after,
+      .ZP8RM > div::after {
+        border-color: var(--darker) !important;
+        background-color: var(--dark) !important; }
 
   /* New group and group info buttons. */
-  ._2EXPL .dIyEr ._1jJLh,
-  ._2EXPL .dIyEr ._1WliW {
-    box-shadow: 0 0 8px -1px var(--shadow) !important;
-    background-color: var(--dark) !important; }
+  ._11p3Q, .r7sRK, ._8-yzK {
+    /* box-shadow: 0 0 8px -1px var(--shadow) !important; */
+    color: var(--accent) !important;
+    background-color: transparent !important; }
+    /* Hide borders. */
+    ._2DxRd {
+      border-color: var(--darker) !important; }
 
   /* Search results. */
   #side ._1AKfk {
@@ -183,18 +189,17 @@
     #pane-side, ._11GZy ._2UaNq {
       background-color: transparent !important; }
       /* Contacts. */
-      #pane-side ._2UaNq, ._11GZy ._26JG5 {
+      ._2UaNq, ._11GZy ._26JG5 {
         transition: 200ms ease-in-out;
         background-color: transparent !important; }
         /* On event. */
-        #pane-side ._2UaNq._3mMX1,
-        #pane-side ._2UaNq:hover {
+        ._2UaNq._3mMX1, ._2UaNq:hover {
           background-color: var(--dark) !important; }
         /* Text color. */
-        #pane-side ._2UaNq * {
+        ._2UaNq * {
           color: var(--light); }
         /* Borders. */
-        #pane-side ._2UaNq::after, #pane-side ._2WP9Q {
+        ._2UaNq::after, ._2WP9Q {
           border-color: var(--darker) !important; }
         /* Avatar wrapper background. */
         ._3RWII {
@@ -301,6 +306,13 @@
     .app .fzCXy {
     filter: invert(100%) opacity(0.45) !important; }
 
+    /* Main -> Group description. */
+    ._3jzsh {
+      background-color: var(--darker) !important; }
+    /* Text colors. */
+    ._3jzsh ._3GIEC, ._3jzsh ._6xQdq {
+      color: var(--lighter) !important; }
+
     /* Jump to present button. */
     ._3KRbU {
       box-shadow: 0 4px 8px 2px var(--shadow) !important;
@@ -380,9 +392,15 @@
     /* Header. */
     .app ._3HZor header {
       background-color: var(--darker); }
+      /* Fix header text vertical position. */
+      .app ._3HZor ._1pYs5 {
+        margin-top: 4px !important; }
       /* Text color. */
       .app ._3HZor header div {
         color: var(--light); }
+      /* Mute/starred messages. */
+      ._3_-Si + ._3_-Si ._2x2XP {
+        border-color: var(--dark) !important; }
 
     /* Group info sections. */
     .app ._3HZor ._26JG5, .app ._3HZor ._2UaNq {
@@ -394,6 +412,9 @@
       /* User's name. */
       .app ._3HZor span {
         color: var(--light); }
+      /** Username colors in group chat. */
+      .app [class*="color-"] span {
+        color: inherit !important; }
 
       /* Group options. */
       .app ._3HZor ._1CRb5 ._2EXPL,
@@ -408,8 +429,8 @@
         .app ._3HZor ._1CRb5 ._2EXPL * {
           color: var(--light); }
         /* Admin color. */
-        .app ._3HZor ._1CRb5 ._2e8Mu {
-          border: 2px solid var(--accent); }
+        .app ._3HZor .FPZFa {
+          border-color: var(--accent); }
 
 
   /* Search messages. TODO: Apply this to all search elements. */
@@ -441,14 +462,20 @@
     background-color: transparent !important; }
 
   /* Starred messages. */
-  ._3HZor .ZwkQK, .ZwkQK {
+  ._1WMT2 .tail:not(.PJFFv) {
     background-color: var(--dark) !important; }
-    /* On event. */
-    .starred-msg-wrapper, .MS-DH {
-      transition: 200ms ease-in-out !important; }
-    /* On event. */
-    .MS-DH._2-mCk, .MS-DH._1baOM, .MS-DH.ZuHmv {
-      background-color: var(--dark) !important; }
+  /* Borders. */
+  ._1WMT2::before, ._1WMT2::after {
+    display: none !important; }
+    ._1WMT2:hover {
+      transition: 200ms ease-in-out !important;
+      background-color: var(--darker) !important; }
+    /* Remove tails. */
+    ._1WMT2 .tail-container {
+      display: none !important; }
+    /* Date text color. */
+    ._1WMT2 ._2V2qB {
+      color: var(--lighter) !important; }
 
 
   /* Message info. */
@@ -480,40 +507,43 @@
     color: var(--lighter); }
 
   /** Media viewer. */
-  #app ._1zcz2, ._3_R6X {
+  ._1iNsf, ._2KgjI {
     background-color: transparent !important; }
     /* Pseudo-element background. */
-    #app ._1zcz2::before, ._3_R6X::before {
+    ._1iNsf::before, ._2KgjI::before {
       content: ""; position: absolute;
       top: 0; right: 0; bottom: 0; left: 0;
       background-color: var(--dark);
       opacity: 0.8; z-index: -1; }
     /* Chevron/preloader background. */
-    ._2-IeP, ._3dGYA {
+    ._3yth3 {
+      box-shadow: 0 2px 4px -1px var(--shadow) !important;
       background-color: var(--darker) !important; }
 
     /* Header. */
-    #app ._1zcz2 ._2YdsD, ._3_R6X ._1XwnX {
+    ._1iNsf > div:first-child,
+    ._2KgjI > div:first-child {
+      box-shadow: 0 1px 0 0 var(--darker);
       background-color: var(--dark) !important; }
       /* Inner element. */
-      #app ._1zcz2 ._2EXPL {
+      ._1iNsf > div:first-child > div > div,
+      ._2KgjI > div:first-child > div > div {
         background-color: transparent !important; }
         /* Text color. */
-        #app ._1zcz2 ._2EXPL ._3j7s9 *,
-        ._3_R6X ._12oAB,
-        ._1XwnX * {
+        ._1iNsf > div:first-child > div > div *,
+        ._2KgjI > div:first-child > div > div * {
           color: var(--light); }
 
     /* Footer. */
-    ._3Qh77 {
-      border: none !important;
-      background-color: var(--darker) !important; }
+    ._2AP3i {
+      border-color: var(--darker) !important;
+      background-color: var(--dark) !important; }
       /* Selected image. */
-      ._3Qh77 ._1xQmx {
+      ._2AP3i .cJP5q {
+        border: none !important;
         transform: scale(1) !important;
-        border: 3px solid var(--accent) !important }
-        html[dir=ltr] .UPNDG:hover:not(._1xQmx) {
-          border: 0px solid var(--accent);
+        outline: 3px solid var(--accent) !important }
+        ._2AP3i ._1LdNS:hover:not(.cJP5q):not(#spec) {
           outline: 3px solid var(--accent) !important; }
 
 
@@ -540,7 +570,7 @@
       color: var(--lighter) !important; }
 
     /* Phone numbers of users that aren't your contacts. */
-    ._3Ye_R._1wjpf._1OmDL {
+    #main ._1F9Ap {
       color: var(--lighter) !important; }
 
     /* Mentions. */
@@ -599,89 +629,74 @@
       background-color: var(--darker) !important; }
 
     /* Document embeds. */
-    ._1vKRe {
-      border-color: var(--darker) !important; }
-    /* Embed background. */
-    ._12xX7 {
+    ._3RQfg ._3a29n {
       background-color: var(--dark) !important; }
-    /* Embed text color. */
-    ._12xX7 * {
-      color: var(--light); }
-
     /* Link embeds. */
-    ._1sGGp._2nFG1, ._2lwig._2nFG1 {
+    ._3qblR, ._1SsXF {
+      box-shadow: 0 0 0 1px var(--dark) !important;
       background-color: var(--dark) !important; }
-      /* Text color. */
-      ._1sGGp._2nFG1 *, ._2lwig._2nFG1 * {
-        color: var(--light); }
-      /* Link options. */
-      ._2DNgV._2Cju4, .jZ4tp._2Cju4 {
-        background: none !important; }
+      /* Thumbnail. */
+      ._3_nIn {
+        background-color: var(--darker) !important; }
 
 
   /* Reply section. (= */
-  footer .rstyJ {
+  footer ._1ebw2 {
     box-shadow: 0 0px 8px 0 var(--darker) !important;
     background-color: var(--darker) !important; }
   /* Fix margins. */
-  footer .rstyJ > div:first-child {
+  footer ._1ebw2 > div:first-child {
     margin: 0 0 5px 10px !important;
     background-color: transparent !important; }
   /* Reply content. */
-  footer .rstyJ > div:first-child > div {
+  footer ._1ebw2 > div:first-child > div {
     background-color: var(--dark) !important; }
   /* Close button. */
-  footer .rstyJ > div:last-child {
+  footer ._1ebw2 > div:last-child {
     position: relative;
     margin: 0 8px 5px 8px !important;
     background-color: transparent !important; }
   /* Make the button larger. */
-  footer .rstyJ > div:last-child > div svg {
+  footer ._1ebw2 > div:last-child > div svg {
     padding: 18px;
     border-radius: 6px;
     background-color: var(--dark); }
 
   /* Mention group members. */
-  .Uukb4 {
+  ._2j-wI, .XSeqj {
     color: var(--light);
     border-left: none !important;
-    background-color: var(--dark) !important; }
+    background-color: var(--darker) !important; }
   /* Wrapper. */
-  .Uukb4 ._3v_lq {
+  ._2j-wI .XSeqj {
     transition: 300ms ease-in-out !important;
     background-color: transparent !important; }
   /* Active. */
-  .Uukb4 .j5Hcb._3v_lq,
-  .Uukb4 ._3v_lq:hover {
-    background-color: var(--darker) !important; }
+  ._2j-wI .XSeqj._1Yz8K,
+  ._2j-wI .XSeqj:hover {
+    background-color: var(--accent) !important; }
 
 
   /* Select messages. */
-  #main ._3D9Wd {
+  #main ._2AqZl {
     background-color: var(--shadow); }
     /* Hover over messages. */
-    #main ._1o1sm {
-      transition: 100ms ease-in-out !important; }
+    #main .qTFAl {
+      transition: 0.15s ease !important; }
       /* Selected message. */
-      #main ._1o1sm:hover, #main ._1o1sm._2nOMz {
+      #main .qTFAl:hover, #main .qTFAl._3Z2tD {
         background-color: var(--shadow) !important; }
-
     /* Selected icon. */
-    #main ._1VD7W {
+    #main ._15wNI {
       border-color: var(--accent) !important;
-      background-color: var(--accente) !important; }
+      background-color: var(--accent) !important; }
       /* Checkmark. */
-      #main ._1VD7W ._1KfC8 {
-        border-bottom-color: var(--accent);
-        border-right-color: var(--accent); }
-
+      #main ._15wNI ._1ygtt {
+        border-bottom-color: var(--light);
+        border-right-color: var(--light); }
     /* Footer/control/options. */
-    #main ._2FsQ8, #main ._3PWNn, #main ._3XpR2 {
+    #main ._1hhkM {
       background-color: var(--darker); }
-      /* Text color. */
-      #main ._2FsQ8 span, #main ._3XpR2 {
-        color: var(--light); }
-
 
 
   /* Bubble tails -- experimental. */
@@ -835,10 +850,17 @@
         display: none !important; }
 
 
-  /* Buttons. */
-  .PNlAR, ._3hV1n, ._2Gki6, ._13iu_ {
+  /* Accent buttons. */
+  ._3PQ7V {
     color: var(--lighter) !important;
     background-color: var(--accent) !important; }
+  ._3PQ7V:hover {
+    opacity: 0.8; }
+  /* Link buttons. */
+  ._23_1v:hover {
+    box-shadow: none !important;
+    color: var(--accent) !important;
+    background-color: transparent !important; }
   /* Muted checkbox color. */
   ._1VD7W {
     border-color: var(--accent);
