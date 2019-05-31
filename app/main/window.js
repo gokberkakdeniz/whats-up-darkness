@@ -7,10 +7,7 @@ const PRELOAD_SCRIPT = join(__dirname, "assets", "js", "preload.js")
 
 const create_main_window = (args) => {
     let there_is_new_message = false
-    
-    // ELECTRON BUG: win.setMenu(null) not working (https://github.com/electron/electron/issues/16521)
-    args.Menu.setApplicationMenu(null)
-
+        
     let win = new args.BrowserWindow({
         height: 600,
         width: 800,
