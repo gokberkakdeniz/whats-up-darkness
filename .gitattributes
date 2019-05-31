@@ -1,3 +1,7 @@
 * text=auto
 *.css text eol=lf
 assets/userdata/onyx.pure.css linguist-vendored
+assets/userdata/onyx.user.css linguist-vendored
+app/settings/assets/css/jsColor.css linguist-vendored
+app/settings/assets/js/* linguist-vendored
+app/settings/assets/js/menu.js linguist-vendored=false
