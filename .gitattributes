@@ -1,2 +1,6 @@
 * text=auto
 *.css text eol=lf
+assets/userdata/*.css linguist-vendored
+app/settings/assets/css/jsColor.css linguist-vendored
+app/settings/assets/js/* linguist-vendored
+app/settings/assets/js/menu.js linguist-vendored=false
