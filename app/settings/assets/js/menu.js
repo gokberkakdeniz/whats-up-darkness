@@ -189,9 +189,9 @@ function update_theme(theme, callback_yes, callback_no) {
             r.on("data", c => css += c)
             r.on("end", () => {
               try {
-                writeFile(CONSTANTS.USER_DATA.PURE_CSS, css, "utf8", (err) => {
+                writeFile(CONSTANTS.USER_DATA.USER_CSS, css, "utf8", (err) => {
                   if (err) throw err
-                  onyx = new usercss_theme(CONSTANTS.USER_DATA.PURE_CSS)
+                  onyx = new usercss_theme(CONSTANTS.USER_DATA.USER_CSS)
                   callback_yes()
                 })
               } catch (e) {
