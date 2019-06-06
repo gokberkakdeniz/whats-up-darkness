@@ -5,7 +5,7 @@
 @homepageURL  https://github.com/vednoc/onyx
 @supportURL   https://github.com/vednoc/onyx/issues
 @updateURL    https://rawgit.com/vednoc/onyx/master/WhatsApp.user.css
-@version      1.4.2
+@version      1.4.3
 @author       vednoc
 @license      MIT
 @preprocessor uso
@@ -23,6 +23,7 @@
 @var text emojiOpacity "Emoji opacity" 0.75
 @var text customImage "Custom image" url(replace-with-image-address)
 @var text customRules "Custom CSS rules" #test::after { content: "paste all your custom css here!" !important; }
+@var text customFonts "Custom fonts" "'custom-font', 'Segoe UI', 'Helvetica Neue', 'Helvetica', 'Lucida Grande', 'Arial', 'Ubuntu', 'Cantarell', 'Fira Sans',"
 @var text customCompact "Compact mode breakpoint" 720px
 
 @advanced dropdown background "App background" {
@@ -256,13 +257,14 @@
     --mblue: /*[[mblue]]*/;
     --image: url(https://media.discordapp.net/attachments/310799529161129984/417408747812552715/zilesanamin.jpg);
     --emojiOpacity: /*[[emojiOpacity]]*/;
-    --version: "WhatsApp by Mew v1.4.2";
-    --message: "Updated on 31st of May. All custom features except compact mode (works but not polished!) work again; more soon! ";
+    --version: "WhatsApp by Mew v1.4.3";
+    --message: "Updated on 3rd of June. Report bugs on GitHub! ";
     --changes: "See the changelog at: https://github.com/vednoc/onyx/releases";
   }
 
   /* Body reset. */
   body {
+    font-family: /*[[customFonts]]*/ sans-serif;
     background: none;
     background-color: var(--dark); }
 
@@ -489,15 +491,27 @@
       /* Text color. */
       ._11GZy * {
         color: var(--light); }
-      /*// Zoom in/out. */
-      ._2LALH {
-        background-color: var(--dark) !important; }
+    /* Input element. */
+    ._5UNoc ._3hnO5 { border-color: var(--accent) !important; }
+    /* Wrapper background. */
+    ._3979j { background-color: transparent !important }
+    /* Take a new profile picture. */
+    ._2HyTU, ._22aOT {
+      background-color: var(--darker) !important; }
+    /* Confirm button. */
+    ._2HyTU ._1g8sv, ._22aOT ._1g8sv {
+      box-shadow: 0 2px 4px 0 var(--shadow) !important;
+      background-color: var(--accent) !important; }
+    /* Zoom in/out. */
+    ._1DKwn {
+      box-shadow: 0 2px 4px 0 var(--shadow) !important;
+      background-color: var(--dark) !important; }
 
-    /*// Option/select elements. */
-    .uyEaY select {
-      border-color: var(--accent); }
-      .uyEaY select option {
-        background-color: var(--dark); }
+  /* Option/select elements. */
+  select {
+    color: var(--light);
+    border-color: var(--accent); }
+  select option { background-color: var(--dark); }
 
     /* Archived chat image. */
     ._2fq0t ._2Lev2 {
@@ -511,14 +525,6 @@
       .k1feT ._2sNbV > ._1CkkN:hover,
       ._2fq0t ._2sNbV ._1CkkN:hover {
         background-color: var(--dark); }
-
-    /* New chat section. */
-    ._2fq0t .gQzdc label {
-      border: none;
-      background-color: var(--dark); }
-    /* Input element. */
-    ._2fq0t .gQzdc label input {
-        background-color: transparent; }
 
     /* New group. */
     ._2fq0t ._39pS- {
@@ -613,13 +619,13 @@
     background-color: var(--darker) !important; }
 
     /* Shared contact button colors. */
-    .b332w {
+    .Ir_Ne {
       color: var(--accent) !important; }
     /* Shared contact text. */
     .AVd_p {
       color: var(--lighter) !important; }
     /* View contact. */
-    ._36ApL {
+    ._1VwzF {
       background-color: transparent !important; }
 
   /* Hide 'Type a message' once focused. */
@@ -656,6 +662,10 @@
       background-color: transparent; }
       .app ._3HZor ._26JG5:hover {
         background-color: var(--dark) !important; }
+      /* Fix borders. */
+      .app ._3HZor ._27Ie2,
+      .app ._3HZor ._26JG5::before {
+        border-color: transparent !important; }
       /* User's name. */
       .app ._3HZor span {
         color: var(--light); }
@@ -881,13 +891,19 @@
     /* Document embeds. */
     ._3RQfg ._3a29n {
       background-color: var(--dark) !important; }
+
+    /* Embeds description */
+    .HNuTV {
+      background-color: var(--dark) !important; }
+
     /* Link embeds. */
     ._3qblR, ._1SsXF {
       box-shadow: 0 0 0 1px var(--dark) !important;
       background-color: var(--dark) !important; }
-      /* Thumbnail. */
-      ._3_nIn {
-        background-color: var(--darker) !important; }
+
+    /* Thumbnail. */
+    ._3_nIn {
+      background-color: var(--darker) !important; }
 
 
   /* Reply section. (= */
