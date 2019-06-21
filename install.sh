@@ -3,7 +3,7 @@ set -e
 trap 'echo -e "\e[31mAn error occured. Exiting...\e[0m"' ERR
 
 
-FILE=~/.local/share/applications/whatsapp.desktop
+FILE="/home/$(logname)/.local/share/applications/whatsapp.desktop"
 CONTENT="""[Desktop Entry]
 Type=Application
 Encoding=UTF-8
