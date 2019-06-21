@@ -22,7 +22,6 @@ An electron based dark themed WhatsApp Web client.
  - Notification support (except Windows)
  - Open Spotify links in Spotify application (Windows only)
  - <kbd>Control</kbd>+<kbd>F</kbd>: Search on contacts
- - <kbd>Control</kbd>+<kbd>←</kbd>: Focus contact area
 	 - <kbd>↑</kbd> and <kbd>↓</kbd>: Select contact
  - <kbd>Control</kbd>+<kbd>→</kbd>: Focus chat area
  - <kbd>Control</kbd>+<kbd>Shift</kbd>+<kbd>K</kbd>: Toggle developer tool
