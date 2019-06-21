@@ -4,6 +4,7 @@ const electron = require("electron").remote
 // Original code from https://stackoverflow.com/a/12444641/8521693
 const map = {}
 window.onkeydown = window.onkeyup = function (event) {
+    console.log(map)
     map[event.keyCode] = event.type == 'keydown'
 
     /*
@@ -11,16 +12,7 @@ window.onkeydown = window.onkeyup = function (event) {
      * Focus "search or start new chat" input
      */
     if (map[17] && map[70]) {
-        document.querySelector("._2MSJr").focus()
-    }
-
-    /*
-     * CTRL+Left Arrow
-     * Focus contact list
-     * Use up and down arrow keys to select contact
-     */
-    if (map[17] && map[37]) {
-        document.querySelector('#pane-side > div').focus()
+        document.querySelector("._2zCfw").focus()
     }
 
     /*
@@ -28,7 +20,7 @@ window.onkeydown = window.onkeyup = function (event) {
      * Focus chat
      */
     if (map[17] && map[39]) {
-        document.querySelector("._2S1VP.copyable-text.selectable-text").focus()
+        document.querySelector("._3u328.copyable-text.selectable-text").focus()
     }
 
     /*
