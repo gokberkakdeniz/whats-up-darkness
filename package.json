@@ -7,9 +7,9 @@
 	"scripts": {
 		"start": "electron .",
 		"reinstall": "npm install --force",
-		"bump:patch": "VERSION=$(npm version patch); VERSION=$(echo $VERSION | cut -c 2-); echo '{\"version\": \"'$VERSION'\"}' > assets/userdata/info.json;",
-		"bump:minor": "VERSION=$(npm version minor); VERSION=$(echo $VERSION | cut -c 2-); echo '{\"version\": \"'$VERSION'\"}' > assets/userdata/info.json;",
-		"bump:major": "VERSION=$(npm version major); VERSION=$(echo $VERSION | cut -c 2-); echo '{\"version\": \"'$VERSION'\"}' > assets/userdata/info.json;",
+		"bump:patch": "pkg-ifscript",
+		"bump:minor": "pkg-ifscript",
+		"bump:major": "pkg-ifscript",
 		"build:linux-x64": "electron-packager ./ whats-up-darkness --overwrite -platform=linux --arch=x64 --asar --ignore=\"^/assets|/install.sh\" --extra-resource=assets/ --out=release-builds --executable-name=wupd; chmod +x ./release-builds/whats-up-darkness-linux-x64/wupd",
 		"build:linux-ia32": "electron-packager ./ whats-up-darkness --overwrite -platform=linux --arch=ia32 --asar --ignore=\"^/assets|/install.sh\" --extra-resource=assets/ --out=release-builds --executable-name=wupd; chmod +x ./release-builds/whats-up-darkness-linux-ia32/wupd",
 		"build:win-ia32": "electron-packager . whats-up-darkness --overwrite --platform=win32 --arch=ia32 --asar --ignore=\"^/assets|/install.sh\" --extra-resource=assets/ --icon=./assets/img/icon.ico --app-copyright=MIT --out=release-builds --win32metadata.CompanyName=tncga --win32metadata.ProductName=\"What's up darkness?\" --executable-name=wupd",
@@ -36,9 +36,25 @@
 		"@app_settings": "app/settings"
 	},
 	"devDependencies": {
-		"electron": "^4.2.3"
+		"electron": "^4.2.3",
+		"electron-packager": "^14.0.0",
+		"pkg-ifscript": "^1.0.1"
 	},
 	"constants": {
 		"userAgentFirefoxVersion": "66.0"
+	},
+	"pkg-ifscript": {
+		"bump:patch": {
+			"platform": "posixlike",
+			"script": "VERSION=$(npm version patch); VERSION=$(echo $VERSION | cut -c 2-); echo '{\"version\": \"'$VERSION'\"}' > assets/userdata/info.json;"
+		},
+		"bump:minor": {
+			"platform": "posixlike",
+			"script": "VERSION=$(npm version minor); VERSION=$(echo $VERSION | cut -c 2-); echo '{\"version\": \"'$VERSION'\"}' > assets/userdata/info.json;"
+		},
+		"bump:major": {
+			"platform": "posixlike",
+			"script": "VERSION=$(npm version major); VERSION=$(echo $VERSION | cut -c 2-); echo '{\"version\": \"'$VERSION'\"}' > assets/userdata/info.json;"
+		}
 	}
 }
