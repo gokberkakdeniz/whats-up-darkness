@@ -44,17 +44,35 @@
 		"userAgentFirefoxVersion": "66.0"
 	},
 	"pkg-ifscript": {
-		"bump:patch": {
-			"platform": "posixlike",
-			"script": "VERSION=$(npm version patch); VERSION=$(echo $VERSION | cut -c 2-); echo '{\"version\": \"'$VERSION'\"}' > assets/userdata/info.json;"
-		},
-		"bump:minor": {
-			"platform": "posixlike",
-			"script": "VERSION=$(npm version minor); VERSION=$(echo $VERSION | cut -c 2-); echo '{\"version\": \"'$VERSION'\"}' > assets/userdata/info.json;"
-		},
-		"bump:major": {
-			"platform": "posixlike",
-			"script": "VERSION=$(npm version major); VERSION=$(echo $VERSION | cut -c 2-); echo '{\"version\": \"'$VERSION'\"}' > assets/userdata/info.json;"
-		}
+		"bump:patch": [
+			{
+				"platform": "unix",
+				"script": "VERSION=$(npm version patch); VERSION=$(echo $VERSION | cut -c 2-); echo '{\"version\": \"'$VERSION'\"}' > assets/userdata/info.json;"
+			},
+			{
+				"platform": "win32",
+				"script": "powershell -C \"$content = '{{version: \"\"{0}\"\"}}' -f (npm version patch).substring(1); Out-File -InputObject $content -FilePath abc/info.json; Write-Host $content\""
+			}
+		],
+		"bump:minor": [
+			{
+				"platform": "unix",
+				"script": "VERSION=$(npm version minor); VERSION=$(echo $VERSION | cut -c 2-); echo '{\"version\": \"'$VERSION'\"}' > assets/userdata/info.json;"
+			},
+			{
+				"platform": "win32",
+				"script": "powershell -C \"$content = '{{version: \"\"{0}\"\"}}' -f (npm version minor).substring(1); Out-File -InputObject $content -FilePath abc/info.json; Write-Host $content\""
+			}
+		],
+		"bump:major": [
+			{
+				"platform": "unix",
+				"script": "VERSION=$(npm version major); VERSION=$(echo $VERSION | cut -c 2-); echo '{\"version\": \"'$VERSION'\"}' > assets/userdata/info.json;"
+			},
+			{
+				"platform": "win32",
+				"script": "powershell -C \"$content = '{{version: \"\"{0}\"\"}}' -f (npm version major).substring(1); Out-File -InputObject $content -FilePath abc/info.json; Write-Host $content\""
+			}
+		]
 	}
 }
