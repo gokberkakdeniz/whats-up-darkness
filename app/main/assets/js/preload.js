@@ -1,6 +1,8 @@
 /* eslint-disable require-jsdoc */
+require('module-alias/register')
 const { ipcRenderer } = require('electron')
 const electron = require("electron").remote
+const store = require("@app_store")
 
 // https://stackoverflow.com/a/47776379/8521693
 const checkElement = (selector) => {
@@ -59,11 +61,15 @@ global.Notification = function (title, options) {
         title,
         options
     })
-    const notification = new OldNotification(title, options)
-    notification.onclick = () => {
-        electron.getCurrentWindow().show()
+
+    if (store.get("desktopNotifications")) {
+        const notification = new OldNotification(title, options)
+        notification.onclick = () => {
+            electron.getCurrentWindow().show()
+        }
+        return notification;
     }
-    return notification;
+    return null;
 }
 global.Notification.prototype = OldNotification.prototype
 global.Notification.permission = OldNotification.permission

@@ -1,7 +1,5 @@
 /* eslint-disable max-params */
-require("module-alias/register")
 const https = require("https");
-const CONSTANTS = require("@constants")
 
 const is_less = (current_version) => ({
     than(compared) {
@@ -10,15 +8,15 @@ const is_less = (current_version) => ({
 })
 
 const check_new_version = (args, callback_uptodate, callback_yes, callback_no) => {
-    if(CONSTANTS.ELECTRON_IS_DEV) {
+    if(args.CONSTANTS.ELECTRON_IS_DEV) {
         callback_uptodate()
         return
     }
 
     console.log("[LOG] checking new version...")
-    https.get(CONSTANTS.UPDATER.URL, {
+    https.get(args.CONSTANTS.UPDATER.URL, {
         headers: {
-            "User-Agent": CONSTANTS.UPDATER.USER_AGENT
+            "User-Agent": args.CONSTANTS.UPDATER.USER_AGENT
         }
     }, (res) => {
         let data = ""
@@ -29,18 +27,18 @@ const check_new_version = (args, callback_uptodate, callback_yes, callback_no) =
 
         res.on("end", () => {
             const [latest] = JSON.parse(data)
-            if (latest.tag_name && is_less(CONSTANTS.APP_VERSION).than(latest.tag_name)) {
+            if (latest.tag_name && is_less(args.CONSTANTS.APP_VERSION).than(latest.tag_name)) {
                 console.log("[LOG] there is a new version of app.")
                 console.log("[LOG] new version is '" + latest.tag_name + "'.")
                 args.dialog.showMessageBox(null, {
                     title: "Do you want to download the new version?",
                     type: "question",
-                    icon: CONSTANTS.IMAGES.APP,
+                    icon: args.CONSTANTS.IMAGES.APP,
                     buttons: [
                         "OK",
                         "Cancel"
                     ],
-                    message: `Current version: ${CONSTANTS.APP_VERSION}\nLatest version: ${latest.tag_name}\n\n${latest.body}`
+                    message: `Current version: ${args.CONSTANTS.APP_VERSION}\nLatest version: ${latest.tag_name}\n\n${latest.body}`
                 }, (response) => {
                     if (response) {
                         callback_no()

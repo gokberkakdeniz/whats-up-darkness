@@ -23,6 +23,7 @@
 	"license": "MIT",
 	"dependencies": {
 		"electron-is-dev": "^1.1.0",
+		"electron-store": "^4.0.0",
 		"fs-extra": "^7.0.1",
 		"module-alias": "^2.2.0",
 		"usercss-meta": "^0.9.0"
@@ -33,7 +34,8 @@
 		"@app_main": "app/main",
 		"@app_updater": "app/updater/main.js",
 		"@app_about": "app/about/window.js",
-		"@app_settings": "app/settings"
+		"@app_settings": "app/settings",
+		"@app_store": "app/store/store.js"
 	},
 	"devDependencies": {
 		"electron": "^5.0.5",
@@ -51,7 +53,7 @@
 			},
 			{
 				"platform": "win32",
-				"script": "powershell -C \"$content = '{{version: \"\"\"{0}\"\"\"}}' -f (npm version patch).substring(1); Out-File -InputObject $content -FilePath abc/info.json; Write-Host $content\""
+				"script": "powershell -C \"$content = '{{\"\"\"version\"\"\": \"\"\"{0}\"\"\"}}' -f (npm version patch).substring(1); Out-File -InputObject $content -FilePath abc/info.json; Write-Host $content\""
 			}
 		],
 		"bump:minor": [
@@ -61,7 +63,7 @@
 			},
 			{
 				"platform": "win32",
-				"script": "powershell -C \"$content = '{{version: \"\"\"{0}\"\"\"}}' -f (npm version minor).substring(1); Out-File -InputObject $content -FilePath abc/info.json; Write-Host $content\""
+				"script": "powershell -C \"$content = '{{\"\"\"version\"\"\": \"\"\"{0}\"\"\"}}' -f (npm version minor).substring(1); Out-File -InputObject $content -FilePath abc/info.json; Write-Host $content\""
 			}
 		],
 		"bump:major": [
@@ -71,7 +73,7 @@
 			},
 			{
 				"platform": "win32",
-				"script": "powershell -C \"$content = '{{version: \"\"\"{0}\"\"\"}}' -f (npm version major).substring(1); Out-File -InputObject $content -FilePath abc/info.json; Write-Host $content\""
+				"script": "powershell -C \"$content = '{{\"\"\"version\"\"\": \"\"\"{0}\"\"\"}}' -f (npm version major).substring(1); Out-File -InputObject $content -FilePath abc/info.json; Write-Host $content\""
 			}
 		]
 	}

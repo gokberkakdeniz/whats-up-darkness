@@ -5,6 +5,7 @@ const { copy, access } = require('fs-extra')
 const FS_EXTRA_CONSTANTS = require("fs-extra").constants
 const { resolve } = require("path")
 const CONSTANTS = require("@constants")
+const store = require("@app_store")
 
 let { check_new_version } = require("@app_updater")
 let { create_main_window } = require("@app_main/window.js")
@@ -22,8 +23,8 @@ if(CONSTANTS.ELECTRON_IS_DEV) {
 }
 
 let win = null
-create_main_window = create_main_window.bind(this, {BrowserWindow, Tray, Menu, ipcMain, dialog, shell, app, CONSTANTS})
-check_new_version = check_new_version.bind(this, {dialog, shell})
+create_main_window = create_main_window.bind(this, {BrowserWindow, Tray, Menu, ipcMain, dialog, shell, app, CONSTANTS, store})
+check_new_version = check_new_version.bind(this, {dialog, shell, CONSTANTS})
 
 const callback_uptodate = () => win = create_main_window()
 const callback_no = callback_uptodate
@@ -49,7 +50,7 @@ app.on('ready', () => {
     console.log("[LOG] app is ready.")
     access(CONSTANTS.DIR.USER_DATA, FS_EXTRA_CONSTANTS.F_OK, (err) => {
         let USER_DATA_IS_UNSYNCED = false
-        if(!err) USER_DATA_IS_UNSYNCED = require(CONSTANTS.USER_DATA.INFO).version != CONSTANTS.APP_VERSION
+        if (!err) USER_DATA_IS_UNSYNCED = require(CONSTANTS.USER_DATA.INFO).version != CONSTANTS.APP_VERSION
 
         if (!CONSTANTS.ELECTRON_IS_DEV && err) {
             copy(resolve(__dirname, "..", "assets", "userdata"), CONSTANTS.DIR.USER_DATA)

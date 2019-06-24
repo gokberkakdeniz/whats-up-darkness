@@ -12,8 +12,8 @@ const create_main_window = (args) => {
     if (args.CONSTANTS.PLATFORM === "linux") args.Menu.setApplicationMenu(null)
     
     let win = new args.BrowserWindow({
-        height: 600,
-        width: 800,
+        height: args.store.get("mainWindowHeight"),
+        width: args.store.get("mainWindowWidth"),
         title: "What's up darkness? | tncga",
         icon: args.CONSTANTS.IMAGES.APP,
         show: false,
@@ -44,12 +44,28 @@ const create_main_window = (args) => {
         }
     })
 
-    win.on('close', (event) => {
-        const [about] = win.getChildWindows()
-        if (about) about.destroy()
+    win.on("resize", () => {
+        if (args.store.get("mainWindowSizeSave")) {
+            const size = win.getSize()
+            args.store.set("mainWindowWidth", size[0])
+            args.store.set("mainWindowHeight", size[1])
+        }
+        
+    })
 
-        event.preventDefault()
-        win.hide()
+    win.on('close', (event) => {
+        if (args.store.get("minimizeOnExitButton")) {
+            const [about] = win.getChildWindows()
+            if (about) about.destroy()
+
+            event.preventDefault()
+            win.hide()
+        } else {
+            for (const window of args.BrowserWindow.getAllWindows()) {
+                window.destroy()
+            }
+        }
+        
     })
 
     tray.on('click', () => (win.isVisible() ? win.hide() : win.show()))
