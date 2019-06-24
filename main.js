@@ -29,6 +29,8 @@ const callback_uptodate = () => win = create_main_window()
 const callback_no = callback_uptodate
 const callback_yes = ((app) => app.quit()).bind(this, app)
 
+app.setAppUserModelId(CONSTANTS.APP_USER_MODEL_ID)
+
 app.on('second-instance', () => {
     console.log("[LOG] another instance of app is detected.")
     if (win) {

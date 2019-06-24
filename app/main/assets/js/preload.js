@@ -59,7 +59,11 @@ global.Notification = function (title, options) {
         title,
         options
     })
-    return new OldNotification(title, options)
+    const notification = new OldNotification(title, options)
+    notification.onclick = () => {
+        electron.getCurrentWindow().show()
+    }
+    return notification;
 }
 global.Notification.prototype = OldNotification.prototype
 global.Notification.permission = OldNotification.permission
