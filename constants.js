@@ -3,7 +3,7 @@ const { inspect } = require('util');
 const { resolve } = require("path")
 
 const CONSTANTS = new function () {
-    this.APP_USER_MODEL_ID = "com.gokberkakdeniz.wupd"
+    this.APP_USER_MODEL_ID = process.execPath
     this.APP_VERSION = require("./package.json").version
     this.ELECTRON_VERSION = process.versions.electron
     this.CHROMIUM_VERSION = process.versions.chrome
