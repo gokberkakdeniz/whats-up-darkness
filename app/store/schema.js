@@ -3,6 +3,11 @@ module.exports = {
         type: "boolean",
         default: true
     },
+    notificationTimeout: {
+        type: "number",
+        minimum: 0,
+        default: 2000
+    },
     minimizeOnExitButton: {
         type: "boolean",
         default: true

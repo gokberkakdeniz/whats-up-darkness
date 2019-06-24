@@ -7,10 +7,10 @@ const store = require("@app_store")
 // https://stackoverflow.com/a/47776379/8521693
 const checkElement = (selector) => {
     if (document.querySelector(selector) === null) {
-        return new Promise((resolve) => { 
+        return new Promise((resolve) => {
             requestAnimationFrame(resolve)
         }).then(() => checkElement(selector))
-    } 
+    }
     return Promise.resolve(true)
 }
 
@@ -37,7 +37,7 @@ ses.clearStorageData({
 window.navigator.serviceWorker.getRegistrations().then((registrations) => {
     for (const registration of registrations) {
         // Unregisters all the service workers
-        registration.unregister(); 
+        registration.unregister();
     }
 })
 
@@ -67,6 +67,11 @@ global.Notification = function (title, options) {
         notification.onclick = () => {
             electron.getCurrentWindow().show()
         }
+
+        setTimeout(() => {
+            notification.close()
+        }, store.get("notificationTimeout"))
+
         return notification;
     }
     return null;
