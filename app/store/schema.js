@@ -6,7 +6,7 @@ module.exports = {
     notificationTimeout: {
         type: "number",
         minimum: 0,
-        default: 2000
+        default: 3000
     },
     minimizeOnExitButton: {
         type: "boolean",

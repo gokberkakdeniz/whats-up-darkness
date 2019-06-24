@@ -3,6 +3,9 @@ require('module-alias/register')
 const { ipcRenderer } = require('electron')
 const electron = require("electron").remote
 const store = require("@app_store")
+const NotificationQueue = require("./NotificationQueue.js")
+
+const notifications = new NotificationQueue();
 
 // https://stackoverflow.com/a/47776379/8521693
 const checkElement = (selector) => {
@@ -57,20 +60,30 @@ document.onreadystatechange = function () {
 // Overwrite browser notification api
 const OldNotification = global.Notification
 global.Notification = function (title, options) {
+    console.log(notifications.front())
     ipcRenderer.send('notification-triggered', {
         title,
         options
     })
 
     if (store.get("desktopNotifications")) {
+        notifications.dequeue()
+
         const notification = new OldNotification(title, options)
+
         notification.onclick = () => {
             electron.getCurrentWindow().show()
         }
 
+        notification.onclose = () => {
+            if (notification === notifications.front()) notifications.dequeue()
+        }
+
         setTimeout(() => {
-            notification.close()
+            notification.onclose()
         }, store.get("notificationTimeout"))
+
+        notifications.enqueue(notification)
 
         return notification;
     }
