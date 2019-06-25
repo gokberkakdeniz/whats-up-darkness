@@ -66,7 +66,7 @@ global.Notification = function (title, options) {
         options
     })
 
-    if (store.get("desktopNotifications")) {
+    if (store.get("desktopNotifications") && !electron.getCurrentWindow().isFocused()) {
         notifications.dequeue()
 
         const notification = new OldNotification(title, options)
