@@ -8,28 +8,20 @@ An electron based dark themed WhatsApp Web client.
 ![preview](https://image.ibb.co/nhjj49/app.jpg)
 
 ## Features
- - Tray Icon:
-	- Show
-	- Toggle developer tools
-	- Configure themes
-	- Reload page
-	- Clear cache
-	- About
-	- Quit
- - Double/single (Windows/Linux) clicking the tray icon toggles the main window
- - Close button hides the window
- - Flash frame when there is a notification (the main window should be minimized or unhidden)
- - Notification support (except Windows)
+ - Configurable theme
+ - Notification support
  - Open Spotify links in Spotify application (Windows only)
  - <kbd>Control</kbd>+<kbd>F</kbd>: Search on contacts
 	 - <kbd>↑</kbd> and <kbd>↓</kbd>: Select contact
  - <kbd>Control</kbd>+<kbd>→</kbd>: Focus chat area
  - <kbd>Control</kbd>+<kbd>Shift</kbd>+<kbd>K</kbd>: Toggle developer tool
- - Check app and theme version
 
 
 ### Notes
 > The window will not be shown in order to hide an uninjected page until the web site is loaded.
+
+> For best notification experience, pin wupd.exe to Start. If you want to disable notifications, uncheck "Desktop notifications" on Tray menu > Settings.
+
 
 ## Installation
 ### From binaries
