@@ -40,6 +40,7 @@
 	"devDependencies": {
 		"electron": "^5.0.5",
 		"electron-packager": "^14.0.0",
+		"eslint": "^6.0.1",
 		"pkg-ifscript": "^1.0.1"
 	},
 	"constants": {
