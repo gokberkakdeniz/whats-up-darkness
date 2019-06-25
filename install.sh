@@ -29,7 +29,7 @@ if [ ! -x "$(command -v electron-packager)" ]; then
 fi
 
 echo -e "\e[1;34m[1/4]\e[0m \e[94mBuilding...\e[0m"
-npm run build:linux-x64 1>/dev/null
+sudo -u $USER npm run build:linux-x64 1>/dev/null
 
 echo -e "\e[1;34m[2/4]\e[0m \e[94mOld installation removing...\e[0m"
 sudo rm -rf /opt/whatsapp/
