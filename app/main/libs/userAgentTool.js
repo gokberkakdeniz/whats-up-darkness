@@ -1,7 +1,7 @@
 /* eslint-disable newline-per-chained-call */
 
 const { execSync } = require('child_process');
-const FIREFOX_VERSION = require("@root/package.json").constants.userAgentFirefoxVersion
+const FIREFOX_VERSION = "68.0"
 
 const get_user_agent = () => {
     const OS_ARCH = process.arch == "x64" ? "x86_64" : "i686"

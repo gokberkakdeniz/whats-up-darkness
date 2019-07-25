@@ -43,9 +43,6 @@
 		"eslint": "^6.0.1",
 		"pkg-ifscript": "^1.0.1"
 	},
-	"constants": {
-		"userAgentFirefoxVersion": "66.0"
-	},
 	"pkg-ifscript": {
 		"bump:patch": [
 			{

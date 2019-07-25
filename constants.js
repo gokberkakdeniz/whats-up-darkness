@@ -1,6 +1,7 @@
 const electron = require('electron');
 const { inspect } = require('util');
 const { resolve } = require("path")
+const { execSync } = require('child_process');
 
 const CONSTANTS = new function () {
     this.APP_USER_MODEL_ID = process.execPath
@@ -27,7 +28,26 @@ const CONSTANTS = new function () {
         APP: this.PLATFORM === "win32" ? resolve(resources, "assets", "img", "icon-win32.png") : resolve(resources, "assets", "img", "icon-linux.png"),
         STYLUS: resolve(resources, "assets", "img", "stylus.png")
     }
-    this.USER_AGENT = require("@app_main/libs/userAgentTool").get_user_agent()
+    this.FIREFOX_VERSION = "68.0"
+    this.USER_AGENT = (() => {
+        const OS_ARCH = process.arch == "x64" ? "x86_64" : "i686"
+        switch(process.platform) {
+            case "win32":
+                return "Mozilla/5.0 (Windows NT 10.0; Win64; rv:" + this.FIREFOX_VERSION + ") Gecko/20100101 Firefox/" + this.FIREFOX_VERSION
+            case "linux":
+                try {
+                    const DISTO = execSync("cat /etc/os-release | head -n 1 | sed 's/NAME=//g'").toString()
+                        .replace("\n", "")
+                    return "Mozilla/5.0 (X11; " + DISTO + "; Linux " + OS_ARCH + "; rv:" + this.FIREFOX_VERSION + ") Gecko/20100101 Firefox/" + this.FIREFOX_VERSION
+                } catch(err) {
+                    return "Mozilla/5.0 (X11; Linux " + OS_ARCH + "; rv:" + this.FIREFOX_VERSION + ") Gecko/20100101 Firefox/" + this.FIREFOX_VERSION
+                }
+            case "darwin":
+                return "Mozilla/5.0 (Macintosh;; rv:" + this.FIREFOX_VERSION + ") Gecko/20100101 Firefox/" + this.FIREFOX_VERSION
+            default:
+                return "Mozilla/5.0 (Linux x86_64; rv:" + this.FIREFOX_VERSION + ") Gecko/20100101 Firefox/" + this.FIREFOX_VERSION
+        }
+    })()
     this.UPDATER = {
         URL: "https://api.github.com/repos/tncga/whats-up-darkness/releases",
         USER_AGENT: "Whats-Up-Darkness"
