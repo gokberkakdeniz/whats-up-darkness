@@ -46,8 +46,8 @@ window.navigator.serviceWorker.getRegistrations().then((registrations) => {
 
 document.onreadystatechange = function () {
     if (document.readyState === "interactive" || document.readyState === "complete") {
-        const titleEl = document.querySelector('.version-title');
-        if (titleEl && titleEl.innerHTML.includes('Google Chrome 36+')) window.location.reload();
+        // Reload page if "WhatsApp works with Google Chrome 49+" alert is shown.
+        if (document.querySelector('.version-title')) window.location.reload();
 
         // Watch 'Click to update WhatsApp' alert
         checkElement(".m6ZEb").then((el) => {
@@ -60,7 +60,6 @@ document.onreadystatechange = function () {
 // Overwrite browser notification api
 const OldNotification = global.Notification
 global.Notification = function (title, options) {
-    console.log(notifications.front())
     ipcRenderer.send('notification-triggered', {
         title,
         options
