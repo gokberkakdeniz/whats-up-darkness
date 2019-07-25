@@ -9,12 +9,13 @@ const notifications = new NotificationQueue();
 
 // https://stackoverflow.com/a/47776379/8521693
 const checkElement = (selector) => {
-    if (document.querySelector(selector) === null) {
+    const el = document.querySelector(selector)
+    if (el === null) {
         return new Promise((resolve) => {
             requestAnimationFrame(resolve)
         }).then(() => checkElement(selector))
     }
-    return Promise.resolve(true)
+    return Promise.resolve(el)
 }
 
 /*
@@ -50,8 +51,8 @@ document.onreadystatechange = function () {
         if (document.querySelector('.version-title')) window.location.reload();
 
         // Watch 'Click to update WhatsApp' alert
-        checkElement(".m6ZEb").then((el) => {
-            el.style.display = "none"
+        checkElement("span[data-icon=alert-update]").then((el) => {
+            el.parentNode.parentNode.parentNode.style.display = "none"
             console.log("Update alert removed.")
         })
     }
