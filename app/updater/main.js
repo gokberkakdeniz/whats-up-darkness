@@ -54,7 +54,7 @@ const check_new_version = (args, callback_uptodate, callback_yes, callback_no) =
             }
         })
     }).on("error", (err) => {
-        console.error("[ERROR]" + err.message)
+        console.error("[ERROR] " + err.message)
         callback_no()
     })
 }
