@@ -51,7 +51,7 @@
 			},
 			{
 				"platform": "win32",
-				"script": "powershell -C \"$content = '{{\"\"\"version\"\"\": \"\"\"{0}\"\"\"}}' -f (npm version patch).substring(1); Out-File -InputObject $content -FilePath abc/info.json; Write-Host $content\""
+				"script": "powershell -C \"$content = '{{\"\"\"version\"\"\": \"\"\"{0}\"\"\"}}' -f (npm version patch).substring(1); Out-File -InputObject $content -FilePath assets/userdata/info.json; Write-Host $content\""
 			}
 		],
 		"bump:minor": [
@@ -61,7 +61,7 @@
 			},
 			{
 				"platform": "win32",
-				"script": "powershell -C \"$content = '{{\"\"\"version\"\"\": \"\"\"{0}\"\"\"}}' -f (npm version minor).substring(1); Out-File -InputObject $content -FilePath abc/info.json; Write-Host $content\""
+				"script": "powershell -C \"$content = '{{\"\"\"version\"\"\": \"\"\"{0}\"\"\"}}' -f (npm version minor).substring(1); Out-File -InputObject $content -FilePath assets/userdata/info.json; Write-Host $content\""
 			}
 		],
 		"bump:major": [
@@ -71,7 +71,7 @@
 			},
 			{
 				"platform": "win32",
-				"script": "powershell -C \"$content = '{{\"\"\"version\"\"\": \"\"\"{0}\"\"\"}}' -f (npm version major).substring(1); Out-File -InputObject $content -FilePath abc/info.json; Write-Host $content\""
+				"script": "powershell -C \"$content = '{{\"\"\"version\"\"\": \"\"\"{0}\"\"\"}}' -f (npm version major).substring(1); Out-File -InputObject $content -FilePath assets/userdata/info.json; Write-Host $content\""
 			}
 		]
 	}
