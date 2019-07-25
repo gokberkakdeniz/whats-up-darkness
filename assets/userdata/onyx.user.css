@@ -5,7 +5,7 @@
 @homepageURL  https://github.com/vednoc/onyx
 @supportURL   https://github.com/vednoc/onyx/issues
 @updateURL    https://rawgit.com/vednoc/onyx/master/WhatsApp.user.css
-@version      1.4.7
+@version      1.4.8
 @author       vednoc
 @license      MIT
 @preprocessor uso
@@ -241,8 +241,8 @@
     --hover-delay: /*[[hoverDelay]]*/;
     --image: url(https://media.discordapp.net/attachments/310799529161129984/417408747812552715/zilesanamin.jpg);
     --emojiOpacity: /*[[emojiOpacity]]*/;
-    --version: "WhatsApp by Mew v1.4.7";
-    --message: "Updated on 11th of June. I wrote a little article about onyx -- read it here: https://vednoc.me/blog/the-state-of-onyx ";
+    --version: "WhatsApp by Mew v1.4.8";
+    --message: "Updated on 21st of July. Small update to address a few GitHub issues. ";
     --changes: "See the changelog at: https://github.com/vednoc/onyx/releases";
   }
 
@@ -586,9 +586,6 @@
         border: none !important;
         color: var(--light);
         background-color: var(--darker) !important; }
-    /* Voice message duration. */
-    ._30ie- {
-      color: var(--light) !important; }
 
   /* Unknown contact. */
   ._2Pown {
@@ -712,9 +709,11 @@
   /* Borders. */
   ._1WMT2::before, ._1WMT2::after {
     display: none !important; }
+    /* Selected message. */
+    ._1WMT2._2V_Wj,
     ._1WMT2:hover {
       transition: 200ms ease-in-out !important;
-      background-color: var(--darker) !important; }
+      background-color: var(--dark) !important; }
     /* Remove tails. */
     ._1WMT2 .tail-container {
       display: none !important; }
@@ -746,6 +745,7 @@
   ._27U_m::before {
     background-color: var(--accent) !important; }
   /* Text color. */
+  ._26Nvu,
   ._27U_m .Y1iVg {
     color: var(--lighter) !important; }
   /* Selected links. */
@@ -795,6 +795,12 @@
         ._2AP3i ._1LdNS:hover:not(.cJP5q):not(#spec) {
           outline: 3px solid var(--accent) !important; }
 
+  /* Highlight message bubbles. #29 */
+  div.message-in.velocity-animating,
+  div.message-out.velocity-animating {
+    background-color: var(--accent) !important }
+  .tail.velocity-animating > .tail-container {
+    border-top-color: var(--accent) !important }
 
   /* Message bubbles. */
   .message-in:not(.a81-s), .message-out:not(.a81-s), .message {
@@ -809,6 +815,12 @@
     ._1upWv {
       color: var(--light) !important; }
 
+    /* Voice messages. */
+    ::-moz-range-thumb { background-color: var(--accent) !important }
+    ::-moz-range-track { background-color: var(--lighter) !important }
+    ._7sUPO { background-color: var(--accent) !important }
+    ._1FWQp { color: var(--light) !important }
+
     /* Use accent color for links. #20 */
     a[href].selectable-text {
       color: var(--accent) !important; }
@@ -816,6 +828,9 @@
     /* Forwarded message. */
     ._15aTv {
       color: var(--lighter) !important; }
+
+    /* Read more. */
+    ._2VdJh { color: var(--accent) !important }
 
     /* Phone numbers of users that aren't your contacts. */
     #main ._1F9Ap {
