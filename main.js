@@ -49,8 +49,9 @@ if (!app.requestSingleInstanceLock()) {
 app.on('ready', () => {
     console.log("[LOG] app is ready.")
     access(CONSTANTS.DIR.USER_DATA, FS_EXTRA_CONSTANTS.F_OK, (err) => {
-        let USER_DATA_IS_UNSYNCED = false
-        if (!err) USER_DATA_IS_UNSYNCED = require(CONSTANTS.USER_DATA.INFO).version != CONSTANTS.APP_VERSION
+        const IS_NEW_INSTALLATION = !store.has("version")
+        const USER_DATA_IS_UNSYNCED = !err && (IS_NEW_INSTALLATION || store.get("version") != CONSTANTS.APP_VERSION)
+        if (IS_NEW_INSTALLATION) store.set("version", CONSTANTS.APP_VERSION)
 
         if (!CONSTANTS.ELECTRON_IS_DEV && err) {
             copy(resolve(__dirname, "..", "assets", "userdata"), CONSTANTS.DIR.USER_DATA)
@@ -73,7 +74,7 @@ app.on('ready', () => {
                 .catch((err) => {
                     console.error("[ERROR] userdata could not be synced.\n" + err.message)
                     app.quit()
-                })            
+                })
         } else {
             check_new_version(callback_uptodate, callback_yes, callback_no)
         }
