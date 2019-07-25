@@ -23,11 +23,6 @@ if [ ! -e node_modules/ ]; then
     npm install 1>/dev/null
 fi
 
-if [ ! -x "$(command -v electron-packager)" ]; then
-    echo -e "\e[1;34m[0/4]\e[0m \e[94mInstalling electron packager...\e[0m"
-    npm install electron-packager -g 1>/dev/null
-fi
-
 echo -e "\e[1;34m[1/4]\e[0m \e[94mBuilding...\e[0m"
 sudo -u $USER npm run build:linux-x64 1>/dev/null
 

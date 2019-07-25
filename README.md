@@ -39,7 +39,6 @@ The precompiled 64bit binaries are available for Windows and Linux at [releases 
 	git clone https://github.com/tncga/whats-up-darkness.git
 	cd whats-up-darkness
 	npm install
-	npm install electron-packager -g
 	npm run build:linux-x64
 
 Build scripts:
