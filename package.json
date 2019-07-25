@@ -7,9 +7,6 @@
 	"scripts": {
 		"start": "electron .",
 		"reinstall": "npm install --force",
-		"bump:patch": "pkg-ifscript",
-		"bump:minor": "pkg-ifscript",
-		"bump:major": "pkg-ifscript",
 		"build:linux-x64": "electron-packager ./ whats-up-darkness --overwrite -platform=linux --arch=x64 --asar --ignore=\"^/assets|/install.sh\" --extra-resource=assets/ --out=release-builds --executable-name=wupd; chmod +x ./release-builds/whats-up-darkness-linux-x64/wupd",
 		"build:linux-ia32": "electron-packager ./ whats-up-darkness --overwrite -platform=linux --arch=ia32 --asar --ignore=\"^/assets|/install.sh\" --extra-resource=assets/ --out=release-builds --executable-name=wupd; chmod +x ./release-builds/whats-up-darkness-linux-ia32/wupd",
 		"build:win-ia32": "electron-packager . whats-up-darkness --overwrite --platform=win32 --arch=ia32 --asar --ignore=\"^/assets|/install.sh\" --extra-resource=assets/ --icon=./assets/img/icon.ico --app-copyright=MIT --out=release-builds --win32metadata.CompanyName=tncga --win32metadata.ProductName=\"What's up darkness?\" --executable-name=wupd",
@@ -38,41 +35,8 @@
 		"@app_store": "app/store/store.js"
 	},
 	"devDependencies": {
-		"electron": "^5.0.5",
+		"electron": "^5.0.8",
 		"electron-packager": "^14.0.0",
-		"eslint": "^6.0.1",
-		"pkg-ifscript": "^1.0.1"
-	},
-	"pkg-ifscript": {
-		"bump:patch": [
-			{
-				"platform": "unix",
-				"script": "VERSION=$(npm version patch); VERSION=$(echo $VERSION | cut -c 2-); echo '{\"version\": \"'$VERSION'\"}' > assets/userdata/info.json;"
-			},
-			{
-				"platform": "win32",
-				"script": "powershell -C \"@{\"\"\"version\"\"\" = (npm version patch).substring(1);} | ConvertTo-Json | Out-File assets/userdata/info.json -Encoding Ascii\""
-			}
-		],
-		"bump:minor": [
-			{
-				"platform": "unix",
-				"script": "VERSION=$(npm version minor); VERSION=$(echo $VERSION | cut -c 2-); echo '{\"version\": \"'$VERSION'\"}' > assets/userdata/info.json;"
-			},
-			{
-				"platform": "win32",
-				"script": "powershell -C \"@{\"\"\"version\"\"\" = (npm version minor).substring(1);} | ConvertTo-Json | Out-File assets/userdata/info.json -Encoding Ascii\""
-			}
-		],
-		"bump:major": [
-			{
-				"platform": "unix",
-				"script": "VERSION=$(npm version major); VERSION=$(echo $VERSION | cut -c 2-); echo '{\"version\": \"'$VERSION'\"}' > assets/userdata/info.json;"
-			},
-			{
-				"platform": "win32",
-				"script": "powershell -C \"@{\"\"\"version\"\"\" = (npm version major).substring(1);} | ConvertTo-Json | Out-File assets/userdata/info.json -Encoding Ascii\""
-			}
-		]
+		"eslint": "^6.0.1"
 	}
 }
