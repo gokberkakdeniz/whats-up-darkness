@@ -1,44 +1,26 @@
-language: node_js
-node_js:
-- node
 dist: trusty
 sudo: true
 if: tag IS present
+
+matrix:
+    include:
+        - os: linux
+            services: docker
+            language: generic
+
 cache:
-   directories:
-     - node_modules
-before_install:
-  - sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 6B05F25D762E3157
-  - sudo apt-get remove -y google-chrome-stable && sudo rm -f /etc/apt/sources.list.d/google-chrome.list*
-  - sudo dpkg --add-architecture i386
-  - wget -nc https://dl.winehq.org/wine-builds/winehq.key
-  - sudo apt-key add winehq.key
-  - sudo apt-add-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ trusty main'
-  - sudo apt-get update
-install:
-  - npm install electron-packager --save-dev
-  - sudo apt-get install --install-recommends winehq-stable
-  - npm install
+    directories:
+        - node_modules
+        - $HOME/.cache/electron
+        - $HOME/.cache/electron-builder
+
 script:
-  - mkdir release-builds
-  - npm run build:win-x64
-  - npm run build:linux-x64
-before_deploy:
-  - git config --local user.name $NAME
-  - git config --local user.email $EMAIL
-  - cd release-builds/
-  - zip -9 -r whats-up-darkness-$TRAVIS_TAG-win32-x64.zip whats-up-darkness-win32-x64/*
-  - env GZIP=-9 tar cvzf whats-up-darkness-$TRAVIS_TAG-linux-x64.tar.gz whats-up-darkness-linux-x64
-  - ls
-deploy:
-  file_glob: true
-  provider: releases
-  api_key: $GH_TOKEN
-  file:
-    - "whats-up-darkness-$TRAVIS_TAG-win32-x64.zip"
-    - "whats-up-darkness-$TRAVIS_TAG-linux-x64.tar.gz"
-  skip_cleanup: true
-  overwrite: true
-  on:
-    repo: tncga/whats-up-darkness
-    tags: true
+    - docker run --rm \
+        --env-file <(env | grep -iE 'DEBUG|NODE_|ELECTRON_|YARN_|NPM_|CI|CIRCLE|TRAVIS|APPVEYOR_|CSC_|_TOKEN|_KEY|AWS_|STRIP|BUILD_') \
+        -v ${PWD}:/project \
+        -v ~/.cache/electron:/root/.cache/electron \
+        -v ~/.cache/electron-builder:/root/.cache/electron-builder \
+        electronuserland/builder:wine \
+        /bin/bash -c "yarn --link-duplicates --pure-lockfile && yarn release --linux --win"
+before_cache:
+  - rm -rf $HOME/.cache/electron-builder/wine
