@@ -4,7 +4,7 @@ const { resolve } = require("path")
 const { execSync } = require('child_process');
 
 module.exports = new function () {
-    this.APP_USER_MODEL_ID = "com.gokberkakdeniz.wupd" || process.execPath
+    this.APP_USER_MODEL_ID = "com.gokberkakdeniz.wupd"
     this.APP_VERSION = pkg.version
     this.ELECTRON_VERSION = process.versions.electron
     this.CHROMIUM_VERSION = process.versions.chrome
