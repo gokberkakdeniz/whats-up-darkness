@@ -1,18 +1,18 @@
-/* eslint-disable no-unused-vars */
-const { create_theme_settings_window } = require("@app_settings/window.js")
-const { create_about_window } = require("@app_about")
+const { Tray, BrowserWindow, Menu } = require("electron")
+const SettingsWindow_Create = require("./../settings/window")
+const AboutWindow_Create = require("./../about/window")
 
-const create_tray_menu = (args) => {
-    const tray = new args.Tray(args.CONSTANTS.IMAGES.TRAY_NORMAL)
-    let child = null
-    let about = null
+module.exports = ({ mainWindow, CONSTANTS, store }) => {
+    const tray = new Tray(CONSTANTS.IMAGES.TRAY_NORMAL)
+    let settingsWindow = null
+    let aboutWindow = null
 
-    const contextMenu = args.Menu.buildFromTemplate([
+    const contextMenu = Menu.buildFromTemplate([
         {
             label: "Show",
             click: () => {
-                args.win.hide()
-                args.win.show()
+                mainWindow.hide()
+                mainWindow.show()
             }
         },
         {
@@ -21,28 +21,28 @@ const create_tray_menu = (args) => {
                 {
                     label: "Desktop notifications",
                     type: "checkbox",
-                    checked: args.store.get("desktopNotifications"),
+                    checked: store.get("desktopNotifications"),
                     click: () => {
-                        const current = args.store.get("desktopNotifications")
-                        args.store.set("desktopNotifications", !current)
+                        const current = store.get("desktopNotifications")
+                        store.set("desktopNotifications", !current)
                     }
                 },
                 {
                     label: "Save size of window",
                     type: "checkbox",
-                    checked: args.store.get("mainWindowSizeSave"),
+                    checked: store.get("mainWindowSizeSave"),
                     click: () => {
-                        const current = args.store.get("mainWindowSizeSave")
-                        args.store.set("mainWindowSizeSave", !current)
+                        const current = store.get("mainWindowSizeSave")
+                        store.set("mainWindowSizeSave", !current)
                     }
                 },
                 {
                     label: "Minimize instead of exit",
                     type: "checkbox",
-                    checked: args.store.get("minimizeOnExitButton"),
+                    checked: store.get("minimizeOnExitButton"),
                     click: () => {
-                        const current = args.store.get("minimizeOnExitButton")
-                        args.store.set("minimizeOnExitButton", !current)
+                        const current = store.get("minimizeOnExitButton")
+                        store.set("minimizeOnExitButton", !current)
                     }
                 },
                 {
@@ -51,13 +51,13 @@ const create_tray_menu = (args) => {
                 {
                     label: "Theme",
                     click: () => {
-                        for (const window of args.BrowserWindow.getAllWindows()) {
+                        for (const window of BrowserWindow.getAllWindows()) {
                             if (window.getTitle() === "Theme Settings") {
                                 window.focus()
                                 return
                             }
                         }
-                        child = create_theme_settings_window(args)
+                        settingsWindow = SettingsWindow_Create({ parentWindow: mainWindow, appIcon: CONSTANTS.IMAGES.APP})
                     }
                 }
             ]
@@ -68,10 +68,10 @@ const create_tray_menu = (args) => {
                 {
                     label: "Toggle developer tools",
                     click: () => {
-                        if (args.win.isDevToolsOpened()) {
-                            args.win.closeDevTools()
+                        if (mainWindow.isDevToolsOpened()) {
+                            mainWindow.closeDevTools()
                         } else { 
-                            args.win.openDevTools({
+                            mainWindow.openDevTools({
                                 mode: "bottom"
                             })
                         }
@@ -79,7 +79,7 @@ const create_tray_menu = (args) => {
                 },
                 {
                     label: "Reload page",
-                    click: () => args.win.reload()
+                    click: () => mainWindow.reload()
                 },
                 {
                     type: "separator"
@@ -87,8 +87,8 @@ const create_tray_menu = (args) => {
                 {
                     label: "Clear cache",
                     click: () => {
-                        args.win.webContents.session.clearStorageData()
-                        args.win.reload()
+                        mainWindow.webContents.session.clearStorageData()
+                        mainWindow.reload()
                     }
                 }
             ]
@@ -96,8 +96,9 @@ const create_tray_menu = (args) => {
         {
             label: "About",
             click: () => {
-                args.win.show()
-                about = create_about_window(args)
+                mainWindow.show()
+                
+                aboutWindow = AboutWindow_Create({parentWindow: mainWindow, appIcon: CONSTANTS.IMAGES.APP})
             }
         },
         {
@@ -106,7 +107,7 @@ const create_tray_menu = (args) => {
         {
             label: "Quit",
             click: () => {
-                for (const window of args.BrowserWindow.getAllWindows()) {
+                for (const window of BrowserWindow.getAllWindows()) {
                     window.destroy()
                 }
             }
@@ -115,8 +116,4 @@ const create_tray_menu = (args) => {
     tray.setToolTip("WhatsApp")
     tray.setContextMenu(contextMenu)
     return tray
-}
-
-module.exports = {
-    create_tray_menu
 }

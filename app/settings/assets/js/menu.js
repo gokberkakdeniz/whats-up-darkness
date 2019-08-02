@@ -1,17 +1,10 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-catch-shadow */
-/* eslint-disable new-cap */
-/* eslint-disable no-alert */
-/* eslint-disable require-jsdoc */
-
-require('module-alias/register')
 const { writeFile, readFileSync } = require('fs')
-const { basename } = require('path');
+const { basename, join } = require('path');
 const { ipcRenderer } = require('electron')
 const { get } = require('https')
-const { is_less } = require('@app_updater')
-const usercss = require('@app_settings/libs/usercss.js')
-const CONSTANTS = require("@constants")
+const { is_less } = require('./../../../updater/main')
+const usercss = require(join(__dirname, "..", "..", "libs", "usercss.js"))
+const CONSTANTS = require("./../../../constants")
 
 let onyx = null
 

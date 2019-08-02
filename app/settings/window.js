@@ -1,26 +1,28 @@
 const { join } = require("path")
+const { shell, BrowserWindow } = require("electron")
 
-const create_theme_settings_window = (args) => {
-    const win = new args.BrowserWindow({
-        parent: args.win,
+module.exports = ({ parentWindow, appIcon }) => {
+    const settingsWindow = new BrowserWindow({
+        parent: parentWindow,
         width: 400,
         height: 800,
         maximizable: false,
         resizable: false,
-        icon: args.CONSTANTS.IMAGES.APP,
+        icon: appIcon,
         title: "Theme Settings",
         webPreferences: {
             backgroundColor: '#272C35',
             nodeIntegration: true
         }
     })
-    win.setMenu(null)
-    win.loadFile(join(__dirname, 'assets', 'html', 'menu.html'))
-    win.webContents.on('will-navigate', function (event, url) {
-        event.preventDefault();
-        args.shell.openExternal(url);
+    
+    settingsWindow.setMenu(null)
+    settingsWindow.loadFile(join(__dirname, 'assets', 'html', 'menu.html'))
+    
+    settingsWindow.webContents.on('will-navigate', (event, url) => {
+        event.preventDefault()
+        shell.openExternal(url)
     })
-    return win;
-}
 
-module.exports = { create_theme_settings_window }
+    return settingsWindow
+}

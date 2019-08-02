@@ -3,14 +3,11 @@
 	"productName": "WhatsApp",
 	"version": "2.0.9",
 	"description": "An Electron based unofficial dark-themed WhatsApp client",
-	"main": "main.js",
+	"main": "app/main.js",
 	"scripts": {
-		"start": "electron .",
-		"reinstall": "npm install --force",
-		"build:linux-x64": "electron-packager ./ whats-up-darkness --overwrite -platform=linux --arch=x64 --asar --ignore=\"^/assets|/install.sh\" --extra-resource=assets/ --out=release-builds --executable-name=wupd; chmod +x ./release-builds/whats-up-darkness-linux-x64/wupd",
-		"build:linux-ia32": "electron-packager ./ whats-up-darkness --overwrite -platform=linux --arch=ia32 --asar --ignore=\"^/assets|/install.sh\" --extra-resource=assets/ --out=release-builds --executable-name=wupd; chmod +x ./release-builds/whats-up-darkness-linux-ia32/wupd",
-		"build:win-ia32": "electron-packager . whats-up-darkness --overwrite --platform=win32 --arch=ia32 --asar --ignore=\"^/assets|/install.sh\" --extra-resource=assets/ --icon=./assets/img/icon.ico --app-copyright=MIT --out=release-builds --win32metadata.CompanyName=tncga --win32metadata.ProductName=\"What's up darkness?\" --executable-name=wupd",
-		"build:win-x64": "electron-packager . whats-up-darkness --overwrite --platform=win32 --arch=x64 --asar --ignore=\"^/assets|/install.sh\" --extra-resource=assets/ --icon=./assets/img/icon.ico --app-copyright=MIT --out=release-builds --win32metadata.CompanyName=tncga --win32metadata.ProductName=\"What's up darkness?\" --executable-name=wupd"
+		"start": "electron app/main.js",
+		"pack": "electron-builder --dir",
+		"dist": "electron-builder"
 	},
 	"author": {
 		"name": "tncga",
@@ -21,22 +18,36 @@
 	"dependencies": {
 		"electron-is-dev": "^1.1.0",
 		"electron-store": "^4.0.0",
+		"electron-updater": "^4.1.2",
 		"fs-extra": "^7.0.1",
-		"module-alias": "^2.2.0",
 		"usercss-meta": "^0.9.0"
-	},
-	"_moduleAliases": {
-		"@root": ".",
-		"@constants": "./constants.js",
-		"@app_main": "app/main",
-		"@app_updater": "app/updater/main.js",
-		"@app_about": "app/about/window.js",
-		"@app_settings": "app/settings",
-		"@app_store": "app/store/store.js"
 	},
 	"devDependencies": {
 		"electron": "^5.0.8",
-		"electron-packager": "^14.0.0",
-		"eslint": "^6.0.1"
+		"electron-builder": "^21.1.5"
+	},
+	"build": {
+		"appId": "com.gokberkakdeniz.wupd",
+		"productName": "WhatsApp",
+		"files": [
+			"!assets/*",
+			"!install.sh",
+			"!README.md"
+		],
+		"extraResources": [
+			"assets/"
+		],
+		"win": {
+			"icon": "./assets/img/icon.ico",
+			"artifactName": "whats-up-darkness-${version}-win-x64.${ext}"
+		},
+		"nsisWeb": {
+			"differentialPackage": true
+		},
+		"linux": {
+			"target": "tar.xz",
+			"artifactName": "whats-up-darkness-${version}-linux-x64.${ext}",
+			"executableName": "WhatsApp"
+		}
 	}
 }

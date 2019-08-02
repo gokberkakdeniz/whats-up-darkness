@@ -1,5 +1,3 @@
-/* eslint-disable prefer-named-capture-group */
-/* eslint-disable require-unicode-regexp */
 const {parse, stringify} = require('usercss-meta')
 
 /* 

@@ -1,8 +1,6 @@
-/* eslint-disable require-jsdoc */
-require('module-alias/register')
 const { ipcRenderer } = require('electron')
 const electron = require("electron").remote
-const store = require("@app_store")
+const store = require("./../../../store")
 const NotificationQueue = require("./NotificationQueue.js")
 
 const notifications = new NotificationQueue();

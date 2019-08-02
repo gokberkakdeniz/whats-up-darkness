@@ -1,98 +1,101 @@
 const { join } = require("path")
-const { create_tray_menu } = require("./tray")
+const { BrowserWindow, Menu, ipcMain, dialog, shell } = require("electron")
+
+const TrayMenu_Create = require("./tray")
 const { readFile } = require('fs')
 const { convert_url } = require("./libs/urlTool")
 
-const PRELOAD_SCRIPT = join(__dirname, "assets", "js", "preload.js")
-
-const create_main_window = (args) => {
-    let there_is_new_message = false
+module.exports = ({ store, CONSTANTS }) => {
+    let isThereNewMessage = false
     
-    // ELECTRON BUG: win.setMenu(null) not working on linux (https://github.com/electron/electron/issues/16521)
-    if (args.CONSTANTS.PLATFORM === "linux") args.Menu.setApplicationMenu(null)
+    // ELECTRON BUG: mainWindow.setMenu(null) not working on linux (https://github.com/electron/electron/issues/16521)
+    if (CONSTANTS.PLATFORM === "linux") Menu.setApplicationMenu(null)
     
-    let win = new args.BrowserWindow({
-        height: args.store.get("mainWindowHeight"),
-        width: args.store.get("mainWindowWidth"),
+    let mainWindow = new BrowserWindow({
+        height: store.get("mainWindowHeight"),
+        width: store.get("mainWindowWidth"),
         title: "What's up darkness? | tncga",
-        icon: args.CONSTANTS.IMAGES.APP,
+        icon: CONSTANTS.IMAGES.APP,
+        backgroundColor: '#272C35',
         show: false,
         webPreferences: {
-            backgroundColor: '#272C35',
             nodeIntegration: true,
-            preload: PRELOAD_SCRIPT
+            preload: join(__dirname, "assets", "js", "preload.js")
         }
     })
 
-    const page = win.webContents;
-    args.win = win
-    if (args.CONSTANTS.PLATFORM != "linux") win.setMenu(null)
+    const page = mainWindow.webContents
+    
+    if (CONSTANTS.PLATFORM != "linux") mainWindow.setMenu(null)
 
-    win.loadURL("https://web.whatsapp.com/", {
-        userAgent: args.CONSTANTS.USER_AGENT
+    mainWindow.loadURL("https://web.whatsapp.com/", {
+        userAgent: CONSTANTS.USER_AGENT
     })
 
-    const tray = create_tray_menu(args)
+    const tray = TrayMenu_Create({ mainWindow: mainWindow, CONSTANTS: CONSTANTS, store: store })
 
-    win.on('closed', () => win = null)
+    mainWindow.on('closed', () => mainWindow = null)
 
-    win.on('focus', () => {
-        if (there_is_new_message) {
-            if (args.CONSTANTS.LINUX_DESKTOP_ENVIRONMENT != "gnome") tray.setImage(args.CONSTANTS.IMAGES.TRAY_NORMAL)
-            win.flashFrame(false)
-            there_is_new_message = false;
+    mainWindow.on('focus', () => {
+        if (isThereNewMessage) {
+            if (CONSTANTS.LINUX_DESKTOP_ENVIRONMENT != "gnome") tray.setImage(CONSTANTS.IMAGES.TRAY_NORMAL)
+            mainWindow.flashFrame(false)
+            isThereNewMessage = false;
         }
     })
 
-    win.on("resize", () => {
-        if (args.store.get("mainWindowSizeSave")) {
-            const size = win.getSize()
-            args.store.set("mainWindowWidth", size[0])
-            args.store.set("mainWindowHeight", size[1])
+    mainWindow.on("resize", () => {
+        if (store.get("mainWindowSizeSave")) {
+            const size = mainWindow.getSize()
+            store.set("mainWindowWidth", size[0])
+            store.set("mainWindowHeight", size[1])
         }
         
     })
 
-    win.on('close', (event) => {
-        if (args.store.get("minimizeOnExitButton")) {
-            const [about] = win.getChildWindows()
+    mainWindow.on('close', (event) => {
+        if (store.get("minimizeOnExitButton")) {
+            const [about] = mainWindow.getChildWindows()
             if (about) about.destroy()
 
             event.preventDefault()
-            win.hide()
+            mainWindow.hide()
         } else {
-            for (const window of args.BrowserWindow.getAllWindows()) {
+            for (const window of BrowserWindow.getAllWindows()) {
                 window.destroy()
             }
         }
-        
     })
 
-    tray.on('click', () => (win.isVisible() ? win.hide() : win.show()))
+    tray.on('click', () => (mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()))
 
-    args.ipcMain.on('notification-triggered', () => {
-        if (win.isMinimized() || (win.isVisible() && !win.isFocused()) || !win.isVisible()) {
-            there_is_new_message = true;
-            if (args.CONSTANTS.LINUX_DESKTOP_ENVIRONMENT.indexOf("gnome") == -1) {
-                tray.setImage(args.CONSTANTS.IMAGES.TRAY_ALERT)
-                win.flashFrame(true)
+    ipcMain.on('notification-triggered', () => {
+        if (mainWindow.isMinimized() || (mainWindow.isVisible() && !mainWindow.isFocused()) || !mainWindow.isVisible()) {
+            isThereNewMessage = true;
+            if (CONSTANTS.LINUX_DESKTOP_ENVIRONMENT.indexOf("gnome") == -1) {
+                tray.setImage(CONSTANTS.IMAGES.TRAY_ALERT)
+                mainWindow.flashFrame(true)
             }
         }
     })
 
-    args.ipcMain.on('update-theme', function (_event, style) {
-        page.executeJavaScript(`var sheet = document.getElementById('onyx'); sheet.innerHTML = \`${style}\`;`, false, () => {
-            console.log("[LOG] Theme has been updated via BrowserWindow.webContents.executeJavaScript!")
-        })
+    ipcMain.on('update-theme', function (_event, style) {
+        // TODO: test implementation with insertCSS & removeInsertedCSS methods that are introduced in electron 7.x
+        // page.insertCSS(style)
+        // console.log("[LOG] Theme has been updated via BrowserWindow.webContents.inserCSS!")
+        page.executeJavaScript(`var sheet = document.getElementById('onyx'); sheet.innerHTML = \`${style}\`;`, false)
+            .then(() => {
+                console.log("[LOG] Theme has been updated via BrowserWindow.webContents.executeJavaScript!")
+            })
     })
 
-    args.ipcMain.on('toggle-devtool', () => {
-        for (const window of args.BrowserWindow.getAllWindows()) {
-            if (window.getTitle() === "Theme Settings") {
-                if (window.isDevToolsOpened()) {
-                    window.closeDevTools()
+    ipcMain.on('toggle-devtool', () => {
+        for (const mainWindow of BrowserWindow.getAllWindows()) {
+            if (mainWindow.getTitle() === "Theme Settings") {
+                if (mainWindow.isDevToolsOpened()) {
+                    mainWindow.closeDevTools()
                 } else {
-                    window.openDevTools({
+                    mainWindow.openDevTools({
                         mode: 'bottom'
                     })
                 }
@@ -101,25 +104,25 @@ const create_main_window = (args) => {
     })
 
     page.on('dom-ready', function () {
-        readFile(args.CONSTANTS.USER_DATA.PURE_CSS, "utf-8", (err, data) => {
+        readFile(CONSTANTS.USER_DATA.PURE_CSS, "utf-8", (err, data) => {
             if (err) {
                 console.log("[ERROR] CSS could not be injected!\n" + err.message)
                 throw err
             }
+
             page.executeJavaScript(`var exists = document.getElementById("onyx") != undefined; var sheet = document.getElementById("onyx") || document.createElement('style'); sheet.id="onyx"; sheet.innerHTML = \`${data}\`; document.body.appendChild(sheet); exists`, false)
                 .then((exists) => {
                     if (!exists) console.log("[LOG] CSS has been injected via BrowserWindow.webContents.executeJavaScript!")
-                    win.show()
+                    mainWindow.show()
                 })
         })
     })
 
     page.on('new-window', function (event, url) {
         event.preventDefault();
-        const url_new = convert_url(url)
-        // eslint-disable-next-line no-bitwise
-        if (url != url_new && url_new.indexOf("spotify") > -1 ^ args.CONSTANTS.PLATFORM == "linux") {
-            args.dialog.showMessageBox(win, {
+        const newUrl = convert_url(url)
+        if (url != newUrl && newUrl.indexOf("spotify") > -1 ^ CONSTANTS.PLATFORM == "linux") {
+            dialog.showMessageBox(mainWindow, {
                 type: 'question',
                 buttons: [
                     'Yes',
@@ -128,18 +131,14 @@ const create_main_window = (args) => {
                 message: 'Do you want to open with Spotify app?'
             }, (response) => {
                 if (response) {
-                    args.shell.openExternal(url);
+                    shell.openExternal(url);
                 } else {
-                    args.shell.openExternal(url_new);
+                    shell.openExternal(newUrl);
                 }
             })
         } else {
-            args.shell.openExternal(url);
+            shell.openExternal(url);
         }
     })
-    return win
-}
-
-module.exports = {
-    create_main_window
+    return mainWindow
 }

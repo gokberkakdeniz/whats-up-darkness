@@ -1,11 +1,11 @@
 const electron = require('electron');
-const { inspect } = require('util');
+const pkg = require("./../package.json")
 const { resolve } = require("path")
 const { execSync } = require('child_process');
 
-const CONSTANTS = new function () {
-    this.APP_USER_MODEL_ID = process.execPath
-    this.APP_VERSION = require("./package.json").version
+module.exports = new function () {
+    this.APP_USER_MODEL_ID = "com.gokberkakdeniz.wupd" || process.execPath
+    this.APP_VERSION = pkg.version
     this.ELECTRON_VERSION = process.versions.electron
     this.CHROMIUM_VERSION = process.versions.chrome
     this.LINUX_DESKTOP_ENVIRONMENT = process.env.DESKTOP_SESSION || "nonlinux"
@@ -13,7 +13,7 @@ const CONSTANTS = new function () {
     this.PLATFORM = process.platform
     this.ARCH = process.arch
     this.DIR = {
-        USER_DATA: this.ELECTRON_IS_DEV ? resolve(__dirname, "assets", "userdata") : resolve((electron.app || electron.remote.app).getPath('userData'), "userdata")
+        USER_DATA: this.ELECTRON_IS_DEV ? resolve(__dirname, "..", "assets", "userdata") : resolve((electron.app || electron.remote.app).getPath('userData'), "userdata")
     }
     this.USER_DATA = {
         PURE_CSS: resolve(this.DIR.USER_DATA, "onyx.pure.css"),
@@ -21,7 +21,8 @@ const CONSTANTS = new function () {
         THEME_SETTINGS: resolve(this.DIR.USER_DATA, "onyx.settings.json"),
         INFO: resolve(this.DIR.USER_DATA, "info.json")
     }
-    const resources = resolve(__dirname, this.ELECTRON_IS_DEV ? "" : "..")
+    const resources = resolve(__dirname, this.ELECTRON_IS_DEV ? ".." : "../..")
+
     this.IMAGES = {
         TRAY_NORMAL: this.PLATFORM === "win32" ? resolve(resources, "assets", "img", "tray-normal-win32.png") : resolve(resources, "assets", "img", "tray-normal-linux.png"),
         TRAY_ALERT: this.PLATFORM === "win32" ? resolve(resources, "assets", "img", "tray-alert-win32.png") : resolve(resources, "assets", "img", "tray-alert-linux.png"),
@@ -53,9 +54,21 @@ const CONSTANTS = new function () {
         USER_AGENT: "Whats-Up-Darkness"
     }
 
-    let dump = inspect(this, { compact: false, depth: 5, breakLength: Infinity })
-    dump = dump.substring(2, dump.length - 2).replace(/\n/ug, "\n    ")
-    this.print = () => console.log(`[LOG] CONSTANTS:\n    ${dump}`)
+    this.print = () => {
+        const printHelper = (obj, tabCount = 0) => {
+            for (const key in obj) {
+                if (key === "print") continue
+    
+                if (typeof obj[key] === "object") {
+                    console.log("  ".repeat(tabCount) + key + ":")
+                    printHelper(obj[key], tabCount + 1)
+                } else {
+                    console.log("  ".repeat(tabCount) + key + " = " + obj[key])
+                }
+            }
+        }
+        console.log("====================CONSTANTS====================")
+        printHelper(this)
+        console.log("=================================================")
+    }
 }
-
-module.exports = CONSTANTS
