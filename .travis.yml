@@ -1,11 +1,7 @@
 dist: xenial
 sudo: true
-if: tag IS present
-matrix:
-    include:
-        - os: linux
-            services: docker
-            language: generic
+services: docker
+language: generic
 cache:
     directories:
         - node_modules
