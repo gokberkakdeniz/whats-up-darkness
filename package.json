@@ -8,7 +8,7 @@
 		"start": "electron app/main.js",
 		"pack": "electron-builder --dir",
 		"dist": "electron-builder",
-		"release": "electron-builder --publish onTag"
+		"release": "electron-builder"
 	},
 	"author": {
 		"name": "tncga",
@@ -52,7 +52,8 @@
 		},
 		"publish": {
 			"provider": "github",
-			"publishAutoUpdate": true
+			"publishAutoUpdate": true,
+			"releaseType": "release"
 		}
 	}
 }
