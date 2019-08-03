@@ -48,7 +48,7 @@
 		"linux": {
 			"target": "tar.xz",
 			"artifactName": "whats-up-darkness-${version}-linux-x64.${ext}",
-			"executableName": "WhatsApp"
+			"executableName": "wupd"
 		},
 		"publish": {
 			"provider": "github",

@@ -24,13 +24,13 @@ if [ ! -e node_modules/ ]; then
 fi
 
 echo -e "\e[1;34m[1/4]\e[0m \e[94mBuilding...\e[0m"
-sudo -u $USER npm run build:linux-x64 1>/dev/null
+sudo -u $USER npm run pack 1>/dev/null
 
 echo -e "\e[1;34m[2/4]\e[0m \e[94mOld installation removing...\e[0m"
 sudo rm -rf /opt/whatsapp/
 
 echo -e "\e[1;34m[3/4]\e[0m \e[94mInstalling (/opt/whatsapp)...\e[0m"
-sudo mv release-builds/whats-up-darkness-linux-x64/ /opt/whatsapp/
+sudo mv dist/linux-unpacked/ /opt/whatsapp/
 
 if [ ! -f "$FILE" ]; then
     echo -e "\e[1;34m[4/4]\e[0m \e[94mCreating desktop file...\e[0m"
@@ -40,7 +40,7 @@ else
 fi
 
 if [ ! "$(find "release-builds/" -mindepth 1 -print -quit 2>/dev/null)" ]; then
-    rm -r release-builds/
+    rm -r dist/
 fi
 
 echo -e "\n\e[1;34mFinished\e[0m"
