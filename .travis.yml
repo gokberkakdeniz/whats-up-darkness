@@ -2,14 +2,16 @@ dist: xenial
 sudo: true
 services: docker
 language: generic
+if: tag IS present
 cache:
     directories:
         - node_modules
         - $HOME/.cache/electron
         - $HOME/.cache/electron-builder
 script:
+    - env
     - |
-        docker run -e GH_TOKEN=$GH_TOKEN -e EMAIL=$EMAIL -e NAME=$NAME --rm \
+        docker run -e CI=true -e TRAVIS=true -e CONTINUOUS_INTEGRATION=true -e GH_TOKEN=$GH_TOKEN -e EMAIL=$EMAIL -e NAME=$NAME --rm \
         -v ${PWD}:/project \
         -v ~/.cache/electron:/root/.cache/electron \
         -v ~/.cache/electron-builder:/root/.cache/electron-builder \
