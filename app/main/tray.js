@@ -1,9 +1,11 @@
 const { Tray, BrowserWindow, Menu } = require("electron")
+const { store } = require("./../utils")
 const SettingsWindow_Create = require("./../settings/window")
 const AboutWindow_Create = require("./../about/window")
+const AppConstants = require("./../constants")
 
-module.exports = ({ mainWindow, CONSTANTS, store }) => {
-    const tray = new Tray(CONSTANTS.IMAGES.TRAY_NORMAL)
+module.exports = (mainWindow) => {
+    const tray = new Tray(AppConstants.IMAGES.TRAY_NORMAL)
     let settingsWindow = null
     let aboutWindow = null
 
@@ -57,7 +59,7 @@ module.exports = ({ mainWindow, CONSTANTS, store }) => {
                                 return
                             }
                         }
-                        settingsWindow = SettingsWindow_Create({ parentWindow: mainWindow, appIcon: CONSTANTS.IMAGES.APP})
+                        settingsWindow = SettingsWindow_Create({ parentWindow: mainWindow, appIcon: AppConstants.IMAGES.APP})
                     }
                 }
             ]
@@ -98,7 +100,7 @@ module.exports = ({ mainWindow, CONSTANTS, store }) => {
             click: () => {
                 mainWindow.show()
                 
-                aboutWindow = AboutWindow_Create({parentWindow: mainWindow, appIcon: CONSTANTS.IMAGES.APP})
+                aboutWindow = AboutWindow_Create({parentWindow: mainWindow, appIcon: AppConstants.IMAGES.APP})
             }
         },
         {

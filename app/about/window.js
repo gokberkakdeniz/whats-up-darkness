@@ -1,5 +1,5 @@
-const { join } = require("path")
 const { shell, BrowserWindow } = require("electron")
+const { join } = require("path")
 
 module.exports = ({ parentWindow, appIcon }) => {
     const aboutWindow = new BrowserWindow({

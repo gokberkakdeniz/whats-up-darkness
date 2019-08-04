@@ -2,9 +2,10 @@ const { writeFile, readFileSync } = require('fs')
 const { basename, join } = require('path');
 const { ipcRenderer } = require('electron')
 const { get } = require('https')
-const { is_less } = require('./../../../updater/main')
+const semver = require("semver")
 const usercss = require(join(__dirname, "..", "..", "libs", "usercss.js"))
 const CONSTANTS = require("./../../../constants")
+
 
 let onyx = null
 
@@ -177,7 +178,7 @@ const update_theme = (theme, callback_yes, callback_no) => {
         res.on("end", () => {
             try {
                 const [last_version] = JSON.parse(data)
-                if (is_less(theme.meta_version).than(last_version.tag_name) && confirm(`Do you want to update?\n\n   Current version: ${theme.meta_version}\n   Latest version: ${last_version.tag_name}\n\n${last_version.body}`)) {
+                if (semver.lt(theme.meta_version, last_version.tag_name) && confirm(`Do you want to update?\n\n   Current version: ${theme.meta_version}\n   Latest version: ${last_version.tag_name}\n\n${last_version.body}`)) {
                     get("https://raw.githubusercontent.com/vednoc/onyx/" + last_version.tag_name + "/WhatsApp.user.css", (res) => {
                         let css = ""
 

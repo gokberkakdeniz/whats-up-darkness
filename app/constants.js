@@ -1,7 +1,8 @@
-const electron = require('electron');
-const pkg = require("./../package.json")
 const { resolve } = require("path")
-const { execSync } = require('child_process');
+const { execSync } = require('child_process')
+const { logger } = require("./utils")
+const electron = require('electron')
+const pkg = require("./../package.json")
 
 module.exports = new function () {
     this.APP_USER_MODEL_ID = "com.gokberkakdeniz.wupd"
@@ -53,11 +54,10 @@ module.exports = new function () {
         URL: "https://api.github.com/repos/tncga/whats-up-darkness/releases",
         USER_AGENT: "Whats-Up-Darkness"
     }
-
-    this.print = () => {
+    this.printAll = () => {
         const printHelper = (obj, tabCount = 0) => {
             for (const key in obj) {
-                if (key === "print") continue
+                if (key.indexOf("print") > -1) continue
     
                 if (typeof obj[key] === "object") {
                     console.log("  ".repeat(tabCount) + key + ":")
@@ -70,5 +70,13 @@ module.exports = new function () {
         console.log("====================CONSTANTS====================")
         printHelper(this)
         console.log("=================================================")
+    }
+    this.printBriefly = () => {
+        logger.info("wupd: v" + CONSTANTS.APP_VERSION)
+        logger.info("electron: " + CONSTANTS.ELECTRON_VERSION)
+        logger.info("chromium: " + CONSTANTS.CHROMIUM_VERSION)
+        logger.info("os: " + CONSTANTS.PLATFORM)
+        if (process.platform === "linux") logger.info("de: " + CONSTANTS.LINUX_DESKTOP_ENVIRONMENT)
+        logger.info("arch: " + CONSTANTS.ARCH)
     }
 }

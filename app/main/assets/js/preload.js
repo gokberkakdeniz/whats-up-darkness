@@ -1,6 +1,6 @@
 const { ipcRenderer } = require('electron')
 const electron = require("electron").remote
-const store = require("./../../../store")
+const { store } = require("./../../../utils")
 const NotificationQueue = require("./NotificationQueue.js")
 
 const notifications = new NotificationQueue();
