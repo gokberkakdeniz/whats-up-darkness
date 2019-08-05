@@ -1,9 +1,8 @@
 const { dialog, shell, app} = require('electron')
 const { logger, get, store} = require("./../utils")
-const { accessSync } = require('fs-extra')
+const { accessSync, constants: { F_OK } } = require('fs-extra')
 const { resolve } = require("path")
 const { autoUpdater } = require("electron-updater")
-const F_OK = require('fs-extra').constants.F_OK
 const AppConstants = require("./../constants")
 const semver = require("semver")
 
@@ -51,11 +50,13 @@ const checkForUpdatesAndNotify_unsupported = async () => {
                 "User-Agent": AppConstants.UPDATER.USER_AGENT
             }
         })
-        const latest = data[0]
+
+        const latest = {}
+        ([ { tag_name: latest.version, body: latest.releaseNotes, html_url: latest.url } ] = data);
         
-        if (semver.gt(latest.tag_name, AppConstants.APP_VERSION)) {
+        if (semver.gt(latest.version, AppConstants.APP_VERSION)) {
             logger.info("there is a new version of app.")
-            logger.info("new version is '" + latest.tag_name + "'.")
+            logger.info("new version is '" + latest.version + "'.")
             dialog.showMessageBox(null, {
                 title: "Do you want to download the new version?",
                 type: "question",
@@ -64,11 +65,11 @@ const checkForUpdatesAndNotify_unsupported = async () => {
                     "OK",
                     "Cancel"
                 ],
-                message: `Current version: ${AppConstants.APP_VERSION}\nLatest version: ${latest.tag_name}\n\n${latest.body}`
+                message: `Current version: ${AppConstants.APP_VERSION}\nLatest version: ${latest.version}\n\n${latest.releaseNotes}`
             }, (response) => {
                 if (!response) {
                     logger.info("opening download url in browser...")
-                    shell.openExternal(latest.html_url)
+                    shell.openExternal(latest.url)
                     app.quit()
                 }
             })
