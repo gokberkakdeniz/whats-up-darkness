@@ -6,7 +6,7 @@
 	"main": "app/main.js",
 	"scripts": {
 		"start": "electron app/main.js",
-		"pack": "electron-builder --dir",
+		"build": "electron-builder --dir",
 		"dist": "electron-builder",
 		"release": "electron-builder"
 	},

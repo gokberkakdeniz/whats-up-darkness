@@ -11,21 +11,16 @@ An electron based dark themed WhatsApp Web client.
  - Configurable theme
  - Notification support
  - Open Spotify links in Spotify application (Windows only)
+ - Auto update (Windows only)
  - <kbd>Control</kbd>+<kbd>F</kbd>: Search on contacts
 	 - <kbd>↑</kbd> and <kbd>↓</kbd>: Select contact
  - <kbd>Control</kbd>+<kbd>→</kbd>: Focus chat area
  - <kbd>Control</kbd>+<kbd>Shift</kbd>+<kbd>K</kbd>: Toggle developer tool
 
 
-### Notes
-> The window will not be shown in order to hide an uninjected page until the web site is loaded.
-
-> For best notification experience, pin wupd.exe to Start. If you want to disable notifications, uncheck "Desktop notifications" on Tray menu > Settings.
-
-
 ## Installation
 ### From binaries
-The precompiled 64bit binaries are available for Windows and Linux at [releases page](https://github.com/tncga/whats-up-darkness/releases/latest).
+The precompiled 64bit binaries are available for Windows and Linux at [releases](https://github.com/tncga/whats-up-darkness/releases/latest) page.
 
 ### From source
 #### With script (Linux only)
@@ -39,15 +34,13 @@ The precompiled 64bit binaries are available for Windows and Linux at [releases 
 	git clone https://github.com/tncga/whats-up-darkness.git
 	cd whats-up-darkness
 	npm install
-	npm run build:linux-x64
+	npm run build
 
 Build scripts:
+- `npm run build` unpacked
+- `npm run dist` tar.xz for linux, NSIS Web for Windows
 
-	npm run build:linux-ia32
-	npm run build:linux-x64
-	npm run build:win-ia32
-	npm run build:win-x64
-
+	
 ## Thanks
 [vednoc for Onyx](https://github.com/vednoc/onyx)
 
