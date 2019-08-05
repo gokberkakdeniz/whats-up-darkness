@@ -72,11 +72,11 @@ module.exports = new function () {
         console.log("=================================================")
     }
     this.printBriefly = () => {
-        logger.info("wupd: v" + CONSTANTS.APP_VERSION)
-        logger.info("electron: " + CONSTANTS.ELECTRON_VERSION)
-        logger.info("chromium: " + CONSTANTS.CHROMIUM_VERSION)
-        logger.info("os: " + CONSTANTS.PLATFORM)
-        if (process.platform === "linux") logger.info("de: " + CONSTANTS.LINUX_DESKTOP_ENVIRONMENT)
-        logger.info("arch: " + CONSTANTS.ARCH)
+        logger.info("wupd: v" + this.APP_VERSION)
+        logger.info("electron: " + this.ELECTRON_VERSION)
+        logger.info("chromium: " + this.CHROMIUM_VERSION)
+        logger.info("os: " + this.PLATFORM)
+        if (process.platform === "linux") logger.info("de: " + this.LINUX_DESKTOP_ENVIRONMENT)
+        logger.info("arch: " + this.ARCH)
     }
 }
