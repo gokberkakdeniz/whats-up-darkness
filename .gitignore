@@ -4,3 +4,5 @@ package-lock.json
 dist/
 test.js
 .vscode/
+yarn-error.log
+yarn.lock
