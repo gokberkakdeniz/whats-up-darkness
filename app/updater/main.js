@@ -81,6 +81,6 @@ const checkForUpdatesAndNotify_unsupported = async () => {
 }
 
 module.exports = { 
-    checkForUpdatesAndNotify: AppConstants.PLATFORM === "win32" ? autoUpdater.checkForUpdatesAndNotify : checkForUpdatesAndNotify_unsupported,
+    checkForUpdatesAndNotify: AppConstants.PLATFORM === "win32" ? autoUpdater.checkForUpdatesAndNotify.bind(autoUpdater) : checkForUpdatesAndNotify_unsupported,
     syncUserData
 }

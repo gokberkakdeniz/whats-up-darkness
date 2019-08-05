@@ -25,9 +25,7 @@ const logger = {
     info: (msg) => console.log("[LOG] " + msg),
     warn: (msg) => console.log("[WARNING] " + msg),
     error: (msg) => console.error("[ERROR] " + msg),
-    verbose: (msg) => console.log("[VERBOSE] " + msg),
     debug: (msg) => console.log("[DEBUG] " + msg),
-    silly: (msg) => console.log("[SILLY] " + msg)
 }
 
 const store = new Store({
