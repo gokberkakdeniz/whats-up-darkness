@@ -23,8 +23,8 @@ if (!app.requestSingleInstanceLock()) {
         logger.info("another instance of app is detected.")
         if (mainWindow.window) {
             logger.info("main window is being shown.")
-            if (mainWindow.window.isMinimized()) mainWindow.window.restore()
-            mainWindow.window.focus()
+            if (mainWindow.window.isMinimized()) mainWindow.window.hide()
+            mainWindow.window.show()
         }
     })
     
