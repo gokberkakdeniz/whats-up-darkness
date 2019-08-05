@@ -19,8 +19,8 @@ class MainWindow {
         if (AppConstants.PLATFORM === "linux") Menu.setApplicationMenu(null)
         
         this.mainWindow = new BrowserWindow({
-            height: store.get("this.mainWindowHeight"),
-            width: store.get("this.mainWindowWidth"),
+            height: store.get("mainWindowHeight"),
+            width: store.get("mainWindowWidth"),
             title: "What's up darkness? | tncga",
             icon: AppConstants.IMAGES.APP,
             backgroundColor: '#272C35',
@@ -33,7 +33,7 @@ class MainWindow {
 
         // Attach BrowserWindow methods
         for (const method in BrowserWindow.prototype) {
-            if (method !== "constructor") this[method] = this.mainWindow[method]
+            if (method !== "constructor") Reflect.defineProperty(this, method, { value: this.mainWindow[method] })
         }
 
         const page = this.mainWindow.webContents
@@ -57,10 +57,10 @@ class MainWindow {
         })
 
         this.mainWindow.on("resize", () => {
-            if (store.get("this.mainWindowSizeSave")) {
+            if (store.get("mainWindowSizeSave")) {
                 const size = this.mainWindow.getSize()
-                store.set("this.mainWindowWidth", size[0])
-                store.set("this.mainWindowHeight", size[1])
+                store.set("mainWindowWidth", size[0])
+                store.set("mainWindowHeight", size[1])
             }
             
         })
