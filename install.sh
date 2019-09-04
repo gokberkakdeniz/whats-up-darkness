@@ -24,7 +24,7 @@ if [ ! -e node_modules/ ]; then
 fi
 
 echo -e "\e[1;34m[1/4]\e[0m \e[94mBuilding...\e[0m"
-sudo -u $USER npm run pack 1>/dev/null
+sudo -u $USER npm run build 1>/dev/null
 
 echo -e "\e[1;34m[2/4]\e[0m \e[94mOld installation removing...\e[0m"
 sudo rm -rf /opt/whatsapp/
