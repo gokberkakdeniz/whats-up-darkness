@@ -15,8 +15,7 @@ class MainWindow {
     init() {
         if (this.mainWindow !== null) throw new Error("The window is already created.")
         
-        // ELECTRON BUG: this.mainWindow.setMenu(null) not working on linux (https://github.com/electron/electron/issues/16521)
-        if (AppConstants.PLATFORM === "linux") Menu.setApplicationMenu(null)
+        Menu.setApplicationMenu(null)
         
         this.mainWindow = new BrowserWindow({
             height: store.get("mainWindowHeight"),
@@ -38,7 +37,7 @@ class MainWindow {
 
         const page = this.mainWindow.webContents
         
-        if (AppConstants.PLATFORM != "linux") this.mainWindow.setMenu(null)
+        this.mainWindow.setMenu(null)
 
         this.mainWindow.loadURL("https://web.whatsapp.com/", {
             userAgent: AppConstants.USER_AGENT
@@ -84,7 +83,7 @@ class MainWindow {
         ipcMain.on('notification-triggered', () => {
             if (this.mainWindow.isMinimized() || (this.mainWindow.isVisible() && !this.mainWindow.isFocused()) || !this.mainWindow.isVisible()) {
                 this.isThereANewMessage = true;
-                if (AppConstants.LINUX_DESKTOP_ENVIRONMENT.indexOf("gnome") == -1) {
+                if (AppConstants.LINUX_DESKTOP_ENVIRONMENT.indexOf("gnome") === -1) {
                     tray.setImage(AppConstants.IMAGES.TRAY_ALERT)
                     this.mainWindow.flashFrame(true)
                 }

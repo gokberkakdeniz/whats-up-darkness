@@ -13,8 +13,8 @@
     --hover-delay: 0.8s;
     --image: url(https://media.discordapp.net/attachments/310799529161129984/417408747812552715/zilesanamin.jpg);
     --emojiOpacity: 0.75;
-    --version: "WhatsApp by Mew v1.4.8";
-    --message: "Updated on 21st of July. Small update to address a few GitHub issues. ";
+    --version: "WhatsApp by Mew v1.5.3";
+    --message: "Updated on 11th of October. Fixed bubbles once again. ";
     --changes: "See the changelog at: https://github.com/vednoc/onyx/releases";
   }
 
@@ -164,6 +164,7 @@
         border: 0px solid var(--dark);
         background-color: var(--dark) !important; }
       /* Input element. */
+      .ZP8RM ._183ES,
       .ZP8RM label input {
         color: var(--light);
         background-color: transparent; }
@@ -173,13 +174,16 @@
         background-color: var(--dark) !important; }
 
   /* New group and group info buttons. */
-  ._11p3Q, .r7sRK, ._8-yzK {
+  ._1w-mX, ._70TS5, ._11p3Q, .r7sRK, ._8-yzK {
     /* box-shadow: 0 0 8px -1px var(--shadow) !important; */
     color: var(--accent) !important;
     background-color: transparent !important; }
     /* Hide borders. */
-    ._2DxRd {
-      border-color: var(--darker) !important; }
+    ._2DxRd, ._39cGk {
+      border-color: var(--shadow) !important; }
+    /* Input text color. */
+    ._44uDJ {
+      color: var(--light) !important; }
 
   /* Search results. */
   #side ._1AKfk {
@@ -200,8 +204,8 @@
         ._2UaNq._3mMX1, ._2UaNq:hover {
           background-color: var(--dark) !important; }
         /* Text color. */
-        ._2UaNq * {
-          color: var(--light); }
+        ._2UaNq *:not(#z) {
+          color: var(--light) !important; }
         /* Borders. */
         ._2UaNq::after, ._2WP9Q {
           border-color: transparent !important; }
@@ -224,6 +228,12 @@
       min-height: 50px;
       height: auto;
       background-color: var(--darker) !important; }
+      /* Send contacts. #42 */
+      .WOXAS {
+        background-color: transparent !important; }
+      /* Footer. */
+      ._21bWq, ._22oFl {
+        background-color: var(--accent) !important; }
       /* Reset header height. */
       ._11GZy header > div:first-child {
         padding: 12px 0 !important;
@@ -309,6 +319,10 @@
   /* Middle drawer. */
   #main {
     background-color: var(--dark); }
+    /* Fix parent-element. #43 */
+    ._1ays2 {
+      display: flex !important;
+      flex-direction: column !important; }
 
     /* Doodle background. TODO: Plans for the future. */
     #app [data-asset-chat-background="true"] {
@@ -484,6 +498,7 @@
     display: none !important; }
     /* Selected message. */
     ._1WMT2._2V_Wj,
+    ._1WMT2._2nA3s,
     ._1WMT2:hover {
       transition: 200ms ease-in-out !important;
       background-color: var(--dark) !important; }
@@ -509,6 +524,13 @@
     /* Read by text color. */
     #app .app > div:nth-child(2) ._2AJf5 span {
       color: var(--accent) !important; }
+    /* Forwarded message info. #44 */
+    ._1NZZN, ._3XHR- {
+      border-color: var(--dark) !important;
+      background-color: transparent !important;
+      box-shadow: none !important; }
+    ._1w7vp {
+      color: var(--light) !important; }
 
   /* Media/docs/links section. */
   ._27U_m, .yrOIH {
@@ -557,7 +579,7 @@
           color: var(--light); }
 
     /* Footer. */
-    ._2AP3i {
+    ._2n0jo {
       border-color: var(--darker) !important;
       background-color: var(--dark) !important; }
       /* Selected image. */
@@ -569,14 +591,15 @@
           outline: 3px solid var(--accent) !important; }
 
   /* Highlight message bubbles. #29 */
-  div.message-in.velocity-animating,
-  div.message-out.velocity-animating {
+  div.message-in.velocity-animating > div > div,
+  div.message-out.velocity-animating > div > div {
     background-color: var(--accent) !important }
-  .tail.velocity-animating > .tail-container {
+  .velocity-animating > .tail > .tail-container {
     border-top-color: var(--accent) !important }
 
-  /* Message bubbles. */
-  .message-in:not(.a81-s), .message-out:not(.a81-s), .message {
+  /* Bubble colors. #49 #54 */
+  .message-in > div:not(.a81-s) > div,
+  .message-out > div:not(.a81-s) > div {
     background-color: var(--darker) !important; }
     ._2v02G {
       color: var(--lighter) !important; }
@@ -602,8 +625,12 @@
     ._15aTv {
       color: var(--lighter) !important; }
 
-    /* Read more. */
-    ._2VdJh { color: var(--accent) !important }
+    /* Show more. */
+    ._1Jc9f { color: var(--accent) !important }
+
+    /* Deleted message. */
+    ._3uHCS { color: var(--lighter) !important }
+    span[class][data-icon="recalled-out"] svg path { fill: red !important }
 
     /* Phone numbers of users that aren't your contacts. */
     #main ._1F9Ap {
@@ -664,7 +691,7 @@
       background-color: var(--darker) !important; }
 
     /* Document embeds. */
-    ._3a29n {
+    ._3a29n, ._1mrMQ {
       background-color: var(--dark) !important; }
 
     /* Embeds description */
@@ -747,11 +774,11 @@
     z-index: 0 !important;
     border-top: 12px solid var(--darker);
     background: none !important; }
-    .tail.message-in .tail-container {
+    .message-in > .tail > .tail-container {
       left: -10px !important; top: 0px;
       border-left: 10px solid transparent;
       border-radius: 5px 0 0 0; }
-    .tail.message-out .tail-container {
+    .message-out > .tail > .tail-container {
       right: -10px !important; top: 0px;
       border-right: 10px solid transparent;
       border-radius: 0 5px 0 0; }
@@ -794,7 +821,7 @@
   [data-js-context-icon='true'] + div { background: var(--darker) !important }
 
   /* Emoji/gif/stickers menu. */
-  .QChXd, ._20KNO, .RxbUw {
+  .QChXd, ._20KNO, .RxbUw, ._2PpWQ > div {
     background-color: var(--dark) !important; }
     /* Temporary fix for emoji container. */
     #main footer > div:nth-child(2) > div {
@@ -869,6 +896,9 @@
       /* Emoji menu triangle. */
       ._1gFYk .iqJMX {
         background-color: var(--dark) !important; }
+    /* Quick replies. #56 */
+      ._1omcu._2saG0, ._2saG0 {
+        background-color: var(--darker) !important; }
 
 
   /* Backdrop. */
@@ -928,17 +958,18 @@
       color: var(--light) !important; }
 
     /* Add file icon. */
-    .GpvML, ._1ypOz, ._3fktq {
-      background-color: var(--dark) !important; }
+    .GpvML, ._1ypOz, ._3fktq, ._1g8sv {
+      background-color: var(--dark) !important;
+      box-shadow: 0 2px 4px var(--shadow) !important; }
       /* Border. */
       ._1gcLL::after {
         background-color: var(--accent) !important; }
 
     /* Accent border. */
-    .CzI8E, ._31WRs ._1DTd4 {
+    .CzI8E, ._31WRs ._1DTd4, ._2Fvnm ._3ogpF {
       border-bottom-color: var(--accent) !important; }
     /* Text color. */
-    ._7HWvs {
+    ._7HWvs, .A_Kh_ {
       color: var(--light) !important; }
 
   /** Status area! */
@@ -981,6 +1012,8 @@
       opacity: 0.3 !important; }
 
   /* Upload files. */
+  .azEEh { color:var(--light) !important; }
+  ._2sn3C { background-color: var(--darker) !important; }
   .Ijb1Q::after { box-shadow: 0 4px 8px 2px var(--shadow) !important; }
 
   /* Default profile picture background. */
@@ -1016,15 +1049,14 @@
   span[data-icon="audio-file"] svg path:last-child,
   span[data-icon="new-group"] svg path,
   span[data-icon="add-user-light"] svg path,
-  span[data-icon="link"] svg path,
-  span[data-icon="ptt-in-blue"] svg path:first-child,
-  span[data-icon="ptt-out-blue"] svg path:first-child {
+  span[data-icon="link"] svg path {
     fill: var(--icon) !important; }
 
-  /* Audio message icons. */
-  span[data-icon="ptt-in-blue"] svg path:first-child,
-  span[data-icon="ptt-out-blue"] svg path:first-child {
-    fill: transparent !important; }
+  /* Audio message icons. #55 */
+  span[data-icon^="ptt-"] svg path:first-child {
+    fill: var(--dark) !important; }
+  span[data-icon^="ptt-"] svg path:last-child {
+    fill: var(--accent) !important; }
 
   /* Logo. */
   ._3CSsZ > svg > path:first-child {
@@ -1057,6 +1089,9 @@
     input[type=range]::-webkit-slider-thumb {
       cursor: pointer;
       background: var(--accent) !important; }
+    /* Audio length. */
+    ._3HwRC, ._1lxsr {
+      color: var(--light) !important; }
 
   /* Rounded buttons. */
   span svg > path[fill="#00BFA5"] {
