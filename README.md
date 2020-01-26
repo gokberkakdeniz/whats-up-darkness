@@ -2,7 +2,7 @@
 # What's up darkness?
 
 ## Discontinuation Message
-__Thank you for everyone who used this application. I am sorry to say that I cannot maintain this project anymore due to new CSS dialect of the theme. I do not think that it is worth to implement theme settings for new version of theme. I use [ferdi](https://github.com/getferdi/ferdi) from now on.__
+__Thank you everyone who used this application. I am sorry to say that I cannot maintain this project anymore due to new CSS dialect of the theme. I do not think that it is worth to implement theme settings for new version of theme. I use [ferdi](https://github.com/getferdi/ferdi) from now on.__
 
 ## Description
 An electron based dark themed WhatsApp Web client.
