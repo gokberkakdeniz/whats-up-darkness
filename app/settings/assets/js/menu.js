@@ -49,11 +49,6 @@ class usercss_theme {
             let setInput_input = null;
 
             switch (options.type) {
-                case "text":
-                    setInput_input = document.createElement("input")
-                    setInput_input.id = options.id
-                    setInput_input.value = options.defaults ? options.defaults[options.id] : options.value
-                    break;
                 case "color":
                     setInput_input = document.createElement("input")
                     setInput_input.id = options.id
@@ -81,9 +76,12 @@ class usercss_theme {
                     if (!options.defaults && options.value) setInput_input.setAttribute("checked", "")
                     if (options.defaults && options.defaults[options.id] == options.value) setInput_input.setAttribute("checked", "")
                     break;
+                case "text":
                 default:
-                    setInput_input = document.createTextNode("Unknown type: " + options.type)
-                    break;
+                    setInput_input = document.createElement("input")
+                    setInput_input.id = options.id
+                    setInput_input.value = options.defaults ? options.defaults[options.id] : options.value
+                    break;                    
             }
 
             setInput.appendChild(setInput_input)
@@ -152,7 +150,7 @@ class usercss_theme {
 const update_theme = (theme, callback_yes, callback_no) => {
     get({
         hostname: "api.github.com",
-        path: "/repos/vednoc/onyx/releases",
+        path: "/repos/vednoc/dark-whatsapp/releases",
         headers: {
             "user-agent": "Whats-Up-Darkness"
         }
@@ -179,7 +177,7 @@ const update_theme = (theme, callback_yes, callback_no) => {
             try {
                 const [last_version] = JSON.parse(data)
                 if (semver.lt(theme.meta_version, last_version.tag_name) && confirm(`Do you want to update?\n\n   Current version: ${theme.meta_version}\n   Latest version: ${last_version.tag_name}\n\n${last_version.body}`)) {
-                    get("https://raw.githubusercontent.com/vednoc/onyx/" + last_version.tag_name + "/WhatsApp.user.css", (res) => {
+                    get("https://raw.githubusercontent.com/vednoc/dark-whatsapp/" + last_version.tag_name + "/wa.user.styl", (res) => {
                         let css = ""
 
                         if (res.statusCode !== 200) {
@@ -192,6 +190,7 @@ const update_theme = (theme, callback_yes, callback_no) => {
                         res.setEncoding("utf8")
                         res.on("data", (char) => css += char)
                         res.on("end", () => {
+                            console.log(css)
                             try {
                                 writeFile(CONSTANTS.USER_DATA.USER_CSS, css, "utf8", (err) => {
                                     if (err) throw err

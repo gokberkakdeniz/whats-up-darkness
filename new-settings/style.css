@@ -1,0 +1,91 @@
+body {
+    background-color: #576376;
+    color: #E1E1E1;
+    font-family: 'Roboto';
+}
+
+.group {
+    background-color: #272C35;
+    margin-bottom: 10px;
+}
+
+.group-title {
+    background-color: #1F232A;
+    padding: 10px;
+    margin: 0;
+    font-weight: bold;
+}
+
+.group-body {
+    padding: 5px;
+}
+
+.double-text {
+    display: flex;
+    justify-content: space-between;
+}
+
+.theme-version a {
+    background-color: #E1E1E1;
+    color: #272C35;
+    padding: 0 2px;
+    text-decoration: none;
+}
+
+.theme-version a span::before {
+    content: "v";
+}
+
+.option {
+    display: flex;
+    justify-content: space-between;
+    margin: 6px;
+    padding: 8.3px 0 5px;
+}
+
+.toggle {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 62px;
+    height: 1.15em;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    background-color: #576376;
+    transition: background-color ease 0.3s;
+}
+  
+.toggle:before {
+    content: "on off";
+    display: block;
+    position: absolute;
+    z-index: 2;
+    width: 1.15em;
+    height: calc(1.15em + 3px);
+    background: #1F232A;
+    left: 2px;
+    top: 2px;
+    font: 10px/1.15em Helvetica;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-indent: -25px;
+    word-spacing: 30px;
+    color: #E1E1E1;
+    text-shadow: -1px -1px rgba(0,0,0,0.15);
+    white-space: nowrap;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    transition: all cubic-bezier(0.3, 1.5, 0.7, 1) 0.3s;
+}
+
+.toggle:checked {
+    background-color: #4CD964;
+}
+
+.toggle:checked:before {
+    left: calc(60px - 1.15em);
+    color: #1F232A;
+}

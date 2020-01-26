@@ -10,6 +10,7 @@ class MainWindow {
     constructor() {
         this.mainWindow = null
         this.isThereANewMessage = false
+        this.insertedCSSId = null
     }
 
     init() {
@@ -90,14 +91,13 @@ class MainWindow {
             }
         })
 
-        ipcMain.on('update-theme', function (_event, style) {
-            // TODO: test implementation with insertCSS & removeInsertedCSS methods that are introduced in electron 7.x
-            // page.insertCSS(style)
-            //logger.info("Theme has been updated via BrowserWindow.webContents.inserCSS!")
-            page.executeJavaScript(`var sheet = document.getElementById('onyx'); sheet.innerHTML = \`${style}\`;`, false)
-                .then(() => {
-                logger.info("theme has been updated via BrowserWindow.webContents.executeJavaScript!")
-                })
+        ipcMain.on('update-theme', async (_event, style) => {
+            if (this.insertedCSSId) {
+                page.removeInsertedCSS(this.insertedCSSId)
+            }
+
+            this.insertedCSSId = await page.insertCSS(style);
+            logger.info("CSS has been updated.")
         })
 
         ipcMain.on('toggle-devtool', () => {
@@ -115,17 +115,15 @@ class MainWindow {
         })
 
         page.on('dom-ready', () => {
-            readFile(AppConstants.USER_DATA.PURE_CSS, "utf-8", (err, data) => {
+            readFile(AppConstants.USER_DATA.PURE_CSS, "utf-8", async (err, data) => {
                 if (err) {
                     logger.error("CSS could not be injected!\n" + err.message)
                     throw err
                 }
 
-                page.executeJavaScript(`var exists = document.getElementById("onyx") != undefined; var sheet = document.getElementById("onyx") || document.createElement('style'); sheet.id="onyx"; sheet.innerHTML = \`${data}\`; document.body.appendChild(sheet); exists`, false)
-                    .then((exists) => {
-                        if (!exists) logger.info("CSS has been injected via BrowserWindow.webContents.executeJavaScript!")
-                        this.mainWindow.show()
-                    })
+                this.insertedCSSId = await page.insertCSS(data);
+                logger.info("CSS has been injected.")
+                this.mainWindow.show()
             })
         })
 
@@ -140,13 +138,15 @@ class MainWindow {
                         'No'
                     ],
                     message: 'Do you want to open with Spotify app?'
-                }, (response) => {
-                    if (response) {
-                        shell.openExternal(url);
-                    } else {
-                        shell.openExternal(newUrl);
-                    }
                 })
+                .then(response => {
+                        if (response == 1) {
+                            shell.openExternal(url);
+                        } else {
+                            shell.openExternal(newUrl);
+                        }
+                    }
+                )
             } else {
                 shell.openExternal(url);
             }
